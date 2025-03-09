@@ -1,47 +1,189 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Mi web juego</title>
+  <!-- Estilos en línea para no requerir archivos externos de CSS -->
   <style>
-    body {
-      background-color: black;
+    /* Variables de color */
+    :root {
+      --primary-color: #ff0000; /* Rojo */
+      --background-color: #111111; /* Oscuro */
+      --text-color: #ffffff; /* Blanco */
+      --hover-color: #cc0000; /* Rojo más oscuro para hover */
+    }
+
+    /* Reseteo básico de márgenes y rellenos */
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Configuración general del body */
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Encabezado con logo a la izquierda y navegación a la derecha */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--primary-color);
+      padding: 1rem 2rem;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--text-color);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text-color);
+      padding: 0.5rem 1rem;
+      transition: background-color 0.3s;
+      border-radius: 4px;
+    }
+
+    /* Estado actual (Inicio) y hover */
+    nav ul li a.active,
+    nav ul li a:hover {
+      background-color: var(--hover-color);
+    }
+
+    /* Zona principal */
+    main {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      padding: 2rem;
     }
-    .titulo {
-      color: red;
-      font-size: 4em;
-      margin: 0;
+
+    /* Contenedor de cards en filas de 3 (comportamiento responsive con grid) */
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1200px;
     }
-    .firma {
-      color: white;
-      font-size: 2em;
-      margin: 0;
+
+    /* Card individual */
+    .card {
+      background-color: #222222; /* Un gris muy oscuro para contraste */
+      border: 2px solid var(--primary-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+    }
+
+    .card p {
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+
+    .card button {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      color: var(--text-color);
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .card button:hover {
+      background-color: var(--hover-color);
+    }
+
+    /* Pie de página */
+    footer {
+      background-color: var(--primary-color);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    footer p {
+      color: var(--text-color);
     }
   </style>
 </head>
-<body>
-  <h1 class="titulo">Mi web juego</h1>
-  <h2 class="firma">PFR</h2>
 
-  <div style="text-align: center; margin-top: 100px;">
-  <button 
-    style="
-      background-color: red; 
-      color: white; 
-      font-size: 2em; 
-      padding: 10px 20px; 
-      cursor: pointer;
-    "
-    onclick="window.location.href='Wordle PFR.html'">
-    Wordle
-  </button>
-</div>
-  
+<body>
+  <!-- Header con logo y navegación -->
+  <header>
+    <div class="logo">PFR</div>
+    <nav>
+      <ul>
+        <!-- Inicio con clase "active" para resaltar que es la página actual -->
+        <li><a href="#" class="active">Inicio</a></li>
+        <li><a href="#">Sobre Nosotros</a></li>
+        <li><a href="#">Registrarse</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- Contenedor de 3 cards -->
+    <div class="cards-container">
+      <!-- Card: Wordle -->
+      <div class="card">
+        <h3>Wordle</h3>
+        <p>Un divertido juego de adivinanza de palabras.</p>
+        <button onclick="window.location.href='Wordle PFR.html'">¡Jugar!</button>
+      </div>
+
+      <!-- Card: Coming Soon 1 -->
+      <div class="card">
+        <h3>Coming Soon</h3>
+        <p>Próximamente otro minijuego emocionante.</p>
+        <button disabled>¡Próximamente!</button>
+      </div>
+
+      <!-- Card: Coming Soon 2 -->
+      <div class="card">
+        <h3>Coming Soon</h3>
+        <p>Próximamente otro minijuego emocionante.</p>
+        <button disabled>¡Próximamente!</button>
+      </div>
+    </div>
+    <!-- Aquí podrás añadir más filas de 3 cards cuando tengas más minijuegos -->
+  </main>
+
+  <!-- Footer con copyright -->
+  <footer>
+    <p>© 2025 | PFR — Todos los derechos reservados</p>
+  </footer>
 </body>
+
 </html>
