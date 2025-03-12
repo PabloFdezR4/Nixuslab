@@ -4,24 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Mi web juego</title>
-  <!-- Estilos en línea para no requerir archivos externos de CSS -->
   <style>
-    /* Variables de color */
     :root {
-      --primary-color: #858bd9; /* Morado/Azul */
-      --background-color: #111111; /* Oscuro */
-      --text-color: #ffffff; /* Blanco */
-      --hover-color: #6169cf; /* Morado/Azul más oscuro para hover */
+      --primary-color: #858bd9;
+      --background-color: #111111;
+      --text-color: #ffffff;
+      --hover-color: #6169cf;
     }
 
-    /* Reseteo básico de márgenes y rellenos */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* Configuración general del body */
     body {
       background-color: var(--background-color);
       color: var(--text-color);
@@ -32,13 +28,19 @@
       justify-content: space-between;
     }
 
-    /* Encabezado con logo a la izquierda y navegación a la derecha */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    header, footer {
+      width: 100%;
       background-color: var(--primary-color);
-      padding: 1rem 2rem;
+      padding: 1rem 0;
+    }
+
+    .header-container, .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .logo {
@@ -61,13 +63,11 @@
       border-radius: 4px;
     }
 
-    /* Estado actual (Inicio) y hover */
     nav ul li a.active,
     nav ul li a:hover {
       background-color: var(--hover-color);
     }
 
-    /* Zona principal */
     main {
       flex: 1;
       display: flex;
@@ -77,7 +77,6 @@
       padding: 2rem;
     }
 
-    /* Contenedor de cards en filas de 3 (comportamiento responsive con grid) */
     .cards-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -86,9 +85,8 @@
       max-width: 1200px;
     }
 
-    /* Card individual */
     .card {
-      background-color: #222222; /* Un gris muy oscuro para contraste */
+      background-color: #222222;
       border: 2px solid var(--primary-color);
       border-radius: 8px;
       padding: 1.5rem;
@@ -124,65 +122,65 @@
       background-color: var(--hover-color);
     }
 
-    /* Pie de página */
-    footer {
-      background-color: var(--primary-color);
-      text-align: center;
-      padding: 1rem;
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
     }
 
-    footer p {
+    .footer-container p, .footer-container a {
       color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .footer-container a {
+      flex: 1;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
-  <!-- Header con logo y navegación -->
   <header>
-    <div class="logo">PFR</div>
-    <nav>
-      <ul>
-        <!-- Inicio con clase "active" para resaltar que es la página actual -->
-        <li><a href="#" class="active">Inicio</a></li>
-        <li><a href="#">Sobre Nosotros</a></li>
-        <li><a href="#">Registrarse</a></li>
-        <li><a href="#">Contacto</a></li>
-      </ul>
-    </nav>
+    <div class="header-container">
+      <div class="logo">PFR</div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Inicio</a></li>
+          <li><a href="Sobre-nosotros.html">Sobre Nosotros</a></li>
+          <li><a href="#">Registrarse</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <!-- Contenido principal -->
   <main>
-    <!-- Contenedor de 3 cards -->
     <div class="cards-container">
-      <!-- Card: Wordle -->
       <div class="card">
         <h3>Wordle</h3>
         <p>Un divertido juego de adivinanza de palabras.</p>
         <button onclick="window.location.href='Wordle PFR.html'">¡Jugar!</button>
       </div>
-
-      <!-- Card: Coming Soon 1 -->
       <div class="card">
         <h3>Coming Soon</h3>
         <p>Próximamente otro minijuego emocionante.</p>
         <button disabled>¡Próximamente!</button>
       </div>
-
-      <!-- Card: Coming Soon 2 -->
       <div class="card">
         <h3>Coming Soon</h3>
         <p>Próximamente otro minijuego emocionante.</p>
         <button disabled>¡Próximamente!</button>
       </div>
     </div>
-    <!-- Aquí podrás añadir más filas de 3 cards cuando tengas más minijuegos -->
   </main>
 
-  <!-- Footer con copyright -->
   <footer>
-    <p>© 2025 | PFR — Todos los derechos reservados</p>
+    <div class="footer-container">
+      <p>© 2025 | PFR</p>
+      <a href="Sobre-nosotros.html">Contacto</a>
+      <p>Todos los derechos reservados</p>
+    </div>
   </footer>
 </body>
 
