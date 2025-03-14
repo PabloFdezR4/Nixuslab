@@ -3,13 +3,17 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Mi web juego</title>
+  <title>Nixuslab</title>
   <style>
     :root {
-      --primary-color: #858bd9;
-      --background-color: #111111;
-      --text-color: #ffffff;
-      --hover-color: #6169cf;
+      --primary-color: #CDB97D; /* Dorado */
+      --background-color: #000000; /* Negro */
+      --header-footer-color: #25282A; /* Gris */
+      --text-color: #FFFFFF; /* Blanco */
+      --hover-color: #CDB97D; /* Dorado */
+      --card-color: #25282A; /* Gris para las cards */
+      --button-color: #FFFFFF; /* Blanco */
+      --button-text-color: #000000; /* Negro */
     }
 
     * {
@@ -30,7 +34,7 @@
 
     header, footer {
       width: 100%;
-      background-color: var(--primary-color);
+      background-color: var(--header-footer-color);
       padding: 1rem 0;
     }
 
@@ -59,13 +63,16 @@
       text-decoration: none;
       color: var(--text-color);
       padding: 0.5rem 1rem;
-      transition: background-color 0.3s;
+      transition: color 0.3s;
       border-radius: 4px;
     }
 
-    nav ul li a.active,
     nav ul li a:hover {
-      background-color: var(--hover-color);
+      color: var(--hover-color);
+    }
+
+    nav ul li a.active {
+      color: var(--hover-color);
     }
 
     main {
@@ -86,14 +93,14 @@
     }
 
     .card {
-      background-color: #222222;
-      border: 2px solid var(--primary-color);
+      background-color: var(--card-color);
       border-radius: 8px;
       padding: 1.5rem;
       text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      color: var(--text-color);
     }
 
     .card h3 {
@@ -108,18 +115,19 @@
     }
 
     .card button {
-      background-color: var(--primary-color);
+      background-color: var(--button-color);
       border: none;
       padding: 0.8rem 1.2rem;
       font-size: 1rem;
       cursor: pointer;
-      color: var(--text-color);
+      color: var(--button-text-color);
       border-radius: 4px;
       transition: background-color 0.3s;
     }
 
     .card button:hover {
       background-color: var(--hover-color);
+      color: var(--text-color);
     }
 
     .footer-container {
@@ -144,7 +152,7 @@
 <body>
   <header>
     <div class="header-container">
-      <div class="logo">PFR</div>
+      <div class="logo">Nixuslab</div>
       <nav>
         <ul>
           <li><a href="#" class="active">Inicio</a></li>
@@ -177,7 +185,7 @@
 
   <footer>
     <div class="footer-container">
-      <p>© 2025 | PFR</p>
+      <p>© 2025 | Nixuslab</p>
       <a href="Sobre-nosotros.html">Contacto</a>
       <p>Todos los derechos reservados</p>
     </div>
