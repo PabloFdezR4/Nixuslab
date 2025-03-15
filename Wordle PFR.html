@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Wordle</title>
-  <!-- Meta viewport para móviles -->
+  <title>Wordle PFR</title>
+  <!-- Meta viewport para que se adapte bien en dispositivos móviles -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* ========== RESETEO Y VARIABLES ========== */
+    /* ========== RESET Y VARIABLES ========== */
     * {
       margin: 0;
       padding: 0;
@@ -20,7 +20,7 @@
       --hover-color: #CDB97D;         /* Dorado */
     }
 
-    /* ========== BODY Y ESTRUCTURA GENERAL (igual que en index.html) ========== */
+    /* ========== BODY Y ESTRUCTURA GENERAL ========== */
     body {
       background-color: var(--background-color);
       color: var(--text-color);
@@ -29,24 +29,21 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      /* Sin margin ni padding para que el header/footer queden pegados */
     }
 
     header, footer {
       width: 100%;
       background-color: var(--header-footer-color);
-      padding: 1rem 0; /* Igual que en index.html */
+      padding: 1rem 0;
     }
-
     .header-container, .footer-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 2rem; /* Igual que en index.html */
+      padding: 0 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
     .logo {
       font-size: 1.8rem;
       font-weight: bold;
@@ -82,9 +79,9 @@
       text-align: center;
     }
 
-    /* ========== MENU HAMBURGUESA RESPONSIVE (igual que en index.html) ========== */
+    /* ========== MENU HAMBURGUESA RESPONSIVE ========== */
     .menu-icon {
-      display: none; /* Se mostrará en móvil */
+      display: none;
       font-size: 1.8rem;
       cursor: pointer;
       color: var(--text-color);
@@ -124,19 +121,20 @@
       }
     }
 
-    /* ========== MAIN (igual enfoque que en index.html) ========== */
+    /* ========== MAIN (contenido Wordle) ========== */
     main {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem; /* Igual que en index.html */
-      /* Fondo oscuro del Wordle se logra en #board-wrapper y #keyboard-wrapper */
-      /* o lo mantenemos en body (ya es #000000 de fondo). */
-      background-color: #121212; /* Si quieres mantener el gris #121212 dentro del main */
+      padding: 2rem;
+      background-color: #121212; /* Mantén el fondo oscuro tipo Wordle */
       box-sizing: border-box;
       width: 100%;
+    }
+    h1 {
+      margin-bottom: 20px;
     }
 
     /* ========== TABLERO ========== */
@@ -192,11 +190,11 @@
       color: white;
     }
 
-    /* ========== TECLADO (exacto al original) ========== */
+    /* ========== TECLADO (versión escritorio) ========== */
     #keyboard-wrapper {
       width: 100%;
-      max-width: 533px;
-      padding: 5px 3px; /* 5px arriba/abajo, 3px laterales */
+      max-width: 533px; /* Tamaño original en escritorio */
+      padding: 5px 3px;
       box-sizing: border-box;
       margin-bottom: 10px;
     }
@@ -212,7 +210,7 @@
       grid-template-columns: repeat(10, 47px);
       justify-items: center;
     }
-    /* Tercera fila: flex con 7 teclas de 47px + 2 teclas de 74px */
+    /* Tercera fila: flex con 7 teclas de 47px + 2 especiales de 74px */
     .kb-flex {
       display: flex;
       gap: 7px;
@@ -261,6 +259,29 @@
       filter: brightness(1.15);
     }
 
+    /* ========== TECLADO (versión móvil adaptada) ========== */
+    @media (max-width: 600px) {
+      /* Permitir que el teclado ocupe todo el ancho */
+      #keyboard-wrapper {
+        max-width: 100%;
+        margin: 0 auto;
+      }
+      /* Las dos primeras filas se vuelven 10 columnas flexibles */
+      .kb-grid {
+        grid-template-columns: repeat(10, 1fr);
+      }
+      /* La tercera fila se vuelve 9 columnas flexibles */
+      .kb-flex {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        gap: 7px;
+      }
+      /* Las teclas ocupan todo el espacio de su columna */
+      .key.letter, .key.special {
+        width: 100%;
+      }
+    }
+
     /* ========== MENSAJE ========== */
     #message {
       font-size: 1.2em;
@@ -269,7 +290,7 @@
   </style>
 </head>
 <body>
-  <!-- HEADER (idéntico a index.html) -->
+  <!-- HEADER -->
   <header>
     <div class="header-container">
       <div class="logo">Nixuslab</div>
@@ -322,7 +343,7 @@
           <button class="key letter" data-key="L" aria-label="l">L</button>
           <button class="key letter" data-key="Ñ" aria-label="ñ">Ñ</button>
         </div>
-        <!-- Tercera fila (enviar, Z a M, borrar) -->
+        <!-- Tercera fila (Enviar, Z a M, Borrar) -->
         <div class="kb-flex">
           <button class="key special" data-key="tick" aria-label="enviar">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
@@ -355,7 +376,7 @@
     <div id="message"></div>
   </main>
 
-  <!-- FOOTER (idéntico a index.html) -->
+  <!-- FOOTER -->
   <footer>
     <div class="footer-container">
       <p>© 2025 | Nixuslab</p>
@@ -364,7 +385,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DEL MENÚ Y DEL WORDLE -->
+  <!-- SCRIPT PARA EL MENÚ Y EL JUEGO WORDLE -->
   <script>
     // Activar/desactivar menú en móvil
     function toggleMenu() {
