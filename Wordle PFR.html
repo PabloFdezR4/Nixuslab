@@ -2,25 +2,144 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Wordle PFR</title>
+  <title>Wordle</title>
+  <!-- Meta viewport para móviles -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* ===== ESTILOS GENERALES ===== */
-    body {
+    /* ========== RESETEO Y VARIABLES ========== */
+    * {
       margin: 0;
-      padding: 20px;
-      background-color: #121212;
-      color: #eee;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --primary-color: #CDB97D;       /* Dorado */
+      --background-color: #000000;    /* Negro */
+      --header-footer-color: #25282A; /* Gris */
+      --text-color: #FFFFFF;          /* Blanco */
+      --hover-color: #CDB97D;         /* Dorado */
+    }
+
+    /* ========== BODY Y ESTRUCTURA GENERAL (igual que en index.html) ========== */
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
       font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      /* Sin margin ni padding para que el header/footer queden pegados */
+    }
+
+    header, footer {
+      width: 100%;
+      background-color: var(--header-footer-color);
+      padding: 1rem 0; /* Igual que en index.html */
+    }
+
+    .header-container, .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem; /* Igual que en index.html */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--text-color);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text-color);
+      padding: 0.5rem 1rem;
+      transition: color 0.3s;
+      border-radius: 4px;
+    }
+    nav ul li a:hover {
+      color: var(--hover-color);
+    }
+    nav ul li a.active {
+      color: var(--hover-color);
+    }
+
+    .footer-container p,
+    .footer-container a {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    .footer-container a {
+      flex: 1;
+      text-align: center;
+    }
+
+    /* ========== MENU HAMBURGUESA RESPONSIVE (igual que en index.html) ========== */
+    .menu-icon {
+      display: none; /* Se mostrará en móvil */
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+    @media (max-width: 768px) {
+      .header-container {
+        position: relative;
+      }
+      nav {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background-color: var(--header-footer-color);
+      }
+      nav.active {
+        display: block;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 0;
+      }
+      nav ul li a {
+        display: block;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+      }
+      .menu-icon {
+        display: block;
+      }
+      /* Footer en columna */
+      .footer-container {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+      }
+    }
+
+    /* ========== MAIN (igual enfoque que en index.html) ========== */
+    main {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-    }
-    h1 {
-      margin-bottom: 20px;
+      justify-content: center;
+      padding: 2rem; /* Igual que en index.html */
+      /* Fondo oscuro del Wordle se logra en #board-wrapper y #keyboard-wrapper */
+      /* o lo mantenemos en body (ya es #000000 de fondo). */
+      background-color: #121212; /* Si quieres mantener el gris #121212 dentro del main */
+      box-sizing: border-box;
+      width: 100%;
     }
 
-    /* ===== TABLERO ===== */
+    /* ========== TABLERO ========== */
     #board-wrapper {
       width: 100%;
       max-width: 342.5px;
@@ -73,8 +192,7 @@
       color: white;
     }
 
-    /* ===== TECLADO ===== */
-    /* Contenedor externo del teclado */
+    /* ========== TECLADO (exacto al original) ========== */
     #keyboard-wrapper {
       width: 100%;
       max-width: 533px;
@@ -82,7 +200,6 @@
       box-sizing: border-box;
       margin-bottom: 10px;
     }
-    /* Contenedor interno del teclado */
     #keyboard {
       display: flex;
       flex-direction: column;
@@ -95,14 +212,12 @@
       grid-template-columns: repeat(10, 47px);
       justify-items: center;
     }
-    /* Tercera fila: flex; se ajusta para tener 9 botones que sumen 533px en total:
-       7 teclas de 47px (329px) + 2 teclas especiales de 74px (148px) + 8 gaps de 7px (56px) = 533px */
+    /* Tercera fila: flex con 7 teclas de 47px + 2 teclas de 74px */
     .kb-flex {
       display: flex;
       gap: 7px;
       justify-content: center;
     }
-    /* Estilo base para las teclas */
     .key {
       display: inline-flex;
       align-items: center;
@@ -119,22 +234,17 @@
       transition: background-color 0.2s, transform 0.1s;
       margin: 0;
       box-sizing: border-box;
-      /* Un pequeño padding para centrar el SVG, si lo hay */
       padding: 0 4px;
     }
-    /* Animación al pulsar */
-    .key.pressed {
-      transform: scale(0.95);
-    }
-    /* Teclas de letra: 47x56 en todas las filas */
     .key.letter {
       width: 47px;
     }
-    /* Teclas especiales en la tercera fila: 74x56 */
     .kb-flex .key.special {
       width: 74px;
     }
-    /* Estados del teclado */
+    .key.pressed {
+      transform: scale(0.95);
+    }
     .key.correct {
       background-color: #6aaa64;
       color: white;
@@ -151,7 +261,7 @@
       filter: brightness(1.15);
     }
 
-    /* ===== MENSAJE ===== */
+    /* ========== MENSAJE ========== */
     #message {
       font-size: 1.2em;
       margin-top: 10px;
@@ -159,81 +269,109 @@
   </style>
 </head>
 <body>
-  <h1>Wordle PFR</h1>
-  <!-- TABLERO -->
-  <div id="board-wrapper">
-    <div id="board"></div>
-  </div>
+  <!-- HEADER (idéntico a index.html) -->
+  <header>
+    <div class="header-container">
+      <div class="logo">Nixuslab</div>
+      <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+      <nav id="mainNav">
+        <ul>
+          <li><a href="index.html" class="active">Inicio</a></li>
+          <li><a href="Sobre-nosotros.html">Sobre Nosotros</a></li>
+          <li><a href="#">Registrarse</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-  <!-- TECLADO -->
-  <div id="keyboard-wrapper">
-    <div id="keyboard">
-      <!-- Primera fila: 10 teclas (Q a P) -->
-      <div class="kb-grid">
-        <button class="key letter" data-key="Q" aria-label="q">Q</button>
-        <button class="key letter" data-key="W" aria-label="w">W</button>
-        <button class="key letter" data-key="E" aria-label="e">E</button>
-        <button class="key letter" data-key="R" aria-label="r">R</button>
-        <button class="key letter" data-key="T" aria-label="t">T</button>
-        <button class="key letter" data-key="Y" aria-label="y">Y</button>
-        <button class="key letter" data-key="U" aria-label="u">U</button>
-        <button class="key letter" data-key="I" aria-label="i">I</button>
-        <button class="key letter" data-key="O" aria-label="o">O</button>
-        <button class="key letter" data-key="P" aria-label="p">P</button>
-      </div>
-      <!-- Segunda fila: 10 teclas (A a L y Ñ) -->
-      <div class="kb-grid">
-        <button class="key letter" data-key="A" aria-label="a">A</button>
-        <button class="key letter" data-key="S" aria-label="s">S</button>
-        <button class="key letter" data-key="D" aria-label="d">D</button>
-        <button class="key letter" data-key="F" aria-label="f">F</button>
-        <button class="key letter" data-key="G" aria-label="g">G</button>
-        <button class="key letter" data-key="H" aria-label="h">H</button>
-        <button class="key letter" data-key="J" aria-label="j">J</button>
-        <button class="key letter" data-key="K" aria-label="k">K</button>
-        <button class="key letter" data-key="L" aria-label="l">L</button>
-        <button class="key letter" data-key="Ñ" aria-label="ñ">Ñ</button>
-      </div>
-      <!-- Tercera fila: flex (botón tick, 7 teclas, botón de borrar) -->
-      <div class="kb-flex">
-        <!-- Botón Tick (enviar) -->
-        <button class="key special" data-key="tick" aria-label="enviar">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
-               stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:30px;">
-            <path d="M20 6 9 17l-5-5"></path>
-          </svg>
-        </button>
-        <!-- Teclas de letra -->
-        <button class="key letter" data-key="Z" aria-label="z">Z</button>
-        <button class="key letter" data-key="X" aria-label="x">X</button>
-        <button class="key letter" data-key="C" aria-label="c">C</button>
-        <button class="key letter" data-key="V" aria-label="v">V</button>
-        <button class="key letter" data-key="B" aria-label="b">B</button>
-        <button class="key letter" data-key="N" aria-label="n">N</button>
-        <button class="key letter" data-key="M" aria-label="m">M</button>
-        <!-- Botón de borrar -->
-        <button class="key special" data-key="⌫" aria-label="borrar">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
-               stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:30px;">
-            <path d="M10 5a2 2 0 0 0-1.344.519l-6.328 5.74a1 1 0 0 0 0 1.481l6.328 5.741A2 2 0 0 0 10 19h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"></path>
-            <path d="M12 9l6 6"></path>
-            <path d="M18 9l-6 6"></path>
-          </svg>
-        </button>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+    <h1>Wordle PFR</h1>
+
+    <!-- TABLERO -->
+    <div id="board-wrapper">
+      <div id="board"></div>
+    </div>
+
+    <!-- TECLADO -->
+    <div id="keyboard-wrapper">
+      <div id="keyboard">
+        <!-- Primera fila (Q a P) -->
+        <div class="kb-grid">
+          <button class="key letter" data-key="Q" aria-label="q">Q</button>
+          <button class="key letter" data-key="W" aria-label="w">W</button>
+          <button class="key letter" data-key="E" aria-label="e">E</button>
+          <button class="key letter" data-key="R" aria-label="r">R</button>
+          <button class="key letter" data-key="T" aria-label="t">T</button>
+          <button class="key letter" data-key="Y" aria-label="y">Y</button>
+          <button class="key letter" data-key="U" aria-label="u">U</button>
+          <button class="key letter" data-key="I" aria-label="i">I</button>
+          <button class="key letter" data-key="O" aria-label="o">O</button>
+          <button class="key letter" data-key="P" aria-label="p">P</button>
+        </div>
+        <!-- Segunda fila (A a Ñ) -->
+        <div class="kb-grid">
+          <button class="key letter" data-key="A" aria-label="a">A</button>
+          <button class="key letter" data-key="S" aria-label="s">S</button>
+          <button class="key letter" data-key="D" aria-label="d">D</button>
+          <button class="key letter" data-key="F" aria-label="f">F</button>
+          <button class="key letter" data-key="G" aria-label="g">G</button>
+          <button class="key letter" data-key="H" aria-label="h">H</button>
+          <button class="key letter" data-key="J" aria-label="j">J</button>
+          <button class="key letter" data-key="K" aria-label="k">K</button>
+          <button class="key letter" data-key="L" aria-label="l">L</button>
+          <button class="key letter" data-key="Ñ" aria-label="ñ">Ñ</button>
+        </div>
+        <!-- Tercera fila (enviar, Z a M, borrar) -->
+        <div class="kb-flex">
+          <button class="key special" data-key="tick" aria-label="enviar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                 stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:30px;">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          </button>
+          <button class="key letter" data-key="Z" aria-label="z">Z</button>
+          <button class="key letter" data-key="X" aria-label="x">X</button>
+          <button class="key letter" data-key="C" aria-label="c">C</button>
+          <button class="key letter" data-key="V" aria-label="v">V</button>
+          <button class="key letter" data-key="B" aria-label="b">B</button>
+          <button class="key letter" data-key="N" aria-label="n">N</button>
+          <button class="key letter" data-key="M" aria-label="m">M</button>
+          <button class="key special" data-key="⌫" aria-label="borrar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                 stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:30px;">
+              <path d="M10 5a2 2 0 0 0-1.344.519l-6.328 5.74a1 1 0 0 0 0 1.481l6.328 5.741A2 2 0 0 0 10 19h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"></path>
+              <path d="M12 9l6 6"></path>
+              <path d="M18 9l-6 6"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- MENSAJE -->
-  <div id="message"></div>
+    <!-- MENSAJE -->
+    <div id="message"></div>
+  </main>
 
-  <!-- ===== SCRIPT ===== -->
+  <!-- FOOTER (idéntico a index.html) -->
+  <footer>
+    <div class="footer-container">
+      <p>© 2025 | Nixuslab</p>
+      <a href="Sobre-nosotros.html">Contacto</a>
+      <p>Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT DEL MENÚ Y DEL WORDLE -->
   <script>
-    /*************************
-     * Configuración inicial *
-     *************************/
+    // Activar/desactivar menú en móvil
+    function toggleMenu() {
+      document.getElementById('mainNav').classList.toggle('active');
+    }
+
+    /* ===== LÓGICA DEL WORDLE ===== */
     const words = ["CARRO", "PERRO", "GATOS", "CASAS", "FRESA", "LAPIZ", "BOTAS", "RATON"];
     const solution = words[Math.floor(Math.random() * words.length)];
     const maxAttempts = 6;
@@ -241,9 +379,6 @@
     let currentGuess = "";
     let gameOver = false;
 
-    /*************************
-     * Creación del tablero  *
-     *************************/
     const board = document.getElementById("board");
     for (let i = 0; i < maxAttempts; i++) {
       const row = document.createElement("div");
@@ -255,28 +390,25 @@
       }
       board.appendChild(row);
     }
-    // Resalta el primer cuadrado al cargar
     updateCurrentRow();
 
-    /*************************
-     * Funciones auxiliares  *
-     *************************/
     const messageDiv = document.getElementById("message");
     function showMessage(msg) {
       messageDiv.textContent = msg;
     }
 
-    // Evalúa la palabra comparándola con la solución
     function evaluateGuess(guess) {
       const result = Array(5).fill("absent");
       const solArr = solution.split("");
       const guessArr = guess.split("");
+      // Primero marcar correct
       for (let i = 0; i < 5; i++) {
         if (guessArr[i] === solArr[i]) {
           result[i] = "correct";
           solArr[i] = null;
         }
       }
+      // Luego marcar present
       for (let i = 0; i < 5; i++) {
         if (result[i] === "correct") continue;
         const idx = solArr.indexOf(guessArr[i]);
@@ -288,7 +420,6 @@
       return result;
     }
 
-    // Actualiza el tablero con la evaluación
     function updateBoard(guess, evaluation) {
       const rows = document.querySelectorAll(".row");
       const cells = rows[currentAttempt].querySelectorAll(".cell");
@@ -300,11 +431,11 @@
       }
     }
 
-    // Actualiza los estilos de las teclas según el feedback
     function updateKeyboard(guess, evaluation) {
       guess.split("").forEach((letter, index) => {
         const keyButtons = document.querySelectorAll(`.key[data-key="${letter}"]`);
         keyButtons.forEach(button => {
+          // Si ya estaba en correct, no lo cambiamos a otro estado
           if (button.classList.contains("correct")) return;
           if (evaluation[index] === "correct") {
             button.classList.remove("present", "absent");
@@ -322,7 +453,6 @@
       });
     }
 
-    // Actualiza la fila actual y resalta la celda activa
     function updateCurrentRow() {
       const rows = document.querySelectorAll(".row");
       const cells = rows[currentAttempt].querySelectorAll(".cell");
@@ -335,7 +465,6 @@
       }
     }
 
-    // Función para manejar el clic de una tecla
     function handleKey(key) {
       if (gameOver) return;
       if (key === "tick") {
@@ -346,6 +475,7 @@
         const evalRes = evaluateGuess(currentGuess);
         updateBoard(currentGuess, evalRes);
         updateKeyboard(currentGuess, evalRes);
+
         if (evalRes.every(e => e === "correct")) {
           showMessage("¡Felicidades! Has adivinado la palabra.");
           gameOver = true;
@@ -370,20 +500,18 @@
       }
     }
 
-    // Agregar event listeners a todos los botones del teclado y animación al pulsar
+    // Evento de clic en las teclas
     document.querySelectorAll('.key').forEach(button => {
       button.addEventListener('click', function() {
-        // Agregar clase para animar el botón
         this.classList.add('pressed');
         setTimeout(() => {
           this.classList.remove('pressed');
         }, 100);
-        // Llamar a handleKey con el valor del atributo data-key
         handleKey(this.getAttribute('data-key'));
       });
     });
 
-    // Escucha opcional para el teclado físico
+    // Evento de teclado físico
     document.addEventListener("keydown", (e) => {
       const key = e.key.toUpperCase();
       if (key === "ENTER") {
