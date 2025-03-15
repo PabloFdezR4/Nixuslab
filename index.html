@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <title>Nixuslab</title>
@@ -32,6 +31,7 @@
       justify-content: space-between;
     }
 
+    /* HEADER y NAV para escritorio */
     header, footer {
       width: 100%;
       background-color: var(--header-footer-color);
@@ -53,9 +53,22 @@
       color: var(--text-color);
     }
 
+    /* Ícono de menú hamburguesa (por defecto oculto en escritorio) */
+    .menu-icon {
+      display: none; /* Se mostrará sólo en mobile mediante @media */
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    /* El nav por defecto en escritorio se muestra normal */
+    nav {
+      /* sin cambios para escritorio */
+    }
+
     nav ul {
       list-style: none;
-      display: flex;
+      display: flex; /* en escritorio, las opciones están en línea */
       gap: 1rem;
     }
 
@@ -75,6 +88,7 @@
       color: var(--hover-color);
     }
 
+    /* MAIN (cards) */
     main {
       flex: 1;
       display: flex;
@@ -130,6 +144,7 @@
       color: var(--text-color);
     }
 
+    /* FOOTER */
     .footer-container {
       display: flex;
       justify-content: space-between;
@@ -146,6 +161,58 @@
       flex: 1;
       text-align: center;
     }
+
+    /* ------------------ MEDIA QUERIES para versión móvil ------------------ */
+    @media (max-width: 768px) {
+      /* Header: logo a la izquierda y hamburguesa a la derecha */
+      .header-container {
+        position: relative;
+      }
+
+      /* Se oculta el nav por defecto en móvil */
+      nav {
+        display: none;
+        position: absolute;
+        top: 60px; 
+        left: 0;
+        right: 0;
+        background-color: var(--header-footer-color);
+      }
+
+      /* Cuando nav tenga la clase "active", lo mostramos */
+      nav.active {
+        display: block;
+      }
+
+      /* El ul dentro del nav se muestra en columna para móvil */
+      nav ul {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      nav ul li a {
+        display: block;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+      }
+
+      /* Mostrar el ícono hamburguesa en móvil */
+      .menu-icon {
+        display: block;
+      }
+
+      /* Cards: de 3 columnas a 1 columna en móvil */
+      .cards-container {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* Footer en columna (vertical) */
+      .footer-container {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+      }
+    }
   </style>
 </head>
 
@@ -153,7 +220,12 @@
   <header>
     <div class="header-container">
       <div class="logo">Nixuslab</div>
-      <nav>
+      
+      <!-- Ícono menú hamburguesa -->
+      <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+      
+      <!-- Menú de navegación -->
+      <nav id="mainNav">
         <ul>
           <li><a href="#" class="active">Inicio</a></li>
           <li><a href="Sobre-nosotros.html">Sobre Nosotros</a></li>
@@ -190,6 +262,13 @@
       <p>Todos los derechos reservados</p>
     </div>
   </footer>
-</body>
 
+  <!-- SCRIPT para abrir/cerrar menú en móvil -->
+  <script>
+    function toggleMenu() {
+      // Alterna la clase "active" en el nav
+      document.getElementById('mainNav').classList.toggle('active');
+    }
+  </script>
+</body>
 </html>
