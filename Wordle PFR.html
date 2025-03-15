@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Wordle PFR</title>
+  <title>Wordle</title>
   <!-- Meta viewport para que se adapte bien en dispositivos móviles -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
@@ -137,10 +137,10 @@
       margin-bottom: 20px;
     }
 
-    /* ========== TABLERO ========== */
+    /* ========== TABLERO (versión escritorio) ========== */
     #board-wrapper {
       width: 100%;
-      max-width: 342.5px;
+      max-width: 342.5px; /* tamaño original en escritorio */
       padding: 5px;
       box-sizing: border-box;
       margin-bottom: 20px;
@@ -259,26 +259,53 @@
       filter: brightness(1.15);
     }
 
-    /* ========== TECLADO (versión móvil adaptada) ========== */
+    /* ========== VERSIÓN MÓVIL (adaptación) ========== */
     @media (max-width: 600px) {
-      /* Permitir que el teclado ocupe todo el ancho */
-      #keyboard-wrapper {
+      /* TABLERO: se hace 100% y se reducen los gaps */
+      #board-wrapper {
         max-width: 100%;
+        margin: 0 auto 20px;
+      }
+      .row {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+        width: 100%;
+        max-width: 400px; /* límite opcional */
         margin: 0 auto;
       }
-      /* Las dos primeras filas se vuelven 10 columnas flexibles */
+      .cell {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1; /* Mantiene la forma cuadrada */
+        font-size: 1.4rem;   /* Ajusta el tamaño de letra para móvil */
+      }
+
+      /* TECLADO: ocupa todo el ancho, reduce gap */
+      #keyboard-wrapper {
+        max-width: 100%;
+        margin: 0;
+        padding: 0 4px; /* menos padding para no dejar bordes laterales */
+      }
+      #keyboard {
+        gap: 4px; /* menos espacio entre filas */
+      }
+      .kb-grid, .kb-flex {
+        gap: 4px; /* menos espacio entre teclas */
+      }
+      /* Primera y segunda fila: 10 columnas fluidas */
       .kb-grid {
         grid-template-columns: repeat(10, 1fr);
       }
-      /* La tercera fila se vuelve 9 columnas flexibles */
+      /* Tercera fila: 9 columnas fluidas (tick, 7 letras, borrar) */
       .kb-flex {
         display: grid;
         grid-template-columns: repeat(9, 1fr);
-        gap: 7px;
       }
-      /* Las teclas ocupan todo el espacio de su columna */
+      /* Teclas llenan su columna */
       .key.letter, .key.special {
         width: 100%;
+        min-height: 48px;   /* mantiene un tamaño cómodo de toque */
+        font-size: 1.1rem;  /* texto algo más grande para facilitar el clic */
       }
     }
 
@@ -286,6 +313,7 @@
     #message {
       font-size: 1.2em;
       margin-top: 10px;
+      text-align: center;
     }
   </style>
 </head>
