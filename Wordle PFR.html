@@ -445,8 +445,9 @@
     const solution = palabrasValidas[Math.floor(Math.random() * palabrasValidas.length)];
     const maxAttempts = 6;
     let currentAttempt = 0;
-    let currentGuess = "";
+    let currentGuess = "     ";
     let gameOver = false;
+    let selectedCell = 0; // Nueva variable para rastrear la celda seleccionada
 
     const board = document.getElementById("board");
     for (let i = 0; i < maxAttempts; i++) {
@@ -537,18 +538,40 @@
       const rows = document.querySelectorAll(".row");
       const cells = rows[currentAttempt].querySelectorAll(".cell");
       cells.forEach(cell => cell.classList.remove("current"));
+      
+      // Actualizar el contenido de todas las celdas
       for (let i = 0; i < 5; i++) {
-        cells[i].textContent = currentGuess[i] || "";
+        const letter = currentGuess[i];
+        cells[i].textContent = letter === " " ? "" : letter;
       }
-      if (currentGuess.length < 5) {
-        cells[currentGuess.length].classList.add("current");
+
+      // Mostrar el borde dorado en la celda seleccionada si estamos en la fila actual
+      if (selectedCell < 5) {
+        cells[selectedCell].classList.add("current");
       }
     }
+
+    // Añadir evento de clic a las celdas
+    const rows = document.querySelectorAll(".row");
+    rows.forEach((row, rowIndex) => {
+      const cells = row.querySelectorAll(".cell");
+      cells.forEach((cell, cellIndex) => {
+        cell.addEventListener("click", () => {
+          if (rowIndex === currentAttempt && !gameOver) {
+            selectedCell = cellIndex;
+            updateCurrentRow();
+          }
+        });
+      });
+    });
 
     function handleKey(key) {
       if (gameOver) return;
       
       if (key === "tick") {
+        // Antes de validar, eliminar espacios en blanco
+        currentGuess = currentGuess.replace(/\s+/g, "");
+        
         if (currentGuess.length < 5) {
           showMessage("La palabra debe tener 5 letras");
           return;
@@ -575,13 +598,37 @@
           return;
         }
         
-        currentGuess = "";
+        currentGuess = "     "; // Inicializar con espacios
+        selectedCell = 0;
         updateCurrentRow();
       } else if (key === "⌫") {
-        currentGuess = currentGuess.slice(0, -1);
-        updateCurrentRow();
-      } else if (currentGuess.length < 5) {
-        currentGuess += key;
+        // Si estamos en la posición 5 (después de la última letra), borrar la última letra
+        if (selectedCell === 5) {
+          const newGuess = currentGuess.split("");
+          newGuess[4] = " ";
+          currentGuess = newGuess.join("");
+          selectedCell = 4;
+          updateCurrentRow();
+        }
+        // Si no, borrar la letra anterior a la posición seleccionada
+        else if (selectedCell > 0) {
+          const newGuess = currentGuess.split("");
+          newGuess[selectedCell - 1] = " ";
+          currentGuess = newGuess.join("");
+          selectedCell--;
+          updateCurrentRow();
+        }
+      } else if (selectedCell < 5) {
+        // Convertir a array para manipular más fácilmente
+        const newGuess = currentGuess ? currentGuess.split("") : "     ".split("");
+        newGuess[selectedCell] = key;
+        currentGuess = newGuess.join("");
+        
+        // Mover la selección a la siguiente celda disponible
+        selectedCell++;
+        if (selectedCell >= 5) {
+          selectedCell = 5; // No mostrar borde dorado si llegamos al final
+        }
         updateCurrentRow();
       }
     }
