@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Wordle</title>
-  <!-- Meta viewport para que se adapte bien en dispositivos móviles -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Meta viewport para que se adapte bien en dispositivos móviles y prevenir zoom -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
     /* ========== RESET Y VARIABLES ========== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-touch-callout: none; /* Prevenir menú contextual en iOS */
+      -webkit-tap-highlight-color: transparent; /* Eliminar highlight al tocar */
+      touch-action: manipulation; /* Optimizar para interacciones touch */
     }
     :root {
       --primary-color: #CDB97D;       /* Dorado */
