@@ -193,28 +193,30 @@
     /* ========== TECLADO (versión escritorio) ========== */
     #keyboard-wrapper {
       width: 100%;
-      max-width: 533px; /* Tamaño original en escritorio */
-      padding: 5px 3px;
+      max-width: 533px;
       box-sizing: border-box;
       margin-bottom: 10px;
+      padding: 0 8px;
     }
     #keyboard {
       display: flex;
       flex-direction: column;
       gap: 7px;
+      width: 100%;
     }
-    /* Primeras dos filas: grid con 10 columnas de 47px */
-    .kb-grid {
+    /* Todas las filas del teclado tendrán el mismo ancho */
+    .kb-grid, .kb-flex {
       display: grid;
       gap: 7px;
-      grid-template-columns: repeat(10, 47px);
-      justify-items: center;
+      width: 100%;
     }
-    /* Tercera fila: flex con 7 teclas de 47px + 2 especiales de 74px */
+    /* Primera y segunda fila: 10 columnas iguales */
+    .kb-grid {
+      grid-template-columns: repeat(10, 1fr);
+    }
+    /* Tercera fila: 9 columnas con los botones especiales ocupando 1.5 columnas cada uno */
     .kb-flex {
-      display: flex;
-      gap: 7px;
-      justify-content: center;
+      grid-template-columns: 1.5fr repeat(7, 1fr) 1.5fr;
     }
     .key {
       display: inline-flex;
@@ -232,7 +234,7 @@
       transition: background-color 0.2s, transform 0.1s;
       margin: 0;
       box-sizing: border-box;
-      padding: 0 4px;
+      width: 100%;
     }
     .key.letter {
       width: 47px;
@@ -261,51 +263,61 @@
 
     /* ========== VERSIÓN MÓVIL (adaptación) ========== */
     @media (max-width: 600px) {
-      /* TABLERO: se hace 100% y se reducen los gaps */
-      #board-wrapper {
-        max-width: 100%;
-        margin: 0 auto 20px;
+      main {
+        padding: 2rem 0.5rem;
       }
-      .row {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 4px;
-        width: 100%;
-        max-width: 400px; /* límite opcional */
-        margin: 0 auto;
-      }
-      .cell {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1 / 1; /* Mantiene la forma cuadrada */
-        font-size: 1.4rem;   /* Ajusta el tamaño de letra para móvil */
-      }
-
-      /* TECLADO: ocupa todo el ancho, reduce gap */
+      
+      /* TECLADO: ajustes para versión móvil */
       #keyboard-wrapper {
-        max-width: 100%;
-        margin: 0;
-        padding: 0 4px; /* menos padding para no dejar bordes laterales */
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 4px;
+        max-width: calc(100vw - 8px);
       }
       #keyboard {
-        gap: 4px; /* menos espacio entre filas */
+        gap: 3px;
+        width: 100%;
       }
       .kb-grid, .kb-flex {
-        gap: 4px; /* menos espacio entre teclas */
-      }
-      /* Primera y segunda fila: 10 columnas fluidas */
-      .kb-grid {
-        grid-template-columns: repeat(10, 1fr);
-      }
-      /* Tercera fila: 9 columnas fluidas (tick, 7 letras, borrar) */
-      .kb-flex {
-        display: grid;
-        grid-template-columns: repeat(9, 1fr);
-      }
-      /* Teclas llenan su columna */
-      .key.letter, .key.special {
+        gap: 3px;
         width: 100%;
-        min-height: 48px;   /* mantiene un tamaño cómodo de toque */
-        font-size: 1.1rem;  /* texto algo más grande para facilitar el clic */
+      }
+      /* Ajuste de tamaño de teclas para móvil */
+      .key {
+        min-height: 45px;
+        height: 45px;
+        font-size: 0.95rem;
+        padding: 0;
+      }
+      .key.letter {
+        width: 100%;
+      }
+      .kb-flex .key.special {
+        width: 100%;
+      }
+      /* SVG de los botones especiales */
+      .key.special svg {
+        width: 16px;
+        height: 24px;
+      }
+    }
+
+    /* Ajuste adicional para pantallas muy pequeñas */
+    @media (max-width: 340px) {
+      main {
+        padding: 2rem 0.25rem;
+      }
+      #keyboard-wrapper {
+        padding: 0 2px;
+        max-width: calc(100vw - 4px);
+      }
+      .kb-grid, .kb-flex {
+        gap: 2px;
+      }
+      .key {
+        min-height: 40px;
+        height: 40px;
+        font-size: 0.9rem;
       }
     }
 
