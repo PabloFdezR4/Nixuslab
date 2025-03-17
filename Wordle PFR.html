@@ -436,8 +436,62 @@
     }
 
     /* ===== LÓGICA DEL WORDLE ===== */
-    const words = ["CARRO", "PERRO", "GATOS", "CASAS", "FRESA", "LAPIZ", "BOTAS", "RATON"];
-    const solution = words[Math.floor(Math.random() * words.length)];
+    // Lista de palabras válidas
+    const palabrasValidas = [
+      "ABAJO", "ABONO", "ABRIR", "ACERO", "ACIDO", "ACTOR", "ACTUA", "AIREO", "ANDAR", "ANGEL",
+      "ANUAL", "APERO", "ARENA", "ARIES", "AROMA", "ARBOL", "ARRAS", "ASADO", "ATOMO", "ATLAS",
+      "AUDIO", "AURAS", "BANCO", "BALON", "BEBER", "BOLSA", "BUENO", "BURLA", "BANDA", "BAZAR",
+      "BORDE", "BRAVO", "BRISA", "BROCA", "BURRO", "BIZCO", "CALOR", "CAMPO", "CANTO", "CASAS",
+      "CIELO", "CINCO", "COLOR", "COMER", "CERDO", "CELDA", "CERCA", "CARTA", "CUBOS", "CUOTA",
+      "CARNE", "CASCO", "CLAVE", "DULCE", "DECIR", "DIETA", "DONAR", "DICHO", "DOLOR", "DUELO",
+      "DANZA", "DEJAR", "DESDE", "EXITO", "ESTAR", "ELEVA", "ERROR", "EPOCA", "EUROS", "EDUCA",
+      "EXTRA", "FELIZ", "FRESA", "FRUTA", "FUMAR", "FICHA", "FALTA", "FLOTA", "FORRO", "FUSIL",
+      "FANGO", "GATOS", "GRUPO", "GOLPE", "GRANO", "GIRAR", "GOLFO", "GRAVE", "GUSTO", "GALON",
+      "GORRO", "HACER", "HORAS", "HIELO", "HONOR", "HECHO", "HUESO", "IDEAL", "ISLAS", "IMPAR",
+      "INTRO", "IBERO", "JUGAR", "JOVEN", "JAULA", "JURAR", "JUNTO", "KOALA", "KILOS", "LLAVE",
+      "LIMON", "LIBRO", "LUGAR", "LENTO", "LECHE", "LOGRO", "LUCIR", "LIRIO", "LUNAR", "LASER",
+      "MANOS", "MAYOR", "MEDIO", "MENOS", "MUNDO", "MUCHO", "METRO", "MUJER", "MOLDE", "MANTO",
+      "MAREA", "MITAD", "MOVER", "MANTA", "NOCHE", "NUEVO", "NADAR", "NOVIO", "NUDOS", "NIEVE",
+      "NOTAR", "OPERA", "OPTAR", "OLEOS", "OASIS", "OSADO", "OBRAR", "ORDEN", "PAPEL", "PERRO",
+      "PLUMA", "PLATO", "POLLO", "PUNTO", "PODER", "PRADO", "PESAR", "PECHO", "PENAR", "PIANO",
+      "PINTA", "PULSO", "PIEZA", "PONER", "QUEJA", "QUOTA", "RATON", "REINA", "RITMO", "ROMPE",
+      "RUGIR", "RIZOS", "RUEDA", "RAYAR", "RIFAR", "RUMBO", "SALIR", "SALUD", "SOLAR", "SUMAR",
+      "SERIO", "SILLA", "SIETE", "SABER", "SORBO", "SALTO", "SOLER", "SUELO", "SEGUN", "SENIL",
+      "SOCIO", "SUAVE", "SUBIR", "TIGRE", "TACOS", "TALON", "TURNO", "TENIS", "TAREA", "TRIGO",
+      "TRATA", "TOMAR", "UNICO", "USUAL", "ULTRA", "VALOR", "VERDE", "VOLAR", "VISTA", "VIVIR",
+      "VIOLA", "VIGOR", "VOTAR", "VECES", "VENCE", "XEROX", "YERBA", "YATES", "YEGUA", "ZORRO",
+      "ZUMOS", "ZANJA", "ZORRA", "ZAFAR", "AMBAR", "AMIGA", "AMENO", "ALERO", "ASILO", "ALDEA",
+      "ARMAR", "BEBES", "BODAS", "BOLAS", "BRUTO", "CABLE", "CANON", "CAUSA", "CENAR", "CERNE",
+      "CIANO", "CIRCO", "CIVIL", "CLIMA", "COBRA", "COGER", "CRUDO", "DOLAR", "DOBLE", "DRAMA",
+      "ELEGI", "ESTOY", "EXIGE", "FALLE", "FLOJO", "FUGAZ", "GALLO", "GANGA", "GENTE", "GIRAS",
+      "GRIFO", "GLOBO", "HERIR", "HURTO", "HACIA", "JUNTA", "JAMON", "JALAR", "LABOR", "LAGOS",
+      "LENOS", "LIBRE", "LINCE", "MACRO", "MADRE", "MAGIA", "MALTA", "MANDA", "MARCO", "MEDIR",
+      "MITOS", "MONTO", "MORIR", "NARIZ", "NODAL", "NOTAS", "NUMEN", "OBESA", "OPINO", "OCUPO",
+      "ORGAN", "PAGAR", "PALMA", "PANAL", "PAPAS", "PARAR", "PASAR", "PERLA", "PICAR", "PINTO",
+      "PIZZA", "PLENA", "POLVO", "PORTE", "QUEDA", "RACHA", "RADIO", "RAJAR", "RAMPA", "RASGO",
+      "REVES", "RIEGO", "RIMAR", "SABOR", "SALMO", "SILBA", "SOBRE", "SOPLO", "SERES", "SUBES",
+      "TACHA", "TALAR", "TAPAR", "TARDE", "TEJER", "TENAZ", "TIMAR", "TIRAR", "TOSER", "TOCAR",
+      "UBICO", "USADO", "VAGAR", "VALEN", "VASES", "VELAR", "VENIR", "VOTEN", "ZAMPA", "ZAPOS",
+      "ZARPA", "ZURDO", "ZURDA", "ABRIL", "AGUJA", "ALZAR", "APTOS", "ASUME", "BROMA", "BIRRA",
+      "BRAMA", "CALMA", "CARRO", "CESAR", "CIEGA", "COCHE", "COLON", "COMPA", "CORTE", "COSTA",
+      "DAMOS", "DARSE", "DONDE", "DUROS", "ECHAR", "ELEVO", "ENTRA", "ERIAL", "FIRME", "FONDO",
+      "GAMAS", "GARZA", "GOLES", "GORDA", "HABLA", "HUMOR", "HEDOR", "IDEAS", "JUEGO", "LLAMA",
+      "LLENO", "LOMAS", "LUCES", "MAGNA", "MARCA", "MASAS", "MELON", "MESAS", "MINAR", "MODAL",
+      "MORAL", "NUBES", "NACER", "NATAL", "NEVAR", "NOVIA", "OREJA", "OVULO", "OCIOS", "PATIN",
+      "PEINA", "PELAR", "PELOS", "PISAR", "PISTA", "PLENO", "PUNIR", "PULIR", "QUISO", "RUGEN",
+      "RUMOR", "ROTAR", "RUSOS", "SALSA", "SALVE", "SANTO", "SECAR", "SIGUE", "SONAR", "SOPOR",
+      "SORNA", "SUTIL", "TALCO", "TAPIZ", "TENOR", "TERMO", "TEXTO", "TORRE", "TRINO", "TURBO",
+      "UNIDO", "URGEN", "VENTA", "VIBRA", "VIDAS", "VIGAS", "VIVAZ", "ZONAS", "ACATO", "ACUDO",
+      "ADIOS", "ATRIL", "BARBA", "BOMBA", "COMEN", "CRUJE", "DECIA", "ESPIA", "FALSO", "GURUS",
+      "HIGOS", "JUNCO", "LIMAR", "LIGAR", "MAFIA", "MURAR", "NINOS", "ORATE", "PODAR", "POROS",
+      "RAPTO", "RIGOR", "SILVA", "SOPLA", "TOSTO", "TONTO", "VOTOS", "VIVAN", "BURIL", "CORAL",
+      "DARME", "DANOS", "ERIGE", "FIRMA", "GRITA", "LONJA", "MUEVE", "NIEGA", "NUNCA", "OPINA",
+      "PONTE", "PRISA", "RIESE", "ROBAR", "ROJOS", "SABIA", "SIEGA", "SURCO", "TIRAS", "TODOS",
+      "USURA", "VIVAS", "ZONZO", "ACABA", "BREVE", "DURAR", "ELOTE", "FRITO", "HALLA", "LARGO"
+    ];
+
+    // Palabra a adivinar (seleccionada aleatoriamente de la lista)
+    const solution = palabrasValidas[Math.floor(Math.random() * palabrasValidas.length)];
     const maxAttempts = 6;
     let currentAttempt = 0;
     let currentGuess = "";
@@ -459,12 +513,19 @@
     const messageDiv = document.getElementById("message");
     function showMessage(msg) {
       messageDiv.textContent = msg;
+      // Limpiar el mensaje después de 2 segundos si no es mensaje de fin de juego
+      if (!gameOver) {
+        setTimeout(() => {
+          messageDiv.textContent = "";
+        }, 2000);
+      }
     }
 
     function evaluateGuess(guess) {
       const result = Array(5).fill("absent");
       const solArr = solution.split("");
       const guessArr = guess.split("");
+      
       // Primero marcar correct
       for (let i = 0; i < 5; i++) {
         if (guessArr[i] === solArr[i]) {
@@ -484,6 +545,10 @@
       return result;
     }
 
+    function isValidWord(word) {
+      return palabrasValidas.includes(word);
+    }
+
     function updateBoard(guess, evaluation) {
       const rows = document.querySelectorAll(".row");
       const cells = rows[currentAttempt].querySelectorAll(".cell");
@@ -499,7 +564,6 @@
       guess.split("").forEach((letter, index) => {
         const keyButtons = document.querySelectorAll(`.key[data-key="${letter}"]`);
         keyButtons.forEach(button => {
-          // Si ya estaba en correct, no lo cambiamos a otro estado
           if (button.classList.contains("correct")) return;
           if (evaluation[index] === "correct") {
             button.classList.remove("present", "absent");
@@ -531,36 +595,42 @@
 
     function handleKey(key) {
       if (gameOver) return;
+      
       if (key === "tick") {
         if (currentGuess.length < 5) {
-          showMessage("Completa la palabra.");
+          showMessage("La palabra debe tener 5 letras");
           return;
         }
+        if (!isValidWord(currentGuess)) {
+          showMessage("Palabra no válida");
+          return;
+        }
+        
         const evalRes = evaluateGuess(currentGuess);
         updateBoard(currentGuess, evalRes);
         updateKeyboard(currentGuess, evalRes);
 
         if (evalRes.every(e => e === "correct")) {
-          showMessage("¡Felicidades! Has adivinado la palabra.");
+          showMessage("¡Felicidades! Has adivinado la palabra");
           gameOver = true;
           return;
         }
+        
         currentAttempt++;
         if (currentAttempt >= maxAttempts) {
           showMessage("Game over. La palabra era: " + solution);
           gameOver = true;
           return;
         }
+        
         currentGuess = "";
-        showMessage("");
+        updateCurrentRow();
       } else if (key === "⌫") {
         currentGuess = currentGuess.slice(0, -1);
         updateCurrentRow();
-      } else {
-        if (currentGuess.length < 5) {
-          currentGuess += key;
-          updateCurrentRow();
-        }
+      } else if (currentGuess.length < 5) {
+        currentGuess += key;
+        updateCurrentRow();
       }
     }
 
