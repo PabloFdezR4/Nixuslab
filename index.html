@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nixuslab - Inicio</title> <!-- Título actualizado para reflejar la página -->
+    <title>Nixuslab - Inicio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Nixuslab - Minijuegos y Proyectos">
     <!-- Google Fonts -->
@@ -213,9 +213,9 @@
             flex-grow: 1; /* Empuja el botón hacia abajo si el texto es corto */
         }
 
-        .card button {
+        .card button, .card .card-button-link /* Aplicar estilos a botones y links con esa clase */ {
             background-color: var(--button-color);
-            color: var(--button-text-color);
+            color: var(--button-text-color) !important; /* !important para links */
             border: none;
             padding: 0.8rem 1.5rem;
             font-size: 1rem;
@@ -227,18 +227,22 @@
             min-width: 120px; /* Ancho mínimo para el botón */
             text-decoration: none; /* Para asegurar si se usa como link */
             display: inline-block; /* Para que padding funcione bien */
+            text-align: center; /* Centrar texto en el botón/link */
         }
 
-        .card button:hover:not(:disabled) {
+        .card button:hover:not(:disabled),
+        .card .card-button-link:hover {
             background-color: var(--button-hover-color);
             transform: scale(1.05); /* Ligero agrandamiento */
+            color: var(--button-text-color) !important; /* Mantener color en hover para links */
         }
 
         .card button:disabled {
             background-color: #555; /* Gris oscuro para deshabilitado */
-            color: #999;
+            color: #999 !important;
             cursor: not-allowed;
             opacity: 0.7;
+            transform: none; /* Quitar efecto hover */
         }
 
         /* === Footer === */
@@ -431,12 +435,14 @@
                 <p>© <span id="currentYear"></span> | Nixuslab</p>
                 <p><a href="Sobre-nosotros.html">Contacto</a> | Todos los derechos reservados</p>
             </div>
-             <!-- Redes Sociales con Instagram Añadido -->
+             <!-- Redes Sociales con SOLO Instagram -->
             <div class="social-links">
                 <a href="https://www.instagram.com/nixuslab/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                <!-- Enlaces eliminados
                 <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
                 <a href="#" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
                 <a href="#" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                 -->
             </div>
         </div>
     </footer>
@@ -465,7 +471,6 @@
         }
 
         // Actualizar año en el footer
-        // Asegurarse de que el elemento exista antes de intentar modificarlo
         const currentYearSpan = document.getElementById('currentYear');
         if (currentYearSpan) {
              currentYearSpan.textContent = new Date().getFullYear();
@@ -473,55 +478,12 @@
              console.warn("Element with ID 'currentYear' not found.");
         }
 
-         // Para los botones que son links (como el de Wordle)
-        // No es estrictamente necesario si usamos <a>, pero útil si se quiere lógica adicional
-        // const playWordleButton = document.querySelector('.card-button-link');
-        // if (playWordleButton) {
-        //     playWordleButton.addEventListener('click', (e) => {
-        //         // Prevenir comportamiento por defecto si es necesario (raro para un link simple)
-        //         // e.preventDefault();
-        //         window.location.href = playWordleButton.href;
-        //     });
-        // }
-
-        // Añadir clase CSS para estilizar el link como botón
-        // Selecciona todos los links dentro de .card que quieras estilizar como botón
+        // Añadir clase CSS para estilizar el link como botón si no la tiene
         document.querySelectorAll('.card a').forEach(link => {
-            // Comprueba si ya tiene estilos de botón o añade una clase específica
             if (!link.classList.contains('card-button-link')) {
                  link.classList.add('card-button-link');
             }
         });
-
-        // Añadir estilo para la clase .card-button-link si no existe ya en el CSS principal
-        // (En este caso, los estilos de '.card button' ya se aplicarán si añadimos la clase)
-        // Si prefieres una clase separada:
-        const buttonLinkStyle = document.createElement('style');
-        buttonLinkStyle.textContent = `
-            .card-button-link {
-                background-color: var(--button-color);
-                color: var(--button-text-color) !important; /* !important para sobreescribir color de link */
-                border: none;
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-                font-weight: 600;
-                cursor: pointer;
-                border-radius: 5px;
-                transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
-                align-self: center;
-                min-width: 120px;
-                text-decoration: none; /* Quitar subrayado de link */
-                display: inline-block; /* Comportamiento de bloque inline */
-                text-align: center; /* Centrar texto */
-            }
-             .card-button-link:hover {
-                 background-color: var(--button-hover-color);
-                 transform: scale(1.05);
-                 color: var(--button-text-color) !important; /* Mantener color texto en hover */
-             }
-        `;
-        document.head.appendChild(buttonLinkStyle);
-
 
     </script>
      <!-- FIN: JavaScript Integrado -->
