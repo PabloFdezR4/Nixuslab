@@ -2,490 +2,138 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nixuslab - Inicio</title>
+    <title>Nixuslab - Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Nixuslab - Minijuegos y Proyectos">
-    <!-- Google Fonts -->
+    <meta name="description" content="Nixuslab - Productos y Proyectos">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome (para icono de menú y otros) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" xintegrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- INICIO: CSS Integrado -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* === Variables Globales === */
-        :root {
-            --primary-color: #CDB97D;       /* Dorado */
-            --primary-color-darker: #b9a56a; /* Dorado oscuro para hover */
-            --background-color: #0D0D0D;    /* Negro más profundo */
-            --header-footer-color: #1a1a1a; /* Gris oscuro para header/footer */
-            --card-color: #222222;          /* Gris para las cards, ligeramente diferente */
-            --text-color: #f0f0f0;          /* Blanco ligeramente apagado */
-            --text-muted: #a0a0a0;         /* Texto secundario/grisáceo */
-            --border-color: #333333;        /* Bordes sutiles */
-            --button-color: var(--primary-color); /* Botón usa color primario */
-            --button-text-color: #000000;   /* Texto negro para botón dorado */
-            --button-hover-color: var(--primary-color-darker);
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.4);
-            --font-heading: 'Montserrat', sans-serif;
-            --font-body: 'Open Sans', sans-serif;
-            --transition-speed: 0.3s;
-        }
-
-        /* === Reseteo y Base === */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            font-family: var(--font-body);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.6;
-        }
-
-        /* === Contenedores y Clases Utilitarias === */
-        .header-container, .footer-container, main {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem; /* Padding más consistente */
-        }
-
-        main {
-            flex: 1; /* Ocupa el espacio restante */
-            display: flex; /* Centra el contenido si es necesario */
-            flex-direction: column;
-            align-items: center;
-            /* Ajuste para header fijo */
-            padding-top: calc(60px + 3rem); /* Altura aprox header + padding deseado */
-            padding-bottom: 3rem;
-        }
-
-        .logo-accent {
-            color: var(--primary-color);
-        }
-
-        /* === Header === */
-        header {
-            width: 100%;
-            background-color: var(--header-footer-color);
-            padding: 1rem 0;
-            position: fixed; /* Cambiado a fixed para que esté siempre visible */
-            top: 0;
-            left: 0; /* Asegurar que ocupa todo el ancho */
-            z-index: 1000;
-            box-shadow: var(--shadow-sm);
-            border-bottom: 1px solid var(--border-color);
-            height: 60px; /* Altura fija para calcular padding de main */
-            display: flex; /* Para centrar verticalmente el contenido */
-            align-items: center; /* Para centrar verticalmente el contenido */
-        }
-
-        .header-container {
+        .product-type {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%; /* Asegurar que el contenedor interno ocupe el ancho */
-        }
-
-        .logo {
-            font-family: var(--font-heading);
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: color var(--transition-speed) ease; /* Añadida transición */
-        }
-        .logo:hover .logo-accent{
-             color: var(--text-color); /* Al pasar sobre el logo, el acento se vuelve blanco */
-        }
-        .logo:hover {
-            color: var(--primary-color); /* El resto del logo se vuelve dorado */
-        }
-
-
-        /* === Navegación === */
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 1rem; /* Espacio entre elementos */
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            transition: color var(--transition-speed) ease, border-color var(--transition-speed) ease;
-            font-weight: 600;
-            position: relative; /* Para el pseudo-elemento ::after */
-            border-bottom: 2px solid transparent; /* Espacio para el subrayado */
-        }
-
-        nav ul li a::after { /* Subrayado animado */
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px; /* Alineado con el borde inferior del padding */
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--primary-color);
-            transition: width var(--transition-speed) ease;
-        }
-
-        nav ul li a:hover,
-        nav ul li a.active {
-            color: var(--primary-color);
-        }
-
-        nav ul li a:hover::after,
-        nav ul li a.active::after {
-            width: 100%; /* Muestra el subrayado en hover/active */
-        }
-
-        /* === Botón de Menú Móvil === */
-        .menu-toggle {
-            display: none; /* Oculto por defecto */
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.8rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            line-height: 1; /* Evita altura extra */
-            transition: color var(--transition-speed) ease; /* Transición color */
-        }
-        .menu-toggle:hover {
-            color: var(--primary-color);
-        }
-
-        /* === Sección Principal y Tarjetas === */
-        .cards-container {
-            display: grid;
-            /* Columnas auto-ajustables, mínimo 280px, máximo 1fr */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem; /* Más espacio entre tarjetas */
             width: 100%;
         }
-
-        .card {
-            background-color: var(--card-color);
-            border-radius: 8px;
-            padding: 2rem; /* Más padding interno */
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Alinea el botón abajo */
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-md);
-            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
-        }
-
-        .card:hover {
-            transform: translateY(-6px); /* Efecto de elevación */
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-color); /* Borde dorado al pasar el ratón */
-        }
-
-        .card h3 {
-            margin-bottom: 1rem;
+        .product-stock-home {
             color: var(--primary-color);
-            font-family: var(--font-heading);
-            font-size: 1.6rem;
-        }
-
-        .card p {
-            margin-bottom: 1.5rem;
-            color: var(--text-muted); /* Texto más suave */
-            flex-grow: 1; /* Empuja el botón hacia abajo si el texto es corto */
-        }
-
-        .card button, .card .card-button-link /* Aplicar estilos a botones y links con esa clase */ {
-            background-color: var(--button-color);
-            color: var(--button-text-color) !important; /* !important para links */
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
+            font-size: 0.85em;
             font-weight: 600;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
-            align-self: center; /* Centra el botón si es más estrecho que la card */
-            min-width: 120px; /* Ancho mínimo para el botón */
-            text-decoration: none; /* Para asegurar si se usa como link */
-            display: inline-block; /* Para que padding funcione bien */
-            text-align: center; /* Centrar texto en el botón/link */
-        }
-
-        .card button:hover:not(:disabled),
-        .card .card-button-link:hover {
-            background-color: var(--button-hover-color);
-            transform: scale(1.05); /* Ligero agrandamiento */
-            color: var(--button-text-color) !important; /* Mantener color en hover para links */
-        }
-
-        .card button:disabled {
-            background-color: #555; /* Gris oscuro para deshabilitado */
-            color: #999 !important;
-            cursor: not-allowed;
-            opacity: 0.7;
-            transform: none; /* Quitar efecto hover */
-        }
-
-        /* === Footer === */
-        footer {
-            width: 100%;
-            background-color: var(--header-footer-color);
-            padding: 2rem 0;
-            margin-top: auto; /* Empuja el footer al final si el contenido es corto */
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-        }
-
-        .footer-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap; /* Permite que los elementos se apilen en pantallas pequeñas */
-            gap: 1rem; /* Espacio entre elementos del footer */
-            text-align: center; /* Centrar texto por defecto */
-        }
-
-        .footer-info {
-            flex-basis: 100%; /* Ocupa todo el ancho inicialmente */
-            text-align: center;
-            margin-bottom: 1rem; /* Espacio si hay redes sociales debajo */
-        }
-
-        .footer-info p {
-            margin: 0.3rem 0;
-            font-size: 0.9rem;
-        }
-
-        .footer-info a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color var(--transition-speed);
-        }
-
-        .footer-info a:hover {
-            color: var(--primary-color);
-            text-decoration: underline;
-        }
-
-        .social-links {
-            flex-basis: 100%; /* Ocupa todo el ancho */
-            text-align: center; /* Centra los iconos */
-        }
-
-        .social-links a {
-            color: var(--text-muted);
-            margin: 0 0.8rem;
-            font-size: 1.4rem;
-            transition: color var(--transition-speed);
-        }
-
-        .social-links a:hover {
-            color: var(--primary-color);
-        }
-
-        /* === Media Queries para Responsividad === */
-        @media (max-width: 768px) {
-            /* Ajuste para header fijo */
-             main {
-                padding-top: calc(60px + 2rem); /* Reducir padding top en móvil */
-             }
-            .header-container {
-                position: relative; /* Contexto para el menú absoluto */
-            }
-
-            .menu-toggle {
-                display: block; /* Muestra el botón hamburguesa */
-                z-index: 1001; /* Asegura que esté sobre el logo si se solapan */
-            }
-
-            nav {
-                /* Estilo inicial oculto */
-                position: absolute;
-                top: calc(100% + 1px); /* Posicionado justo debajo del header + borde */
-                left: 0;
-                right: 0;
-                background-color: var(--header-footer-color);
-                border-top: 1px solid var(--border-color);
-                max-height: 0; /* Oculto por defecto */
-                overflow: hidden; /* Oculta el contenido que sobrepasa */
-                transition: max-height 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* Transición suave */
-            }
-
-            nav.active {
-                max-height: 500px; /* Altura suficiente para mostrar los enlaces */
-                border-bottom: 1px solid var(--border-color);
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 0;
-                padding: 0.5rem 0; /* Padding vertical en el menú desplegado */
-            }
-
-            nav ul li a {
-                display: block; /* Ocupa todo el ancho */
-                padding: 1rem 1.5rem; /* Más padding para tocar fácil */
-                border-bottom: 1px solid var(--border-color); /* Separador entre enlaces */
-            }
-            nav ul li:last-child a {
-                border-bottom: none; /* Quita el borde del último elemento */
-            }
-            nav ul li a::after { /* Ocultar subrayado en móvil */
-                display: none;
-            }
-
-            .cards-container {
-                grid-template-columns: 1fr; /* Una sola columna en móvil */
-                gap: 1.5rem;
-            }
-
-            .footer-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            .footer-info, .social-links {
-                flex-basis: auto; /* Resetear base */
-                width: 100%;
-            }
-            .social-links {
-                margin-top: 1rem; /* Espacio sobre los iconos sociales */
-            }
-        }
-
-        @media (min-width: 769px) {
-            /* Asegurar que el footer se distribuya mejor en pantallas grandes */
-            .footer-info {
-               flex-basis: auto; /* Permite que crezca/se encoja */
-               text-align: left;
-               margin-bottom: 0;
-            }
-            .social-links {
-                flex-basis: auto;
-                text-align: right;
-                margin-top: 0;
-            }
+            margin-left: auto;
+            text-align: right;
         }
     </style>
-    <!-- FIN: CSS Integrado -->
-
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <a href="#" class="logo">Nixus<span class="logo-accent">lab</span></a>
-            <button class="menu-toggle" id="menuToggleBtn" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mainNav">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav id="mainNav">
-                <ul>
-                    <li><a href="#" class="active">Inicio</a></li>
-                    <li><a href="Sobre-nosotros.html">Sobre Nosotros</a></li>
-                    <li><a href="#">Registrarse</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <div id="header-placeholder"></div>
 
     <main>
-        <div class="cards-container">
-            <div class="card">
-                <h3>Wordle</h3>
-                <p>Un divertido juego de adivinanza de palabras diario.</p>
-                <!-- Cambiado a etiqueta 'a' para comportarse como link, estilizado como botón -->
-                <a href="Wordle.html" class="card-button-link">¡Jugar!</a>
-            </div>
-            <div class="card">
-                <h3>Gestión bancaria</h3>
-                <p>Controla tus finanzas personales de forma sencilla y visual.</p>
-                <a href="Ingresos mensuales v5.html" class="card-button-link">Empezar</a>
-            </div>
-            <div class="card">
-                <h3>Coming Soon</h3>
-                <p>Próximamente otro minijuego emocionante.</p>
-                <button disabled>¡Próximamente!</button>
-            </div>
-            <!-- Puedes añadir más cards aquí -->
+        <div class="product-grid-container">
 
+            <div class="product-card">
+                <a href="producto-01.html" class="product-link-img">
+                    <img src="nixus-essential-1.webp" alt="Torre NIXUS Essential" class="product-image">
+                </a>
+                <div class="product-info">
+                    <p class="product-type">NIXUS ESSENTIAL <span class="product-stock-home" style="color:#b30000;">Sin stock</span></p>
+                    <p class="product-price">Desde <span style="color: var(--primary-color);">249 €</span></p>
+                </div>
+            </div>
+        
+            <div class="product-card">
+                <a href="producto-02.html" class="product-link-img">
+                    <img src="nixus-flow-1.webp" alt="Torre NIXUS Flow" class="product-image">
+                </a>
+                <div class="product-info">
+                    <p class="product-type">NIXUS FLOW <span class="product-stock-home" style="color:#b30000;">Sin stock</span></p>
+                    <p class="product-price">Desde <span style="color: var(--primary-color);">349 €</span></p>
+                </div>
+            </div>
+        
+            <div class="product-card">
+                <a href="producto-03.html" class="product-link-img">
+                    <img src="nixus-advanced-1.webp" alt="Torre NIXUS Advanced" class="product-image">
+                </a>
+                <div class="product-info">
+                    <p class="product-type">NIXUS ADVANCED <span class="product-stock-home" style="color:#b30000;">Sin stock</span></p>
+                    <p class="product-price">Desde <span style="color: var(--primary-color);">449 €</span></p>
+                </div>
+            </div>
+        
+            <div class="product-card">
+                <a href="producto-04.html" class="product-link-img">
+                    <img src="nixus-ultra-1.webp" alt="Torre NIXUS Ultra" class="product-image">
+                </a>
+                <div class="product-info">
+                    <p class="product-type">NIXUS ULTRA <span class="product-stock-home" style="color:#b30000;">Sin stock</span></p>
+                    <p class="product-price">Desde <span style="color: var(--primary-color);">599 €</span></p>
+                </div>
+            </div>
+        
         </div>
-    </main>
+        
 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-info">
-                <p>© <span id="currentYear"></span> | Nixuslab</p>
-                <p><a href="Sobre-nosotros.html">Contacto</a> | Todos los derechos reservados</p>
-            </div>
-             <!-- Redes Sociales con SOLO Instagram -->
-            <div class="social-links">
-                <a href="https://www.instagram.com/nixuslab/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                <!-- Enlaces eliminados
-                <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-                <a href="#" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-                <a href="#" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-                 -->
-            </div>
-        </div>
-    </footer>
+        
 
-    <!-- INICIO: JavaScript Integrado -->
+            </div> </main>
+
+    <div id="footer-placeholder"></div>
+
     <script>
-        // Script para el menú móvil y año actual
-        const menuToggleBtn = document.getElementById('menuToggleBtn');
-        const mainNav = document.getElementById('mainNav');
-
-        if (menuToggleBtn && mainNav) {
-            menuToggleBtn.addEventListener('click', () => {
-                mainNav.classList.toggle('active');
-                const isExpanded = mainNav.classList.contains('active');
-                menuToggleBtn.setAttribute('aria-expanded', isExpanded);
-                // Cambiar icono (opcional)
-                const icon = menuToggleBtn.querySelector('i');
-                if (isExpanded) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times'); // Icono de 'X' al abrir
+        // Función para cargar el header
+        async function loadHeader() {
+            try {
+                const response = await fetch('header.html');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const html = await response.text();
+                const headerPlaceholder = document.getElementById('header-placeholder');
+                if (headerPlaceholder) {
+                    headerPlaceholder.innerHTML = html;
+                    // Inicializar menú móvil
+                    const menuToggle = headerPlaceholder.querySelector('.menu-toggle');
+                    const nav = headerPlaceholder.querySelector('nav ul');
+                    if (menuToggle && nav) {
+                        menuToggle.addEventListener('click', () => nav.classList.toggle('active'));
+                    } else {
+                        console.warn('Menu toggle button or nav list not found in loaded header.');
+                    }
                 } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars'); // Icono de hamburguesa al cerrar
+                     console.error('Placeholder element with ID "header-placeholder" not found.');
                 }
-            });
-        }
-
-        // Actualizar año en el footer
-        const currentYearSpan = document.getElementById('currentYear');
-        if (currentYearSpan) {
-             currentYearSpan.textContent = new Date().getFullYear();
-        } else {
-             console.warn("Element with ID 'currentYear' not found.");
-        }
-
-        // Añadir clase CSS para estilizar el link como botón si no la tiene
-        document.querySelectorAll('.card a').forEach(link => {
-            if (!link.classList.contains('card-button-link')) {
-                 link.classList.add('card-button-link');
+            } catch (error) {
+                console.error('Error loading header:', error);
+                 const headerPlaceholder = document.getElementById('header-placeholder');
+                 if (headerPlaceholder) headerPlaceholder.innerHTML = '<p style="color: red; text-align: center;">Error al cargar el encabezado.</p>';
             }
-        });
+        }
 
+        // Función para cargar el footer
+        async function loadFooter() {
+            try {
+                const response = await fetch('footer.html');
+                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const html = await response.text();
+                const footerPlaceholder = document.getElementById('footer-placeholder');
+                 if (footerPlaceholder) {
+                    footerPlaceholder.innerHTML = html;
+                 } else {
+                    console.error('Placeholder element with ID "footer-placeholder" not found.');
+                 }
+            } catch (error) {
+                console.error('Error loading footer:', error);
+                 const footerPlaceholder = document.getElementById('footer-placeholder');
+                 if (footerPlaceholder) footerPlaceholder.innerHTML = '<p style="color: red; text-align: center;">Error al cargar el pie de página.</p>';
+            }
+        }
+
+        // Cargar header y footer cuando el documento esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHeader();
+            loadFooter();
+        });
     </script>
-     <!-- FIN: JavaScript Integrado -->
 </body>
 </html>
