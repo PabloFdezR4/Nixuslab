@@ -2,334 +2,327 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <title>Encriptador de Texto - Nixuslab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codificador de Mensajes</title>
+    <meta name="description" content="Encripta y desencripta tus textos de forma segura.">
+    <!-- Google Fonts y Font Awesome (heredado de la plantilla) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Open+Sans:wght@400;600&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" xintegrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Hoja de estilos global para header, footer, etc. -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Estilos específicos para la aplicación de encriptación -->
     <style>
         :root {
-            --primary-color: #CDB97D;
-            --primary-color-darker: #b9a56a;
-            --background-color: #0D0D0D;
-            --card-color: #222222;
-            --text-color: #f0f0f0;
-            --text-muted: #a0a0a0;
-            --border-color: #333333;
-            --button-text-color: #000000;
-            --font-heading: 'Montserrat', sans-serif;
-            --font-body: 'Open Sans', sans-serif;
-            --font-mono: 'Roboto Mono', monospace;
+            --encrypt-bg: #1a1a1a;
+            --encrypt-panel: #222222;
+            --encrypt-border: #333333;
+            --encrypt-button-bg: var(--primary-color);
+            --encrypt-button-text: #000;
+            --encrypt-button-hover: var(--primary-color-darker);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--background-color);
-            color: var(--text-color);
+        .encrypt-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            padding: 1rem;
-        }
-
-        .container {
+            gap: 1.5rem;
             width: 100%;
-            max-width: 600px;
-            background-color: var(--card-color);
+            max-width: 800px; /* Ancho del contenedor principal */
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--encrypt-bg);
             border-radius: 12px;
-            border: 1px solid var(--border-color);
-            padding: 2.5rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--encrypt-border);
         }
 
-        h1 {
-            text-align: center;
-            color: var(--text-color);
+        .encrypt-container h1 {
             font-family: var(--font-heading);
+            color: var(--primary-color);
             font-size: 2rem;
-            margin-bottom: 2.5rem;
-            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.75rem;
-            font-weight: 400;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .input-field, .output-area {
+        .encrypt-panel {
             width: 100%;
-            padding: 0.85rem 1rem;
-            background-color: var(--background-color);
-            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            background-color: var(--encrypt-panel);
             border-radius: 8px;
+            border: 1px solid var(--encrypt-border);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .encrypt-panel label {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: -0.5rem;
+        }
+
+        .encrypt-panel textarea,
+        .encrypt-panel input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--encrypt-border);
+            background-color: var(--background-color);
             color: var(--text-color);
-            font-family: var(--font-mono);
+            font-family: var(--font-body);
             font-size: 1rem;
             resize: vertical;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .input-field:focus, .output-area:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(205, 185, 125, 0.15);
-        }
-
-        #key {
-            resize: none;
-        }
-
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .btn {
-            border: 2px solid transparent;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: var(--font-heading);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .btn-encrypt {
-            background-color: var(--primary-color);
-            color: var(--button-text-color);
-            border-color: var(--primary-color);
-        }
-        
-        .btn-encrypt:hover {
-            background-color: var(--primary-color-darker);
-            border-color: var(--primary-color-darker);
-            transform: translateY(-2px);
-        }
-
-        .btn-decrypt {
-            background-color: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--border-color);
-        }
-        
-        .btn-decrypt:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            background-color: rgba(205, 185, 125, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .output-container {
-            margin-top: 2.5rem;
-            position: relative;
-        }
-        
-        .output-area {
             min-height: 120px;
-            background-color: var(--background-color);
+        }
+        
+        .encrypt-panel input[type="password"] {
+            min-height: auto;
+        }
+
+        .encrypt-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .encrypt-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--encrypt-button-bg);
+            color: var(--encrypt-button-text);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .encrypt-btn:hover {
+            background-color: var(--encrypt-button-hover);
+            transform: translateY(-2px);
         }
         
         .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--border-color);
-            color: var(--text-muted);
-            border: none;
-            border-radius: 6px;
-            padding: 0.5rem;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: all 0.3s ease;
+            background-color: #444;
+            color: var(--text-color);
         }
-        
         .copy-btn:hover {
-            opacity: 1;
-            background-color: var(--primary-color);
-            color: var(--button-text-color);
-        }
-        
-        .copy-feedback {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background-color: var(--primary-color);
-            color: var(--button-text-color);
-            padding: 0.3rem 0.6rem;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
+             background-color: #555;
         }
 
-        @media (max-width: 480px) {
-            .button-group {
-                grid-template-columns: 1fr;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
-            .container {
-                padding: 1.5rem;
-            }
+        #notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            color: var(--encrypt-button-text);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+        #notification.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-20px);
         }
 
     </style>
 </head>
 <body>
 
-    <main class="container">
-        <h1>Codificador de Mensajes</h1>
+    <!-- El header se cargará dinámicamente aquí -->
+    <div id="header-placeholder"></div>
 
-        <div class="form-group">
-            <label for="message">Mensaje</label>
-            <textarea id="message" class="input-field" rows="5" placeholder="Escribe tu texto aquí..."></textarea>
-        </div>
+    <main>
+        <div class="encrypt-container">
+            <h1>Encriptador de Texto</h1>
 
-        <div class="form-group">
-            <label for="key">Clave Numérica (Semilla)</label>
-            <input type="number" id="key" class="input-field" placeholder="Ej: 47" min="0">
-        </div>
+            <div class="encrypt-panel">
+                <label for="password">Contraseña Secreta</label>
+                <input type="password" id="password" placeholder="Escribe tu contraseña para encriptar/desencriptar">
+            </div>
 
-        <div class="button-group">
-            <button class="btn btn-encrypt" id="encrypt-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
-                Cifrar
-            </button>
-            <button class="btn btn-decrypt" id="decrypt-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
-                Descifrar
-            </button>
-        </div>
+            <div class="encrypt-panel">
+                <label for="inputText">Texto Original o Encriptado</label>
+                <textarea id="inputText" rows="6" placeholder="Pega aquí el texto que quieres procesar..."></textarea>
+            </div>
 
-        <div class="output-container">
-            <label for="result">Resultado</label>
-            <textarea id="result" class="output-area" readonly placeholder="El resultado aparecerá aquí..."></textarea>
-            <button class="copy-btn" id="copy-btn" title="Copiar al portapapeles">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-            </button>
-            <div class="copy-feedback" id="copy-feedback">¡Copiado!</div>
+            <div class="encrypt-actions">
+                <button id="encryptBtn" class="encrypt-btn">Encriptar</button>
+                <button id="decryptBtn" class="encrypt-btn">Desencriptar</button>
+            </div>
+
+            <div class="encrypt-panel">
+                <label for="outputText">Resultado</label>
+                <textarea id="outputText" rows="6" readonly placeholder="Aquí aparecerá el resultado..."></textarea>
+                <button id="copyBtn" class="encrypt-btn copy-btn">Copiar Resultado</button>
+            </div>
         </div>
     </main>
+    
+    <div id="notification"></div>
 
+    <!-- El footer se cargará dinámicamente aquí -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts de carga del Header/Footer -->
+    <script>
+        // Función para cargar el header
+        async function loadHeader() {
+            try {
+                const response = await fetch('header.html');
+                const html = await response.text();
+                document.getElementById('header-placeholder').innerHTML = html;
+                
+                const menuToggle = document.querySelector('.menu-toggle');
+                const nav = document.querySelector('nav ul');
+                
+                if (menuToggle && nav) {
+                    menuToggle.addEventListener('click', () => {
+                        nav.classList.toggle('active');
+                    });
+                }
+            } catch (error) {
+                console.error('Error al cargar el header:', error);
+            }
+        }
+
+        // Función para cargar el footer
+        async function loadFooter() {
+            try {
+                const response = await fetch('footer.html');
+                const html = await response.text();
+                document.getElementById('footer-placeholder').innerHTML = html;
+            } catch (error) {
+                console.error('Error al cargar el footer:', error);
+            }
+        }
+
+        // Cargar header y footer cuando el documento esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHeader();
+            loadFooter();
+        });
+    </script>
+
+    <!-- Lógica de la aplicación de encriptación -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Selección de Elementos del DOM ---
-            const messageInput = document.getElementById('message');
-            const keyInput = document.getElementById('key');
-            const encryptBtn = document.getElementById('encrypt-btn');
-            const decryptBtn = document.getElementById('decrypt-btn');
-            const resultOutput = document.getElementById('result');
-            const copyBtn = document.getElementById('copy-btn');
-            const copyFeedback = document.getElementById('copy-feedback');
+            const passwordInput = document.getElementById('password');
+            const inputText = document.getElementById('inputText');
+            const outputText = document.getElementById('outputText');
+            const encryptBtn = document.getElementById('encryptBtn');
+            const decryptBtn = document.getElementById('decryptBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const notification = document.getElementById('notification');
 
-            /**
-             * LÓGICA DE CIFRADO FINAL Y VERIFICADA
-             * @param {string} text - El texto de entrada.
-             * @param {number} key - La clave numérica que actúa como semilla para rotar el mapa de sustitución.
-             * @param {string} mode - 'encrypt' o 'decrypt'.
-             * @returns {string} - El texto transformado.
-             */
-            function transformMessage(text, key, mode) {
-                if (isNaN(key) || keyInput.value === '') {
-                    alert('Por favor, introduce una clave numérica válida.');
-                    return '';
-                }
-
-                // MAPA DE CARACTERES ORIGINALES (97 caracteres)
-                const ORIGINAL_CHARS = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ñÑ";
-                
-                // MAPA DE SUSTITUCIÓN BASE (verificado 1 a 1 y sin auto-mapeo)
-                const BASE_SUBSTITUTION_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890,.-{}+*[]_!\"#$%&'()/?¡¿<>;:Ññ~`^|@=";
-
-                // La clave rota el alfabeto de sustitución para crear el mapa de cifrado final
-                const effectiveKey = key % ORIGINAL_CHARS.length;
-                const rotatedSubstitutionChars = 
-                    BASE_SUBSTITUTION_CHARS.slice(effectiveKey) + 
-                    BASE_SUBSTITUTION_CHARS.slice(0, effectiveKey);
-
-                // Determinar el origen y el destino del mapeo según el modo
-                let sourceAlphabet, targetAlphabet;
-                if (mode === 'encrypt') {
-                    sourceAlphabet = ORIGINAL_CHARS;
-                    targetAlphabet = rotatedSubstitutionChars;
-                } else { // modo 'decrypt'
-                    sourceAlphabet = rotatedSubstitutionChars;
-                    targetAlphabet = ORIGINAL_CHARS;
-                }
-                
-                // Crear un mapa (objeto) para una búsqueda más eficiente
-                const charMap = {};
-                for (let i = 0; i < sourceAlphabet.length; i++) {
-                    charMap[sourceAlphabet[i]] = targetAlphabet[i];
-                }
-
-                // Procesar cada caracter del texto
-                return text.split('').map(char => {
-                    // Si el caracter existe en el mapa, se sustituye. Si no, se deja igual.
-                    return charMap[char] || char;
-                }).join('');
+            function showNotification(message) {
+                notification.textContent = message;
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
             }
 
-            // --- Manejadores de Eventos (sin cambios) ---
+            async function getKey(password) {
+                const encoder = new TextEncoder();
+                const keyMaterial = await window.crypto.subtle.importKey(
+                    'raw',
+                    encoder.encode(password),
+                    { name: 'PBKDF2' },
+                    false,
+                    ['deriveKey']
+                );
+                return window.crypto.subtle.deriveKey(
+                    {
+                        "name": 'PBKDF2',
+                        "salt": encoder.encode('a-unique-salt'), // ¡En una app real, este salt debería ser único y guardarse!
+                        "iterations": 100000,
+                        "hash": 'SHA-256'
+                    },
+                    keyMaterial,
+                    { "name": 'AES-GCM', "length": 256 },
+                    true,
+                    [ "encrypt", "decrypt" ]
+                );
+            }
 
-            encryptBtn.addEventListener('click', () => {
-                const message = messageInput.value;
-                const key = parseInt(keyInput.value, 10);
-                resultOutput.value = transformMessage(message, key, 'encrypt');
+            encryptBtn.addEventListener('click', async () => {
+                const password = passwordInput.value;
+                const text = inputText.value;
+                if (!password || !text) {
+                    showNotification('Por favor, introduce texto y contraseña.');
+                    return;
+                }
+                try {
+                    const key = await getKey(password);
+                    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+                    const encrypted = await window.crypto.subtle.encrypt(
+                        { name: 'AES-GCM', iv: iv },
+                        key,
+                        new TextEncoder().encode(text)
+                    );
+                    
+                    const ivB64 = btoa(String.fromCharCode.apply(null, iv));
+                    const encryptedB64 = btoa(String.fromCharCode.apply(null, new Uint8Array(encrypted)));
+                    
+                    outputText.value = ivB64 + ':' + encryptedB64;
+                    showNotification('¡Texto encriptado!');
+                } catch (e) {
+                    showNotification('Error al encriptar.');
+                    console.error(e);
+                }
             });
 
-            decryptBtn.addEventListener('click', () => {
-                const message = messageInput.value;
-                const key = parseInt(keyInput.value, 10);
-                resultOutput.value = transformMessage(message, key, 'decrypt');
+            decryptBtn.addEventListener('click', async () => {
+                const password = passwordInput.value;
+                const encryptedText = inputText.value;
+                 if (!password || !encryptedText) {
+                    showNotification('Por favor, introduce texto encriptado y contraseña.');
+                    return;
+                }
+                try {
+                    const [ivB64, encryptedB64] = encryptedText.split(':');
+                    if (!ivB64 || !encryptedB64) {
+                        throw new Error("Formato de texto encriptado inválido.");
+                    }
+                    
+                    const iv = new Uint8Array(atob(ivB64).split('').map(c => c.charCodeAt(0)));
+                    const encryptedData = new Uint8Array(atob(encryptedB64).split('').map(c => c.charCodeAt(0)));
+
+                    const key = await getKey(password);
+                    const decrypted = await window.crypto.subtle.decrypt(
+                        { name: 'AES-GCM', iv: iv },
+                        key,
+                        encryptedData
+                    );
+                    outputText.value = new TextDecoder().decode(decrypted);
+                    showNotification('¡Texto desencriptado!');
+                } catch (e) {
+                    showNotification('Error al desencriptar. Revisa la contraseña o el texto.');
+                    console.error(e);
+                }
             });
 
             copyBtn.addEventListener('click', () => {
-                if (resultOutput.value) {
-                    const tempTextArea = document.createElement('textarea');
-                    tempTextArea.value = resultOutput.value;
-                    document.body.appendChild(tempTextArea);
-                    tempTextArea.select();
-                    try {
-                        document.execCommand('copy');
-                        copyFeedback.style.opacity = '1';
-                        setTimeout(() => {
-                            copyFeedback.style.opacity = '0';
-                        }, 2000);
-                    } catch (err) {
-                        alert('No se pudo copiar el texto.');
-                    }
-                    document.body.removeChild(tempTextArea);
+                if (!outputText.value) {
+                    showNotification('No hay nada que copiar.');
+                    return;
                 }
+                // Usamos el método execCommand para compatibilidad en iframes
+                outputText.select();
+                document.execCommand('copy');
+                showNotification('¡Resultado copiado!');
             });
         });
     </script>
