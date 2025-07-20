@@ -270,15 +270,19 @@
                 }, 2000);
             }
             
-            // This function implements the simple substitution cipher from your original file.
             function transformMessage(text, password, mode) {
-                if (!password) {
-                    showNotification('Por favor, introduce una clave secreta.');
-                    return '';
+                // The original logic used a numeric key. We will parse the password as a number.
+                // If it's not a number, we'll derive one from the text to maintain functionality.
+                let key = parseInt(password, 10);
+                if (isNaN(key)) {
+                    if (!password) {
+                         showNotification('Por favor, introduce una clave secreta.');
+                         return '';
+                    }
+                    // Fallback for non-numeric passwords: derive key from character codes.
+                    key = password.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                 }
 
-                // The numeric key is derived from the password by summing character codes.
-                const key = password.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
                 // Using the exact character maps from the original working file for compatibility.
                 const ORIGINAL_CHARS = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ñÑ";
