@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codificador de Mensajes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Open+Sans:wght@400;600&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #CDB97D;
+            --primary-color-darker: #b9a56a;
+            --background-color: #0D0D0D;
+            --card-color: #222222;
+            --text-color: #f0f0f0;
+            --text-muted: #a0a0a0;
+            --border-color: #333333;
+            --button-text-color: #000000;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-color);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .input-field, .output-area {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .input-field:focus, .output-area:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(205, 185, 125, 0.15);
+        }
+
+        #key {
+            resize: none;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            border: 2px solid transparent;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: var(--font-heading);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-encrypt {
+            background-color: var(--primary-color);
+            color: var(--button-text-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-encrypt:hover {
+            background-color: var(--primary-color-darker);
+            border-color: var(--primary-color-darker);
+            transform: translateY(-2px);
+        }
+
+        .btn-decrypt {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--border-color);
+        }
+        
+        .btn-decrypt:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: rgba(205, 185, 125, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .output-container {
+            margin-top: 2.5rem;
+            position: relative;
+        }
+        
+        .output-area {
+            min-height: 120px;
+            background-color: var(--background-color);
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--border-color);
+            color: var(--text-muted);
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            opacity: 1;
+            background-color: var(--primary-color);
+            color: var(--button-text-color);
+        }
+        
+        .copy-feedback {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: var(--button-text-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        @media (max-width: 480px) {
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .container {
+                padding: 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <main class="container">
+        <h1>Codificador de Mensajes</h1>
+
+        <div class="form-group">
+            <label for="message">Mensaje</label>
+            <textarea id="message" class="input-field" rows="5" placeholder="Escribe tu texto aquí..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="key">Clave Numérica (Semilla)</label>
+            <input type="number" id="key" class="input-field" placeholder="Ej: 47" min="0">
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-encrypt" id="encrypt-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
+                Cifrar
+            </button>
+            <button class="btn btn-decrypt" id="decrypt-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
+                Descifrar
+            </button>
+        </div>
+
+        <div class="output-container">
+            <label for="result">Resultado</label>
+            <textarea id="result" class="output-area" readonly placeholder="El resultado aparecerá aquí..."></textarea>
+            <button class="copy-btn" id="copy-btn" title="Copiar al portapapeles">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+            <div class="copy-feedback" id="copy-feedback">¡Copiado!</div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Selección de Elementos del DOM ---
+            const messageInput = document.getElementById('message');
+            const keyInput = document.getElementById('key');
+            const encryptBtn = document.getElementById('encrypt-btn');
+            const decryptBtn = document.getElementById('decrypt-btn');
+            const resultOutput = document.getElementById('result');
+            const copyBtn = document.getElementById('copy-btn');
+            const copyFeedback = document.getElementById('copy-feedback');
+
+            /**
+             * LÓGICA DE CIFRADO FINAL Y VERIFICADA
+             * @param {string} text - El texto de entrada.
+             * @param {number} key - La clave numérica que actúa como semilla para rotar el mapa de sustitución.
+             * @param {string} mode - 'encrypt' o 'decrypt'.
+             * @returns {string} - El texto transformado.
+             */
+            function transformMessage(text, key, mode) {
+                if (isNaN(key) || keyInput.value === '') {
+                    alert('Por favor, introduce una clave numérica válida.');
+                    return '';
+                }
+
+                // MAPA DE CARACTERES ORIGINALES (97 caracteres)
+                const ORIGINAL_CHARS = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ñÑ";
+                
+                // MAPA DE SUSTITUCIÓN BASE (verificado 1 a 1 y sin auto-mapeo)
+                const BASE_SUBSTITUTION_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890,.-{}+*[]_!\"#$%&'()/?¡¿<>;:Ññ~`^|@=";
+
+                // La clave rota el alfabeto de sustitución para crear el mapa de cifrado final
+                const effectiveKey = key % ORIGINAL_CHARS.length;
+                const rotatedSubstitutionChars = 
+                    BASE_SUBSTITUTION_CHARS.slice(effectiveKey) + 
+                    BASE_SUBSTITUTION_CHARS.slice(0, effectiveKey);
+
+                // Determinar el origen y el destino del mapeo según el modo
+                let sourceAlphabet, targetAlphabet;
+                if (mode === 'encrypt') {
+                    sourceAlphabet = ORIGINAL_CHARS;
+                    targetAlphabet = rotatedSubstitutionChars;
+                } else { // modo 'decrypt'
+                    sourceAlphabet = rotatedSubstitutionChars;
+                    targetAlphabet = ORIGINAL_CHARS;
+                }
+                
+                // Crear un mapa (objeto) para una búsqueda más eficiente
+                const charMap = {};
+                for (let i = 0; i < sourceAlphabet.length; i++) {
+                    charMap[sourceAlphabet[i]] = targetAlphabet[i];
+                }
+
+                // Procesar cada caracter del texto
+                return text.split('').map(char => {
+                    // Si el caracter existe en el mapa, se sustituye. Si no, se deja igual.
+                    return charMap[char] || char;
+                }).join('');
+            }
+
+            // --- Manejadores de Eventos (sin cambios) ---
+
+            encryptBtn.addEventListener('click', () => {
+                const message = messageInput.value;
+                const key = parseInt(keyInput.value, 10);
+                resultOutput.value = transformMessage(message, key, 'encrypt');
+            });
+
+            decryptBtn.addEventListener('click', () => {
+                const message = messageInput.value;
+                const key = parseInt(keyInput.value, 10);
+                resultOutput.value = transformMessage(message, key, 'decrypt');
+            });
+
+            copyBtn.addEventListener('click', () => {
+                if (resultOutput.value) {
+                    const tempTextArea = document.createElement('textarea');
+                    tempTextArea.value = resultOutput.value;
+                    document.body.appendChild(tempTextArea);
+                    tempTextArea.select();
+                    try {
+                        document.execCommand('copy');
+                        copyFeedback.style.opacity = '1';
+                        setTimeout(() => {
+                            copyFeedback.style.opacity = '0';
+                        }, 2000);
+                    } catch (err) {
+                        alert('No se pudo copiar el texto.');
+                    }
+                    document.body.removeChild(tempTextArea);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
