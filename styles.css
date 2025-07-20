@@ -1,0 +1,1228 @@
+/* === Variables Globales === */
+:root {
+    --primary-color: #CDB97D;       /* Dorado */
+    --primary-color-darker: #b9a56a; /* Dorado oscuro para hover */
+    --background-color: #0D0D0D;    /* Negro más profundo */
+    --header-footer-color: #1a1a1a; /* Gris oscuro para header/footer */
+    --card-color: #222222;          /* Gris para las cards */
+    --text-color: #f0f0f0;          /* Blanco ligeramente apagado */
+    --text-muted: #a0a0a0;         /* Texto secundario/grisáceo */
+    --border-color: #333333;        /* Bordes sutiles */
+    --button-color: var(--primary-color); /* Botón usa color primario */
+    --button-text-color: #000000;   /* Texto negro para botón dorado */
+    --button-hover-color: var(--primary-color-darker);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.4);
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+    --transition-speed: 0.3s;
+
+    /* Variables específicas del Wordle */
+    --wordle-correct: var(--primary-color);
+    --wordle-present: #ffffff;
+    --wordle-absent: #3a3a3c;
+    --wordle-key-bg: #3a3a3c;
+    --wordle-border: rgb(66,66,66);
+}
+
+
+/* === ESTILOS PARA LA CUADRÍCULA Y TARJETAS DE PRODUCTO (ESTILO MINIMALISTA) === */
+
+/* Contenedor de la cuadrícula de productos */
+.product-grid-container {
+    display: grid;
+    /* Columnas flexibles con un tamaño mínimo */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2.5rem 1.5rem; /* Más espacio vertical, menos horizontal */
+    width: 100%;
+    padding: 1rem 0;
+  }
+  
+  /* Estilos para las tarjetas de producto (ahora minimalistas) */
+  .product-card {
+    /* Quita estilos de 'card' si los heredaba: fondo, borde, padding, sombra */
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    text-align: left; /* Alinea el texto a la izquierda por defecto */
+    display: flex; /* Mantenemos flex para controlar la dirección */
+    flex-direction: column;
+    transition: opacity var(--transition-speed) ease; /* Transición suave para hover */
+  }
+  
+  /* Enlace que envuelve la imagen */
+  .product-card .product-link-img {
+    display: block; /* Ocupa espacio */
+    margin-bottom: 0.75rem; /* Espacio entre imagen y texto */
+    text-decoration: none;
+  }
+  
+  /* Imagen del producto */
+  .product-card .product-image {
+    display: block;
+    width: 100%;
+    height: auto; /* Altura automática basada en aspect-ratio */
+    aspect-ratio: 2 / 3; /* Proporción 2:3 como solicitaste */
+    object-fit: cover; /* Cubre el área sin distorsionar */
+    border-radius: 0; /* Sin bordes redondeados para un look más limpio */
+    background-color: var(--card-color); /* Fondo oscuro mientras carga */
+  }
+  
+  /* Contenedor para la información de texto debajo de la imagen */
+  .product-card .product-info {
+    /* No necesita estilos especiales por ahora, agrupa los <p> */
+  }
+  
+  /* Párrafo genérico dentro de product-info (reset) */
+  .product-card .product-info p {
+      margin-bottom: 0.25rem; /* Espacio pequeño entre líneas de texto */
+      line-height: 1.4; /* Ajusta interlineado */
+  }
+  .product-card .product-info p:last-child {
+      margin-bottom: 0; /* Sin margen extra al final */
+  }
+  
+  
+  /* Marca del producto */
+  .product-card .product-brand {
+    font-size: 0.9rem; /* Tamaño ajustado */
+    font-weight: 600; /* Un poco más de peso */
+    color: var(--text-color); /* Color principal del texto */
+    text-transform: uppercase; /* Mayúsculas como en la referencia */
+  }
+  
+  /* Tipo/Nombre del producto */
+  .product-card .product-type {
+    font-size: 0.85rem; /* Ligeramente más pequeño */
+    color: var(--text-muted); /* Color secundario */
+    text-transform: uppercase; /* Mayúsculas */
+  }
+  
+  /* Precio del producto */
+  .product-card .product-price {
+    font-size: 0.9rem;
+    font-weight: 400; /* Peso normal */
+    color: var(--text-color); /* Color principal */
+    margin-top: 0.1rem; /* Pequeño ajuste si es necesario */
+  }
+  
+  /* Efectos Hover (opcional, más sutil) */
+  .product-card:hover {
+    opacity: 0.85; /* Ligeramente transparente al pasar el ratón */
+    /* Quita otros efectos hover de .card si los había */
+    transform: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
+  
+  
+  /* === Media Queries para la cuadrícula de productos (Ajustadas) === */
+  
+  @media (max-width: 992px) { /* Ajustado breakpoint */
+    /* 3 columnas en pantallas medianas/grandes */
+    .product-grid-container {
+       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+       gap: 2rem 1rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    /* 2 columnas en tablets */
+    .product-grid-container {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem 1rem;
+    }
+     /* Ajusta tamaños de fuente si es necesario para tablets */
+     .product-card .product-brand,
+     .product-card .product-price {
+         font-size: 0.85rem;
+     }
+      .product-card .product-type {
+         font-size: 0.8rem;
+     }
+  }
+  
+  @media (max-width: 480px) {
+    /* 2 columnas también en móviles pequeños, pero podrían ser más estrechas */
+    .product-grid-container {
+      /* Mantenemos auto-fit, el navegador decidirá si cabe 1 o 2 */
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem 0.75rem; /* Menos gap horizontal */
+    }
+     /* Reduce fuentes un poco más en móvil */
+     .product-card .product-brand,
+     .product-card .product-price {
+         font-size: 0.8rem;
+     }
+      .product-card .product-type {
+         font-size: 0.75rem;
+     }
+  }
+  
+  /* === FIN ESTILOS PRODUCTOS === */
+  
+
+  
+
+/* === Reseteo y Base === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+}
+
+/* === Contenedores y Clases Utilitarias === */
+.header-container, .footer-container, main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem; /* Padding más consistente */
+}
+
+main {
+    flex: 1; /* Ocupa el espacio restante */
+    display: flex; /* Centra el contenido si es necesario */
+    flex-direction: column;
+    align-items: center;
+    /* Ajuste para header fijo */
+    padding-top: calc(60px + 3rem); /* Altura aprox header + padding deseado */
+    padding-bottom: 3rem;
+}
+
+.logo-accent {
+    color: var(--primary-color);
+}
+
+/* === Header === */
+header {
+    width: 100%;
+    background-color: var(--header-footer-color);
+    padding: 1rem 0;
+    position: fixed; /* Cambiado a fixed para que esté siempre visible */
+    top: 0;
+    left: 0; /* Asegurar que ocupa todo el ancho */
+    z-index: 1000;
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid var(--border-color);
+    height: 60px; /* Altura fija para calcular padding de main */
+    display: flex; /* Para centrar verticalmente el contenido */
+    align-items: center; /* Para centrar verticalmente el contenido */
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Asegurar que el contenedor interno ocupe el ancho */
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease; /* Añadida transición */
+}
+.logo:hover .logo-accent{
+     color: var(--text-color); /* Al pasar sobre el logo, el acento se vuelve blanco */
+}
+.logo:hover {
+    color: var(--primary-color); /* El resto del logo se vuelve dorado */
+}
+
+/* === Navegación === */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem; /* Espacio entre elementos */
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    transition: color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+    font-weight: 600;
+    position: relative; /* Para el pseudo-elemento ::after */
+    border-bottom: 2px solid transparent; /* Espacio para el subrayado */
+}
+
+nav ul li a::after { /* Subrayado animado */
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px; /* Alineado con el borde inferior del padding */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color);
+    transition: width var(--transition-speed) ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: var(--primary-color);
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 100%; /* Muestra el subrayado en hover/active */
+}
+
+/* === Botón de Menú Móvil === */
+.menu-toggle {
+    display: none; /* Oculto por defecto */
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1; /* Evita altura extra */
+    transition: color var(--transition-speed) ease; /* Transición color */
+}
+.menu-toggle:hover {
+    color: var(--primary-color);
+}
+
+/* === Sección Principal y Tarjetas === */
+.cards-container {
+    display: grid;
+    /* Columnas auto-ajustables, mínimo 280px, máximo 1fr */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem; /* Más espacio entre tarjetas */
+    width: 100%;
+}
+
+.card {
+    background-color: var(--card-color);
+    border-radius: 8px;
+    padding: 2rem; /* Más padding interno */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Alinea el botón abajo */
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+
+.card:hover {
+    transform: translateY(-6px); /* Efecto de elevación */
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color); /* Borde dorado al pasar el ratón */
+}
+
+.card h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+}
+
+.card p {
+    margin-bottom: 1.5rem;
+    color: var(--text-muted); /* Texto más suave */
+    flex-grow: 1; /* Empuja el botón hacia abajo si el texto es corto */
+}
+
+.card button, .card .card-button-link /* Aplicar estilos a botones y links con esa clase */ {
+    background-color: var(--button-color);
+    color: var(--button-text-color) !important; /* !important para links */
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    align-self: center; /* Centra el botón si es más estrecho que la card */
+    min-width: 120px; /* Ancho mínimo para el botón */
+    text-decoration: none; /* Para asegurar si se usa como link */
+    display: inline-block; /* Para que padding funcione bien */
+    text-align: center; /* Centrar texto en el botón/link */
+}
+
+.card button:hover:not(:disabled),
+.card .card-button-link:hover {
+    background-color: var(--button-hover-color);
+    transform: scale(1.05); /* Ligero agrandamiento */
+    color: var(--button-text-color) !important; /* Mantener color en hover para links */
+}
+
+.card button:disabled {
+    background-color: #555; /* Gris oscuro para deshabilitado */
+    color: #999 !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none; /* Quitar efecto hover */
+}
+
+/* === Footer === */
+footer {
+    width: 100%;
+    background-color: var(--header-footer-color);
+    padding: 1.5rem 0; /* Reducido de 3.5rem a 1.5rem */
+    margin-top: auto;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-info p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.footer-info a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+
+.footer-info a:hover {
+    color: var(--primary-color);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    transition: color var(--transition-speed) ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .footer-info {
+        align-items: center;
+    }
+}
+
+/* === Media Queries === */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Mostrar en móvil */
+    }
+
+    nav ul {
+        display: none; /* Ocultar menú por defecto en móvil */
+        position: absolute;
+        top: 60px; /* Altura del header */
+        left: 0;
+        width: 100%;
+        background-color: var(--header-footer-color);
+        padding: 1rem;
+        flex-direction: column;
+        align-items: center;
+        border-top: 1px solid var(--border-color);
+        box-shadow: var(--shadow-md);
+    }
+
+    nav ul.active {
+        display: flex; /* Mostrar cuando tenga la clase active */
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* ========== WORDLE STYLES ========== */
+.wordle-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    min-height: calc(100vh - 200px);
+    gap: 0.5rem;
+}
+
+/* Estilos del tablero */
+#board-wrapper {
+    width: 100%;
+    max-width: 300px; /* Reducido de 342.5px */
+    padding: 5px;
+    box-sizing: border-box;
+    margin-bottom: 10px; /* Reducido de 20px */
+    overflow-x: hidden;
+}
+
+#board {
+    display: grid;
+    grid-template-rows: repeat(6, auto);
+    gap: 4px; /* Reducido de 5px */
+    width: 100%;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px; /* Reducido de 5px */
+    justify-content: center;
+    width: 100%;
+}
+
+/* Animaciones */
+@keyframes flip {
+    0% {
+        transform: rotateX(0);
+    }
+    49% {
+        color: var(--text-color);
+        opacity: 1;
+    }
+    50% {
+        transform: rotateX(90deg);
+        background-color: transparent;
+        color: transparent;
+        opacity: 0;
+    }
+    51% {
+        background-color: inherit;
+        color: var(--text-color);
+        opacity: 1;
+    }
+    100% {
+        transform: rotateX(180deg);
+    }
+}
+
+@keyframes bounce {
+    0%, 20% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-5px);
+    }
+    50% {
+        transform: translateY(5px);
+    }
+    60% {
+        transform: translateY(-2px);
+    }
+    80% {
+        transform: translateY(2px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes shine {
+  0% {
+    box-shadow: 0 0 0 0 rgba(205,185,125,0.0), 0 0 0 0 rgba(255,255,255,0.0);
+  }
+  40% {
+    box-shadow: 0 0 8px 2px rgba(205,185,125,0.7), 0 0 16px 4px rgba(255,255,255,0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(205,185,125,0.0), 0 0 0 0 rgba(255,255,255,0.0);
+  }
+}
+
+.cell {
+    aspect-ratio: 1;
+    width: 100%;
+    border: 2px solid var(--wordle-border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    box-sizing: border-box;
+    user-select: none;
+    color: var(--text-color);
+    position: relative;
+    perspective: 800px;
+    backface-visibility: hidden;
+    transform-origin: center bottom;
+    overflow: hidden;
+}
+.cell-front, .cell-back {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: inherit;
+    border-radius: inherit;
+    backface-visibility: hidden;
+    transition: background 0.2s, color 0.2s;
+    will-change: transform;
+}
+.cell-front {
+    background: transparent;
+    color: var(--text-color);
+    z-index: 2;
+    transform: rotateX(0deg);
+}
+.cell-back {
+    background: transparent;
+    color: var(--text-color);
+    z-index: 1;
+    transform: rotateX(180deg);
+}
+.cell.correct .cell-back {
+    background: var(--wordle-correct);
+    color: white;
+}
+.cell.present .cell-back {
+    background: #fff !important;
+    color: #222 !important;
+}
+.cell.absent .cell-back {
+    background: var(--wordle-absent);
+    color: white;
+}
+.cell.flip .cell-front {
+    animation: flip3d-front 0.22s linear forwards;
+}
+.cell.flip .cell-back {
+    animation: flip3d-back 0.22s linear forwards;
+}
+@keyframes flip3d-front {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(180deg); }
+}
+@keyframes flip3d-back {
+    0% { transform: rotateX(180deg); }
+    100% { transform: rotateX(360deg); }
+}
+
+.cell.present,
+.cell.present .cell-front,
+.cell.present .cell-back,
+.cell-back.present {
+    background: #fff !important;
+    border-color: #fff !important;
+    color: #222 !important;
+}
+
+.key.present {
+    background-color: #fff !important;
+    color: #222 !important;
+}
+
+.key-bg {
+    background-color: #3a3a3c !important;
+}
+
+.key.absent {
+    background-color: #1a1a1a !important;
+    color: var(--text-color);
+}
+
+.cell.current {
+  border-color: var(--wordle-correct);
+}
+
+.cell.bounce {
+    animation: bounce 0.3s cubic-bezier(0.36, 0, 0.66, -0.56) forwards;
+}
+
+.cell.shine {
+  animation: shine 0.12s linear;
+  z-index: 2;
+}
+
+/* Eliminar todos los delays de animación */
+.cell:nth-child(1),
+.cell:nth-child(2),
+.cell:nth-child(3),
+.cell:nth-child(4),
+.cell:nth-child(5) {
+    animation-delay: 0s;
+}
+
+.cell.correct,
+.cell.present,
+.cell.absent {
+    transition: none;
+}
+
+.cell.correct {
+    background-color: var(--wordle-correct);
+    border-color: var(--wordle-correct);
+    color: white;
+}
+
+.cell.present {
+    background-color: var(--wordle-present);
+    border-color: var(--wordle-present);
+    color: #222 !important;
+}
+
+.cell.absent {
+    background-color: var(--wordle-absent);
+    border-color: var(--wordle-absent);
+    color: white;
+}
+
+/* Estilos del teclado */
+#keyboard-wrapper {
+    width: 100%;
+    max-width: 450px; /* Reducido de 533px */
+    box-sizing: border-box;
+    margin-bottom: 5px; /* Reducido de 10px */
+    padding: 0 8px;
+    overflow-x: hidden;
+}
+
+#keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Reducido de 7px */
+    width: 100%;
+}
+
+.kb-grid, .kb-flex {
+    display: grid;
+    gap: 5px; /* Reducido de 7px */
+    width: 100%;
+}
+
+.kb-grid {
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.kb-flex {
+  grid-template-columns: 1.5fr repeat(7, 1fr) 1.5fr;
+}
+
+.key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px; /* Reducido de 56px */
+    font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+    background-color: var(--wordle-key-bg);
+    color: var(--text-color);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin: 0;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0;
+    outline: none;
+}
+
+.key:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.key:active {
+    outline: none;
+    box-shadow: none;
+}
+
+.key.letter {
+  width: 100%;
+}
+
+.kb-flex .key.special {
+  width: 100%;
+}
+
+.key.pressed {
+  transform: scale(0.95);
+}
+
+.key.correct {
+  background-color: var(--wordle-correct);
+  color: white;
+}
+
+.key.present {
+  background-color: var(--wordle-present);
+  color: #000000;
+}
+
+.key.absent {
+  background-color: var(--wordle-absent);
+  color: var(--text-color);
+}
+
+.key:hover {
+  filter: brightness(1.15);
+}
+
+/* Mensaje */
+#message {
+  font-size: 1.2em;
+  margin-top: 10px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+/* Media queries para responsividad */
+@media (max-width: 600px) {
+  main {
+    padding: 2rem 0.5rem;
+  }
+  
+  #keyboard-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 4px;
+    max-width: 100%;
+  }
+  
+  #keyboard {
+    gap: 3px;
+    width: 100%;
+  }
+  
+  .kb-grid, .kb-flex {
+    gap: 3px;
+    width: 100%;
+  }
+  
+  .key {
+    min-height: 45px;
+    height: 45px;
+    font-size: 0.95rem;
+    padding: 0;
+  }
+  
+  .key.letter {
+    width: 100%;
+  }
+  
+  .kb-flex .key.special {
+    width: 100%;
+  }
+  
+  .key.special svg {
+    width: 16px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 340px) {
+  main {
+    padding: 2rem 0.25rem;
+  }
+  
+  #keyboard-wrapper {
+    padding: 0 2px;
+    max-width: 100%;
+  }
+  
+  .kb-grid, .kb-flex {
+    gap: 2px;
+  }
+  
+  .key {
+    min-height: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Asegurar que el header en wordle.html use la misma tipografía */
+.logo {
+    font-family: var(--font-heading) !important;
+}
+
+/* === AYUDA WORDLE === */
+.wordle-help-container {
+    position: absolute;
+    top: 18px;
+    right: 32px;
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.wordle-help-icon {
+    background: var(--background-color);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #0005;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    position: relative;
+}
+.wordle-help-icon:hover,
+.wordle-help-container:hover .wordle-help-icon {
+    background: var(--primary-color);
+    color: #181818;
+    border-color: #fff3c2;
+}
+.wordle-help-popup {
+    display: none;
+    position: absolute;
+    top: 44px;
+    right: 0;
+    left: auto;
+    bottom: auto;
+    min-width: 270px;
+    background: #181818;
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    box-shadow: 0 6px 32px #000a;
+    padding: 1.1em 1.3em 1.1em 1.1em;
+    color: var(--text-color);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    z-index: 1003;
+    animation: wordle-help-fadein 0.18s;
+}
+.wordle-help-container:hover .wordle-help-popup,
+.wordle-help-icon:focus + .wordle-help-popup {
+    display: block;
+}
+@keyframes wordle-help-fadein {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.wordle-help-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    margin-bottom: 0.7em;
+}
+.wordle-help-row:last-child {
+    margin-bottom: 0;
+}
+.wordle-help-square {
+    width: 1.7em;
+    height: 1.7em;
+    border-radius: 6px;
+    display: inline-block;
+    border: 2.5px solid #fff3c2;
+    box-shadow: 0 2px 8px #0002;
+}
+.wordle-help-square.gold {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.wordle-help-square.white {
+    background: #fff;
+    border-color: #fff;
+}
+.wordle-help-square.gray {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+}
+.wordle-help-text {
+    color: var(--text-color);
+    font-size: 1em;
+    font-family: var(--font-body);
+    letter-spacing: 0.2px;
+}
+@media (max-width: 600px) {
+    .wordle-help-container {
+        top: 10px;
+        right: 10px;
+    }
+    .wordle-help-popup {
+        min-width: 180px;
+        font-size: 0.95em;
+        padding: 0.7em 0.7em 0.7em 0.7em;
+    }
+    .wordle-help-square {
+        width: 1.2em;
+        height: 1.2em;
+    }
+}
+
+/* === ESTILOS ESPECÍFICOS PARA EL CONTENIDO DE 'CONTACTO.HTML' === */
+/* Estos estilos definen la estructura general del área de contenido
+   para páginas como 'Contacto', usando secciones. */
+
+/* Ajuste del padding superior del body si el header es fijo */
+/* (Asegúrate de que esto esté en tu CSS base o ajústalo según sea necesario) */
+body {
+    /* Necesario si el header cargado dinámicamente tiene position: fixed; */
+    /* Ajusta el valor (60px) si la altura de tu header es diferente */
+    padding-top: 60px;
+  }
+  
+  /* Estilos para el contenedor principal de la página "Contacto" */
+  /* Puedes usar un ID o clase específica en el <main> si quieres aislar más estos estilos */
+  /* Ejemplo: <main id="contact-main"> */
+  main {
+      /* Hereda max-width y margin de la regla general */
+      padding-top: 3rem; /* Espacio superior dentro de main */
+      padding-bottom: 3rem; /* Espacio inferior dentro de main */
+      /* Hereda flex y align-items de la regla general */
+      text-align: center; /* Centra el H1 por defecto */
+  }
+  
+  /* Título principal de la página */
+  main h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      font-family: var(--font-heading);
+  }
+  
+  /* Contenedor de las secciones dentro de main */
+  .content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      width: 100%;
+      max-width: 900px; /* Limita el ancho del contenido principal */
+      margin-left: auto; /* Centra el contenedor .content */
+      margin-right: auto; /* Centra el contenedor .content */
+  }
+  
+  /* Estilo base para cualquier sección dentro de .content */
+  .section {
+      background-color: var(--card-color);
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      text-align: left; /* Alinea el texto a la izquierda por defecto */
+      border: 1px solid var(--border-color);
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  }
+  
+  .section:hover {
+      transform: translateY(-4px); /* Efecto elevación suave */
+      box-shadow: var(--shadow-lg); /* Sombra más pronunciada */
+  }
+  
+  /* Títulos dentro de cada sección */
+  .section h2 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+  }
+  
+  /* Párrafos dentro de cada sección */
+  .section p {
+      color: var(--text-muted);
+      line-height: 1.7; /* Mejora legibilidad */
+      margin-bottom: 1rem; /* Espacio por defecto debajo de los párrafos */
+  }
+  .section p:last-child {
+      margin-bottom: 0; /* Elimina margen inferior del último párrafo en la sección */
+  }
+  
+  /* Estilos para enlaces dentro de párrafos de sección */
+  .section p a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      transition: color var(--transition-speed) ease;
+  }
+  
+  .section p a:hover {
+      color: var(--primary-color);
+  }
+  
+  /* === Media Queries Específicas para la estructura de contenido === */
+  /* (Ajustan padding y tamaños de fuente generales dentro de main) */
+  
+  @media (max-width: 768px) {
+    /* Ajustes para pantallas medianas */
+    main {
+        padding-top: 2rem; /* Reduce padding superior */
+        padding-bottom: 2rem; /* Reduce padding inferior */
+        padding-left: 1rem; /* Reduce padding lateral */
+        padding-right: 1rem; /* Reduce padding lateral */
+    }
+  
+    main h1 {
+        font-size: 2rem; /* Reduce tamaño del título principal */
+    }
+  
+    .section h2 {
+        font-size: 1.5rem; /* Reduce tamaño de títulos de sección */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* Ajustes para pantallas pequeñas */
+     main h1 {
+        font-size: 1.8rem; /* Reduce más el título principal */
+     }
+     .section {
+         padding: 1.5rem; /* Reduce padding interno de las secciones */
+     }
+     .section h2 {
+         font-size: 1.3rem; /* Reduce más los títulos de sección */
+     }
+  }
+  
+  /* === FIN ESTILOS ESPECÍFICOS PARA 'CONTACTO.HTML' === */
+  
+  /* NOTA: Si tu página de contacto incluye un formulario, necesitarás añadir
+     estilos específicos para los campos (input, textarea, label), botones, etc.
+     Esos estilos no están incluidos aquí. */
+  
+.wordle-help-bottom {
+    position: fixed !important;
+    top: 80px;
+    right: 32px;
+    bottom: auto !important;
+    left: auto !important;
+    z-index: 2000;
+    align-items: flex-end;
+}
+.wordle-help-bottom .wordle-help-popup {
+    top: 44px;
+    right: 0;
+    left: auto;
+    bottom: auto;
+    min-width: 210px;
+    max-width: 270px;
+    padding: 0.8em 1em 0.8em 1em;
+    border-radius: 10px;
+    box-shadow: 0 6px 32px #000a;
+    display: none;
+}
+.wordle-help-bottom:hover .wordle-help-popup,
+.wordle-help-bottom .wordle-help-icon:focus + .wordle-help-popup {
+    display: block;
+}
+.wordle-help-popup::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: 18px;
+    left: auto;
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent var(--primary-color) transparent;
+    filter: drop-shadow(0 2px 2px #0005);
+}
+.wordle-help-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-bottom: 0.5em;
+}
+.wordle-help-row:last-child {
+    margin-bottom: 0;
+}
+.wordle-help-square {
+    width: 1.3em;
+    height: 1.3em;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1em;
+    border: 2px solid #fff3c2;
+    box-shadow: 0 2px 8px #0002;
+    color: #222;
+    background: #fff;
+}
+.wordle-help-square.gold {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+.wordle-help-square.gray {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+    color: #fff;
+}
+.wordle-help-text {
+    color: var(--text-color);
+    font-size: 0.98em;
+    font-family: var(--font-body);
+    letter-spacing: 0.2px;
+    white-space: normal;
+}
+@media (max-width: 600px) {
+    .wordle-help-bottom {
+        top: 64px;
+        right: 10px;
+        bottom: auto !important;
+    }
+    .wordle-help-bottom .wordle-help-popup {
+        top: 40px;
+        right: 0;
+        left: auto;
+        min-width: 140px;
+        max-width: 180px;
+        font-size: 0.93em;
+        padding: 0.5em 0.5em 0.5em 0.5em;
+    }
+    .wordle-help-popup::before {
+        right: 12px;
+        left: auto;
+    }
+    .wordle-help-square {
+        width: 1em;
+        height: 1em;
+        font-size: 0.95em;
+    }
+}
+  

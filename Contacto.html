@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto</title> <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main>
+    <h1>Contacto</h1>
+    <div class="content">
+      <div class="section">
+        <h2>Nuestra historia</h2>
+        <p>Soy un joven al que le encanta explorar la tecnología y cuya cabeza no para quieta. Aprendo de todo lo que hago, pero sobre todo de lo que me apasiona. Y oye, no hace falta ser programador ni un experto en nada para hacer cosas chulas, solo echarle ganas, aprender cositas y poco a poco construir algo que te mola.</p>
+       </div>
+
+       <div class="section">
+        <h2>Información Directa</h2>
+      
+        <table style="width: 100%; border-collapse: collapse; text-align: center;"> <tbody>
+            <tr>
+              <td style="vertical-align: top; padding: 10px;"> <p><strong style="font-size: 1.1em; color: white;">Teléfono:</strong></p>
+                <p>Demasiada confianza</p>
+              </td>
+      
+              <td style="vertical-align: top; padding: 10px;"> <p><strong style="font-size: 1.1em; color: white;">Email:</strong></p>
+                <p><a href="mailto:feernandezpablo@gmail.com">feernandezpablo@gmail.com</a></p>
+              </td>
+      
+              <td style="vertical-align: top; padding: 10px;"> <p><strong style="font-size: 1.1em; color: white;">Horario:</strong></p>
+                <p>Cuando tengo tiempo</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      
+      
+
+      <div class="content">
+
+    </div>
+
+  
+
+
+  </main>
+
+
+
+
+  <div id="footer-placeholder"></div>
+
+  <script>
+    // Función para cargar el header
+    async function loadHeader() {
+        try {
+            const response = await fetch('header.html'); // Carga header.html
+            if (!response.ok) { // Comprueba si la carga fue exitosa
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const html = await response.text(); // Obtiene el HTML como texto
+            const headerPlaceholder = document.getElementById('header-placeholder'); // Busca el div placeholder
+            if (headerPlaceholder) {
+                headerPlaceholder.innerHTML = html; // Inserta el HTML del header
+                // Inicialización del menú móvil DESPUÉS de cargar el header
+                const menuToggle = headerPlaceholder.querySelector('.menu-toggle'); // Busca el botón dentro del header cargado
+                const nav = headerPlaceholder.querySelector('nav ul'); // Busca la lista nav dentro del header cargado
+                if (menuToggle && nav) {
+                    // Añade el evento para mostrar/ocultar el menú
+                    menuToggle.addEventListener('click', () => {
+                        nav.classList.toggle('active');
+                    });
+                } else {
+                    // Advertencia si no se encuentran los elementos del menú
+                    console.warn('Menu toggle button or nav list not found in loaded header.');
+                }
+            } else {
+                // Error si no se encuentra el div placeholder
+                console.error('Placeholder element with ID "header-placeholder" not found.');
+            }
+        } catch (error) {
+            // Captura errores durante la carga del header
+            console.error('Error loading header:', error);
+            const headerPlaceholder = document.getElementById('header-placeholder');
+            // Muestra un mensaje de error en la página si falla la carga
+            if (headerPlaceholder) {
+                headerPlaceholder.innerHTML = '<p style="color: red; text-align: center;">Error al cargar el encabezado.</p>';
+            }
+        }
+    }
+
+
+    
+    // Función para cargar el footer
+    async function loadFooter() {
+        try {
+            const response = await fetch('footer.html'); // Carga footer.html
+            if (!response.ok) { // Comprueba si la carga fue exitosa
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const html = await response.text(); // Obtiene el HTML como texto
+            const footerPlaceholder = document.getElementById('footer-placeholder'); // Busca el div placeholder
+            if (footerPlaceholder) {
+                footerPlaceholder.innerHTML = html; // Inserta el HTML del footer
+            } else {
+                // Error si no se encuentra el div placeholder
+                console.error('Placeholder element with ID "footer-placeholder" not found.');
+            }
+        } catch (error) {
+            // Captura errores durante la carga del footer
+            console.error('Error loading footer:', error);
+            const footerPlaceholder = document.getElementById('footer-placeholder');
+             // Muestra un mensaje de error en la página si falla la carga
+            if (footerPlaceholder) {
+                footerPlaceholder.innerHTML = '<p style="color: red; text-align: center;">Error al cargar el pie de página.</p>';
+            }
+        }
+    }
+
+    // Ejecuta las funciones de carga cuando el DOM inicial esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+        loadHeader();
+        loadFooter();
+        // Marcar el enlace activo en el header
+        setTimeout(() => {
+            const navLinks = document.querySelectorAll('nav ul li a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === 'contacto.html') {
+                    link.classList.add('active');
+                }
+            });
+        }, 50);
+    });
+  </script>
+
+
+
+</body>
+
+
+
+</html>

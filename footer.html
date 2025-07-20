@@ -1,0 +1,28 @@
+<!-- Footer -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-info">
+            <p>© 2025 | Nixuslab</p>
+            <p>Todos los derechos reservados | <a href="Sobre-nosotros.html">Contacto</a></p>
+        </div>
+        <div class="social-links">
+            <a href="https://www.instagram.com/nixuslab/" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Actualizar el año automáticamente
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>
+
+<!-- IMPORTANTE: Para que este footer funcione correctamente al integrarlo -->
+<!-- en otras páginas, asegúrate de que esas páginas también incluyan: -->
+<!-- 1. El CSS (ya sea en <style> o un archivo .css vinculado) que define -->
+<!--    las clases: footer, footer-container, footer-info, social-links, etc. -->
+<!-- 2. La librería Font Awesome (si no está ya incluida globalmente) para -->
+<!--    que se muestre el icono de Instagram (<i class="fab fa-instagram"></i>). -->
+<!-- 3. El script JavaScript (o uno similar) que busca el elemento con -->
+<!--    id="currentYear" y le inserta el año actual. -->

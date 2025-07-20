@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NIXUS ESSENTIAL - Producto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NIXUS ESSENTIAL - Detalles del producto">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .product-amazon-structure {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            padding: 0 1.5rem;
+        }
+        .product-thumbnails-amazon {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+        .product-thumbnails-amazon img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border 0.2s;
+        }
+        .product-thumbnails-amazon img.selected {
+            border: 2px solid var(--primary-color, #007bff);
+        }
+        .product-image-main-amazon, #main-product-image {
+            width: 100%;
+            max-width: 100%;
+            aspect-ratio: 2/3;
+            height: auto;
+            object-fit: cover;
+            border-radius: 0;
+            background-color: var(--card-color);
+            box-shadow: none;
+        }
+        .product-main-image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-width: 250px;
+            max-width: 350px;
+            width: 100%;
+        }
+        .product-info-panel {
+            flex: 1;
+            background: var(--card-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            padding: 2rem 2rem 1.5rem 2rem;
+            max-width: 400px;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            text-align: left;
+        }
+        .product-title {
+            font-size: 2rem;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+        .product-price-detail {
+            font-size: 1.5rem;
+            color: var(--primary-color, #007bff);
+            font-weight: bold;
+        }
+        .product-stock {
+            color: #1a7f37;
+            font-weight: 600;
+        }
+        .product-description {
+            color: #fff;
+            font-size: 1rem;
+        }
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .btn {
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            background: transparent;
+            transition: background var(--transition-speed), color var(--transition-speed), border var(--transition-speed);
+        }
+        .add-to-cart {
+            border: 2px solid #fff;
+            color: #fff;
+        }
+        .add-to-cart:hover {
+            background: #fff;
+            color: #000;
+        }
+        .buy-now {
+            border: 2px solid var(--primary-color);
+            color: #fff;
+        }
+        .buy-now:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+        .product-quantity {
+            width: 60px;
+            padding: 0.3rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 0.5rem;
+        }
+        .product-key-features {
+            background: #f7f7f7;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.98rem;
+            margin-top: 1rem;
+        }
+        /* Selector de cantidad personalizado */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .quantity-btn {
+            background: var(--card-color);
+            color: #fff;
+            border: 1.5px solid var(--border-color);
+            border-radius: 4px;
+            width: 32px;
+            height: 32px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quantity-btn:hover {
+            background: var(--primary-color);
+            color: #000;
+        }
+        .quantity-input {
+            width: 48px;
+            text-align: center;
+            font-size: 1.1rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--card-color);
+            color: #fff;
+            padding: 0.2rem 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <main>
+        <div class="product-amazon-structure">
+            <!-- Miniaturas -->
+            <div class="product-thumbnails-amazon">
+                <img src="nixus-essential-1.webp" alt="NIXUS ESSENTIAL vista 1" class="selected" data-img="nixus-essential-1.webp">
+                <img src="nixus-essential-2.webp" alt="NIXUS ESSENTIAL vista 2" data-img="nixus-essential-2.webp">
+            </div>
+            <!-- Imagen principal -->
+            <div class="product-main-image-container">
+                <img id="main-product-image" src="nixus-essential-1.webp" alt="NIXUS ESSENTIAL vista principal" class="product-image-main-amazon">
+            </div>
+            <!-- Panel derecho -->
+            <div class="product-info-panel">
+                <h1 class="product-title">NIXUS ESSENTIAL</h1>
+                <p class="product-description">
+                    El NIXUS ESSENTIAL es el equipo perfecto para quienes buscan fiabilidad y rendimiento en tareas diarias. Equipado con componentes de última generación, ofrece una experiencia fluida tanto en el trabajo como en el ocio. Su diseño compacto y elegante encaja en cualquier espacio.
+                </p>
+                <div class="product-price-detail">Desde <span style="color: var(--primary-color);">249 €</span></div>
+                <div class="product-stock" style="color: #b30000;">Sin stock</div>
+                <label for="product-quantity">Cantidad:</label>
+                <div class="quantity-selector">
+                    <button type="button" class="quantity-btn" id="decrease-qty" aria-label="Disminuir cantidad" disabled>-</button>
+                    <input type="number" id="product-quantity" class="quantity-input" value="0" min="0" max="0" readonly>
+                    <button type="button" class="quantity-btn" id="increase-qty" aria-label="Aumentar cantidad" disabled>+</button>
+                </div>
+                <div class="product-actions">
+                    <button class="btn add-to-cart" disabled style="opacity:0.6; cursor:not-allowed;"><i class="fa fa-shopping-cart"></i> Añadir a la cesta</button>
+                    <button class="btn buy-now" disabled style="opacity:0.6; cursor:not-allowed;"><i class="fa fa-credit-card"></i> Comprar ya</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <script>
+        // Carrusel de imágenes estilo Amazon
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar header y footer
+            loadHeader();
+            loadFooter();
+
+            // Carrusel
+            const mainImage = document.getElementById('main-product-image');
+            const thumbnails = document.querySelectorAll('.product-thumbnails-amazon img');
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', function() {
+                    mainImage.src = this.getAttribute('data-img');
+                    thumbnails.forEach(t => t.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            // Selector de cantidad personalizado
+            const qtyInput = document.getElementById('product-quantity');
+            document.getElementById('decrease-qty').addEventListener('click', () => {
+                let value = parseInt(qtyInput.value, 10);
+                if (value > 1) qtyInput.value = value - 1;
+            });
+            document.getElementById('increase-qty').addEventListener('click', () => {
+                let value = parseInt(qtyInput.value, 10);
+                if (value < 99) qtyInput.value = value + 1;
+            });
+        });
+
+        // Función para cargar el header
+        async function loadHeader() {
+            try {
+                const response = await fetch('header.html');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const html = await response.text();
+                const headerPlaceholder = document.getElementById('header-placeholder');
+                if (headerPlaceholder) {
+                    headerPlaceholder.innerHTML = html;
+                    // Inicializar menú móvil
+                    const menuToggle = headerPlaceholder.querySelector('.menu-toggle');
+                    const nav = headerPlaceholder.querySelector('nav ul');
+                    if (menuToggle && nav) {
+                        menuToggle.addEventListener('click', () => nav.classList.toggle('active'));
+                    }
+                }
+            } catch (error) {
+                const headerPlaceholder = document.getElementById('header-placeholder');
+                if (headerPlaceholder) headerPlaceholder.innerHTML = '<p style="color: red; text-align: center;">Error al cargar el encabezado.</p>';
+            }
+        }
+        // Función para cargar el footer
+        async function loadFooter() {
+            try {
+                const response = await fetch('footer.html');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const html = await response.text();
+                const footerPlaceholder = document.getElementById('footer-placeholder');
+                if (footerPlaceholder) {
+                    footerPlaceholder.innerHTML = html;
+                }
+            } catch (error) {
+                const footerPlaceholder = document.getElementById('footer-placeholder');
+                if (footerPlaceholder) footerPlaceholder.innerHTML = '<p style="color: red; text-align: center;">Error al cargar el pie de página.</p>';
+            }
+        }
+    </script>
+</body>
+</html> 

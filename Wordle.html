@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Wordle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header placeholder -->
+  <div id="header-placeholder"></div>
+
+  <!-- Icono de ayuda flotante abajo derecha -->
+  <div class="wordle-help-container wordle-help-bottom">
+    <div class="wordle-help-icon"><i class="fas fa-question"></i></div>
+    <div class="wordle-help-popup">
+      <div class="wordle-help-row">
+        <span class="wordle-help-square gold">A</span>
+        <span class="wordle-help-text">= posición correcta</span>
+      </div>
+      <div class="wordle-help-row">
+        <span class="wordle-help-square white">A</span>
+        <span class="wordle-help-text">= letra en la palabra, pero en otra posición</span>
+      </div>
+      <div class="wordle-help-row">
+        <span class="wordle-help-square gray">A</span>
+        <span class="wordle-help-text">= letra no está en la palabra</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+    <h1>Wordle</h1>
+
+    <!-- TABLERO -->
+    <div id="board-wrapper">
+      <div id="board"></div>
+    </div>
+
+    <!-- TECLADO -->
+    <div id="keyboard-wrapper">
+      <div id="keyboard">
+        <!-- Primera fila (Q a P) -->
+        <div class="kb-grid">
+          <button class="key letter" data-key="Q" aria-label="q">Q</button>
+          <button class="key letter" data-key="W" aria-label="w">W</button>
+          <button class="key letter" data-key="E" aria-label="e">E</button>
+          <button class="key letter" data-key="R" aria-label="r">R</button>
+          <button class="key letter" data-key="T" aria-label="t">T</button>
+          <button class="key letter" data-key="Y" aria-label="y">Y</button>
+          <button class="key letter" data-key="U" aria-label="u">U</button>
+          <button class="key letter" data-key="I" aria-label="i">I</button>
+          <button class="key letter" data-key="O" aria-label="o">O</button>
+          <button class="key letter" data-key="P" aria-label="p">P</button>
+        </div>
+        <!-- Segunda fila (A a Ñ) -->
+        <div class="kb-grid">
+          <button class="key letter" data-key="A" aria-label="a">A</button>
+          <button class="key letter" data-key="S" aria-label="s">S</button>
+          <button class="key letter" data-key="D" aria-label="d">D</button>
+          <button class="key letter" data-key="F" aria-label="f">F</button>
+          <button class="key letter" data-key="G" aria-label="g">G</button>
+          <button class="key letter" data-key="H" aria-label="h">H</button>
+          <button class="key letter" data-key="J" aria-label="j">J</button>
+          <button class="key letter" data-key="K" aria-label="k">K</button>
+          <button class="key letter" data-key="L" aria-label="l">L</button>
+          <button class="key letter" data-key="Ñ" aria-label="ñ">Ñ</button>
+        </div>
+        <!-- Tercera fila (Enviar, Z a M, Borrar) -->
+        <div class="kb-flex">
+          <button class="key special" data-key="tick" aria-label="enviar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                 stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:30px;">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          </button>
+          <button class="key letter" data-key="Z" aria-label="z">Z</button>
+          <button class="key letter" data-key="X" aria-label="x">X</button>
+          <button class="key letter" data-key="C" aria-label="c">C</button>
+          <button class="key letter" data-key="V" aria-label="v">V</button>
+          <button class="key letter" data-key="B" aria-label="b">B</button>
+          <button class="key letter" data-key="N" aria-label="n">N</button>
+          <button class="key letter" data-key="M" aria-label="m">M</button>
+          <button class="key special" data-key="⌫" aria-label="borrar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                 stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:30px;">
+              <path d="M10 5a2 2 0 0 0-1.344.519l-6.328 5.74a1 1 0 0 0 0 1.481l6.328 5.741A2 2 0 0 0 10 19h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"></path>
+              <path d="M12 9l6 6"></path>
+              <path d="M18 9l-6 6"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENSAJE -->
+    <div id="message"></div>
+  </main>
+
+  <!-- Footer placeholder -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Scripts -->
+  <script>
+    // Cargar header y footer
+    async function loadHeader() {
+      try {
+        const response = await fetch('header.html');
+        const html = await response.text();
+        document.getElementById('header-placeholder').innerHTML = html;
+      } catch (error) {
+        console.error('Error loading header:', error);
+      }
+    }
+
+    async function loadFooter() {
+      try {
+        const response = await fetch('footer.html');
+        const html = await response.text();
+        document.getElementById('footer-placeholder').innerHTML = html;
+      } catch (error) {
+        console.error('Error loading footer:', error);
+      }
+    }
+
+    // Cargar componentes al iniciar
+    loadHeader();
+    loadFooter();
+  </script>
+  <script src="wordle.js"></script>
+</body>
+</html>

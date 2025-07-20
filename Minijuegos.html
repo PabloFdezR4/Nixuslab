@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nixuslab - Minijuegos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nixuslab - Minijuegos y Proyectos">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome (para icono de menú y otros) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- El header se cargará dinámicamente aquí -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <div class="card card-informativa" style="max-width: 1000px; margin: 0 auto 2.2em auto; width: 100%; text-align: left;">
+            <h2 style="margin-bottom:0.5em;">Deja de perder el tiempo</h2>
+            <p style="font-size:1.15em;">Prueba alguno de nuestros mini juegos.</p>
+        </div>
+            <div class="card">
+                <h3>Wordle</h3>
+                <p>Un divertido juego de adivinanza de palabras diario.</p>
+                <!-- Cambiado a etiqueta 'a' para comportarse como link, estilizado como botón -->
+                <a href="Wordle.html" class="card-button-link">¡Jugar!</a>
+            </div>
+            <div class="card">
+                <div style="position:relative;">
+                    <span style="position:absolute;top:-12px;right:-12px;background:var(--primary-color,#CDB97D);color:#181818;font-size:0.85rem;font-weight:700;padding:0.3em 0.8em;border-radius:8px;box-shadow:0 2px 8px #0003;z-index:2;">NEW</span>
+                    <h3 style="margin-top:0.5em;">Tetris</h3>
+                </div>
+                <p>Ya puedes jugar ahora al nuevo Tetris estilo Nixuslab.</p>
+                <a href="tetris.html" class="card-button-link">¡Jugar!</a>
+            </div>
+            <div class="card">
+                <h3>Próximamente</h3>
+                <p>Próximamente otro minijuego emocionante.</p>
+                <button disabled>¡Próximamente!</button>
+            </div>
+            <!-- Puedes añadir más cards aquí -->
+        </div>
+    </main>
+
+    <!-- El footer se cargará dinámicamente aquí -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts para cargar header y footer -->
+    <script>
+        // Función para cargar el header
+        async function loadHeader() {
+            try {
+                const response = await fetch('header.html');
+                const html = await response.text();
+                document.getElementById('header-placeholder').innerHTML = html;
+                
+                // Inicializar el menú móvil después de cargar el header
+                const menuToggle = document.querySelector('.menu-toggle');
+                const nav = document.querySelector('nav ul');
+                
+                if (menuToggle && nav) {
+                    menuToggle.addEventListener('click', () => {
+                        nav.classList.toggle('active');
+                    });
+                }
+            } catch (error) {
+                console.error('Error al cargar el header:', error);
+            }
+        }
+
+        // Función para cargar el footer
+        async function loadFooter() {
+            try {
+                const response = await fetch('footer.html');
+                const html = await response.text();
+                document.getElementById('footer-placeholder').innerHTML = html;
+            } catch (error) {
+                console.error('Error al cargar el footer:', error);
+            }
+        }
+
+        // Cargar header y footer cuando el documento esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHeader();
+            loadFooter();
+        });
+    </script>
+</body>
+</html>
