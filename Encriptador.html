@@ -8,7 +8,7 @@
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" xintegrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <!-- Global Styles -->
@@ -17,8 +17,8 @@
     <!-- App-specific Styles -->
     <style>
         .encrypt-main-container {
-            /* This container is no longer a flex container itself, 
-               it just provides padding for its centered child. */
+            /* This container provides vertical padding. 
+               The horizontal centering is handled by margin:auto on the child. */
             padding-top: 2rem;
             padding-bottom: 4rem;
         }
@@ -26,8 +26,8 @@
         .encrypt-card {
             width: 100%;
             max-width: 600px;
-            /* margin: auto handles the horizontal centering */
-            margin: auto; 
+            /* This is the key for centering the card horizontally */
+            margin: 0 auto; 
             background-color: var(--card-color, #222);
             padding: 2.5rem;
             border-radius: 12px;
@@ -61,7 +61,7 @@
         }
 
         .form-group textarea,
-        .form-group input[type="password"] {
+        .form-group input[type="text"] {
             width: 100%;
             padding: 0.75rem 1rem;
             border-radius: 6px;
@@ -79,7 +79,7 @@
         }
 
         .form-group textarea:focus,
-        .form-group input[type="password"]:focus {
+        .form-group input[type="text"]:focus {
             outline: none;
             border-color: var(--primary-color);
         }
@@ -191,7 +191,7 @@
 
             <div class="form-group">
                 <label for="password">Clave Secreta</label>
-                <input type="password" id="password" placeholder="Introduce tu clave secreta...">
+                <input type="text" id="password" placeholder="Introduce tu clave secreta...">
             </div>
 
             <div class="encrypt-actions">
@@ -277,10 +277,10 @@
                     return '';
                 }
 
-                // The key is derived from the password by summing character codes.
-                // This creates a numeric "seed" from the text password.
+                // The numeric key is derived from the password by summing character codes.
                 const key = password.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
+                // Using the exact character maps from the original working file for compatibility.
                 const ORIGINAL_CHARS = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ñÑ";
                 const BASE_SUBSTITUTION_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890,.-{}+*[]_!\"#$%&'()/?¡¿<>;:Ññ~`^|@=";
 
