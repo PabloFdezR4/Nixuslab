@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nixuslab - Apps</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nixuslab - Aplicaciones y Proyectos">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome (para icono de menú y otros) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" xintegrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- El header se cargará dinámicamente aquí -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <div class="card card-informativa" style="max-width: 1000px; margin: 0 auto 2.2em auto; width: 100%; text-align: left;">
+            <h2 style="margin-bottom:0.5em;">Herramientas para tu día a día</h2>
+            <p style="font-size:1.15em;">Descubre aplicaciones útiles y sencillas para hacerte la vida más fácil.</p>
+        </div>
+        
+        <div class="cards-container" style="max-width: 1000px; margin: 0 auto;">
+            <div class="card">
+                <h3>Gestión monetaria</h3>
+                <p>Manera fácil de gestionar tus gastos e ingresos.</p>
+                <a href="Ingresos mensuales v5.html" class="card-button-link">¡Empezar!</a>
+            </div>
+            <div class="card">
+                <h3>Próximamente</h3>
+                <p>Próximamente más apps útiles.</p>
+                <button disabled>¡Próximamente!</button>
+            </div>
+            <div class="card">
+                <h3>Próximamente</h3>
+                <p>Próximamente más apps útiles.</p>
+                <button disabled>¡Próximamente!</button>
+            </div>
+            <!-- Puedes añadir más cards aquí -->
+        </div>
+    </main>
+
+    <!-- El footer se cargará dinámicamente aquí -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts para cargar header y footer -->
+    <script>
+        // Función para cargar el header
+        async function loadHeader() {
+            try {
+                const response = await fetch('header.html');
+                const html = await response.text();
+                document.getElementById('header-placeholder').innerHTML = html;
+                
+                // Inicializar el menú móvil después de cargar el header
+                const menuToggle = document.querySelector('.menu-toggle');
+                const nav = document.querySelector('nav ul');
+                
+                if (menuToggle && nav) {
+                    menuToggle.addEventListener('click', () => {
+                        nav.classList.toggle('active');
+                    });
+                }
+            } catch (error) {
+                console.error('Error al cargar el header:', error);
+            }
+        }
+
+        // Función para cargar el footer
+        async function loadFooter() {
+            try {
+                const response = await fetch('footer.html');
+                const html = await response.text();
+                document.getElementById('footer-placeholder').innerHTML = html;
+            } catch (error) {
+                console.error('Error al cargar el footer:', error);
+            }
+        }
+
+        // Cargar header y footer cuando el documento esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHeader();
+            loadFooter();
+        });
+    </script>
+</body>
+</html>
