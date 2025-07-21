@@ -19,6 +19,12 @@
 
         /* The global styles.css handles the body. We remove the app-specific body style to avoid conflict. */
         /* body { ... } */
+        
+        /* Added padding to the main container for spacing from the header */
+        main {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
 
         /* --- Contenedor Principal y Títulos --- */
         .container {
@@ -27,7 +33,7 @@
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            /* We remove the padding from here as the <main> tag will handle it */
+            margin: 0 auto; /* Ensures the container itself is centered */
         }
 
         h1 {
@@ -68,7 +74,7 @@
         }
 
         .action-btn {
-            background-color: var(--panel-color);
+            background-color: var(--card-color); /* Adjusted to match card color */
             border: 1px solid var(--border-color);
             color: var(--text-muted);
             padding: 0.5rem 1rem;
@@ -104,7 +110,7 @@
         }
 
         .column {
-            background-color: var(--panel-color);
+            background-color: var(--card-color); /* CORRECTED: Using global card color */
             padding: 1.5rem;
             border-radius: 12px;
             box-shadow: var(--shadow-md);
@@ -214,7 +220,7 @@
             height: 18px;
             border-radius: 50%;
             cursor: pointer;
-            border: 2px solid var(--panel-color);
+            border: 2px solid var(--card-color); /* Adjusted to match new background */
             transition: transform 0.2s ease;
         }
         .color-tag:hover {
@@ -332,7 +338,7 @@
         #expense-total { color: var(--color-expense); }
 
         #balance-section {
-            background-color: var(--panel-color);
+            background-color: var(--card-color); /* CORRECTED: Using global card color */
             padding: 2rem;
             border-radius: 12px;
             text-align: center;
