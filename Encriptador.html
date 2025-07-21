@@ -17,16 +17,17 @@
     <!-- App-specific Styles -->
     <style>
         .encrypt-main-container {
-            /* This container provides vertical padding. 
-               The horizontal centering is handled by margin:auto on the child. */
-            padding-top: 2rem;
-            padding-bottom: 4rem;
+            /* This overrides the global 'main' styles to center the content. */
+            flex: 1; /* Allows the main area to grow and fill space */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center;     /* Center vertically */
+            padding: 2rem 1rem;      /* Add some breathing room */
         }
 
         .encrypt-card {
             width: 100%;
             max-width: 600px;
-            /* This is the key for centering the card horizontally */
             margin: 0 auto; 
             background-color: var(--card-color, #222);
             padding: 2.5rem;
@@ -68,7 +69,7 @@
             border: 1px solid var(--border-color);
             background-color: var(--background-color);
             color: var(--text-color);
-            font-family: 'Roboto Mono', monospace; /* Using mono font for better character alignment */
+            font-family: 'Roboto Mono', monospace;
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
@@ -271,20 +272,15 @@
             }
             
             function transformMessage(text, password, mode) {
-                // The original logic used a numeric key. We will parse the password as a number.
-                // If it's not a number, we'll derive one from the text to maintain functionality.
                 let key = parseInt(password, 10);
                 if (isNaN(key)) {
                     if (!password) {
                          showNotification('Por favor, introduce una clave secreta.');
                          return '';
                     }
-                    // Fallback for non-numeric passwords: derive key from character codes.
                     key = password.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                 }
 
-
-                // Using the exact character maps from the original working file for compatibility.
                 const ORIGINAL_CHARS = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ñÑ";
                 const BASE_SUBSTITUTION_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890,.-{}+*[]_!\"#$%&'()/?¡¿<>;:Ññ~`^|@=";
 
