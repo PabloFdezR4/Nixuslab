@@ -4,49 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor Financiero - Nixus Lab</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Global Styles for Header/Footer -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" xintegrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- App-specific styles (untouched to preserve the look) -->
     <style>
         /* --- Reset y Estilos Base con Paleta Nixus Lab --- */
         :root {
-            --primary-color: #CDB97D;
-            --primary-color-darker: #b9a56a;
-            --background-color: #0D0D0D;
-            --panel-color: #1a1a1a;
-            --card-color: #222222;
-            --text-color: #f0f0f0;
-            --text-muted: #a0a0a0;
-            --border-color: #333333;
-            
-            /* Colores específicos de la app */
+            /* These variables will be used by the app's components */
             --color-income: var(--primary-color);
             --color-expense: #FF6B6B; /* Un rojo que complementa la paleta */
-
-            /* Sombras y fuentes de Nixus */
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
-            --font-heading: 'Montserrat', sans-serif;
-            --font-body: 'Open Sans', sans-serif;
-            --transition-speed: 0.3s;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 2rem 1rem;
-        }
+        /* The global styles.css handles the body. We remove the app-specific body style to avoid conflict. */
+        /* body { ... } */
 
         /* --- Contenedor Principal y Títulos --- */
         .container {
@@ -55,6 +27,7 @@
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+            /* We remove the padding from here as the <main> tag will handle it */
         }
 
         h1 {
@@ -474,7 +447,6 @@
 
         /* --- Diseño Responsivo --- */
         @media (max-width: 768px) {
-            body { padding: 1rem 0.5rem; }
             .columns-container { grid-template-columns: 1fr; }
             h1 { font-size: 2rem; }
             #total-balance { font-size: 2.5rem; }
@@ -490,93 +462,99 @@
     </style>
 </head>
 <body>
+    
+    <div id="header-placeholder"></div>
 
-    <div class="container">
-        <h1>Gestor Financiero</h1>
+    <main>
+        <div class="container">
+            <h1>Gestor Financiero</h1>
 
-        <div class="global-actions">
-            <button class="action-btn" id="export-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-2H4v2z"/></svg>
-                Exportar Datos
-            </button>
-            <button class="action-btn" id="import-btn">
-                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M13 14h5l-6-6-6 6h5v7h2v-7zm-9-1h16V3H4v10z"/></svg>
-                Importar Datos
-            </button>
-            <input type="file" id="import-file-input" accept=".json" style="display: none;">
-            <button class="action-btn" id="reset-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3zm-8 5v6h2v-6H9zm4 0v6h2v-6h-2zM9 4v2h6V4H9z"/></svg>
-                Reiniciar Mes
-            </button>
-        </div>
-
-        <div class="columns-container">
-            <div class="column" id="income-column">
-                <div class="column-header">
-                    <div class="search-container" id="income-search-container">
-                        <div class="search-icon" id="income-search-icon" title="Buscar por descripción">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        </div>
-                        <input type="search" id="income-search-input" class="search-input" placeholder="Buscar...">
-                    </div>
-                    <h2>Ingresos</h2>
-                    <div class="filter-container">
-                        <div id="income-filter-icon" class="filter-icon" title="Filtrar por color"></div>
-                    </div>
-                </div>
-                <button class="btn btn-income" id="add-income-btn">Añadir Ingreso +</button>
-                <div class="transactions-list">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="color-cell"></th>
-                                <th>Descripción</th>
-                                <th>Importe</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="income-list"></tbody>
-                    </table>
-                </div>
-                <div class="total">Total Ingresos: <span id="income-total">0.00€</span></div>
+            <div class="global-actions">
+                <button class="action-btn" id="export-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-2H4v2z"/></svg>
+                    Exportar Datos
+                </button>
+                <button class="action-btn" id="import-btn">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M13 14h5l-6-6-6 6h5v7h2v-7zm-9-1h16V3H4v10z"/></svg>
+                    Importar Datos
+                </button>
+                <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                <button class="action-btn" id="reset-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3zm-8 5v6h2v-6H9zm4 0v6h2v-6h-2zM9 4v2h6V4H9z"/></svg>
+                    Reiniciar Mes
+                </button>
             </div>
 
-            <div class="column" id="expense-column">
-                <div class="column-header">
-                    <div class="search-container" id="expense-search-container">
-                        <div class="search-icon" id="expense-search-icon" title="Buscar por descripción">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <div class="columns-container">
+                <div class="column" id="income-column">
+                    <div class="column-header">
+                        <div class="search-container" id="income-search-container">
+                            <div class="search-icon" id="income-search-icon" title="Buscar por descripción">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            </div>
+                            <input type="search" id="income-search-input" class="search-input" placeholder="Buscar...">
                         </div>
-                        <input type="search" id="expense-search-input" class="search-input" placeholder="Buscar...">
+                        <h2>Ingresos</h2>
+                        <div class="filter-container">
+                            <div id="income-filter-icon" class="filter-icon" title="Filtrar por color"></div>
+                        </div>
                     </div>
-                    <h2>Gastos</h2>
-                    <div class="filter-container">
-                        <div id="expense-filter-icon" class="filter-icon" title="Filtrar por color"></div>
+                    <button class="btn btn-income" id="add-income-btn">Añadir Ingreso +</button>
+                    <div class="transactions-list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="color-cell"></th>
+                                    <th>Descripción</th>
+                                    <th>Importe</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="income-list"></tbody>
+                        </table>
                     </div>
+                    <div class="total">Total Ingresos: <span id="income-total">0.00€</span></div>
                 </div>
-                <button class="btn btn-expense" id="add-expense-btn">Añadir Gasto +</button>
-                <div class="transactions-list">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="color-cell"></th>
-                                <th>Descripción</th>
-                                <th>Importe</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="expense-list"></tbody>
-                    </table>
+
+                <div class="column" id="expense-column">
+                    <div class="column-header">
+                        <div class="search-container" id="expense-search-container">
+                            <div class="search-icon" id="expense-search-icon" title="Buscar por descripción">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            </div>
+                            <input type="search" id="expense-search-input" class="search-input" placeholder="Buscar...">
+                        </div>
+                        <h2>Gastos</h2>
+                        <div class="filter-container">
+                            <div id="expense-filter-icon" class="filter-icon" title="Filtrar por color"></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-expense" id="add-expense-btn">Añadir Gasto +</button>
+                    <div class="transactions-list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="color-cell"></th>
+                                    <th>Descripción</th>
+                                    <th>Importe</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expense-list"></tbody>
+                        </table>
+                    </div>
+                    <div class="total">Total Gastos: <span id="expense-total">0.00€</span></div>
                 </div>
-                <div class="total">Total Gastos: <span id="expense-total">0.00€</span></div>
+            </div>
+
+            <div id="balance-section">
+                <h3>Balance del Mes</h3>
+                <div id="total-balance">0.00€</div>
             </div>
         </div>
+    </main>
 
-        <div id="balance-section">
-            <h3>Balance del Mes</h3>
-            <div id="total-balance">0.00€</div>
-        </div>
-    </div>
+    <div id="footer-placeholder"></div>
 
     <div class="modal-overlay" id="add-modal">
         <div class="modal-content">
@@ -613,6 +591,43 @@
     <div id="filter-palette" class="filter-palette"></div>
 
     <script>
+        // Script to load header and footer
+        async function loadHeader() {
+            try {
+                const response = await fetch('header.html');
+                const html = await response.text();
+                document.getElementById('header-placeholder').innerHTML = html;
+                
+                const menuToggle = document.querySelector('.menu-toggle');
+                const nav = document.querySelector('nav ul');
+                
+                if (menuToggle && nav) {
+                    menuToggle.addEventListener('click', () => {
+                        nav.classList.toggle('active');
+                    });
+                }
+            } catch (error) {
+                console.error('Error al cargar el header:', error);
+            }
+        }
+
+        async function loadFooter() {
+            try {
+                const response = await fetch('footer.html');
+                const html = await response.text();
+                document.getElementById('footer-placeholder').innerHTML = html;
+            } catch (error) {
+                console.error('Error al cargar el footer:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHeader();
+            loadFooter();
+        });
+    </script>
+    <script>
+        // App's original script
         document.addEventListener('DOMContentLoaded', () => {
             // --- SELECCIÓN DE ELEMENTOS DEL DOM ---
             const addIncomeBtn = document.getElementById('add-income-btn');
