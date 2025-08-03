@@ -450,6 +450,29 @@
         }
         #confirm-yes-btn { background-color: var(--color-expense); }
 
+        /* CAMBIO: Estilos para la paleta de colores en el modal */
+        .modal-color-palette {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 0.25rem;
+        }
+
+        .modal-color-swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .modal-color-swatch.selected {
+            border-color: var(--primary-color);
+            transform: scale(1.15);
+            box-shadow: 0 0 8px var(--primary-color);
+        }
+
 
         /* --- Diseño Responsivo --- */
         @media (max-width: 768px) {
@@ -574,6 +597,13 @@
                     <label for="amount">Importe</label>
                     <input type="number" id="amount" placeholder="0.00" step="0.01" min="0" required>
                 </div>
+                <!-- CAMBIO: Contenedor para la paleta de colores -->
+                <div class="form-group">
+                    <label>Color</label>
+                    <div class="modal-color-palette" id="modal-color-palette">
+                        <!-- Los colores se insertarán aquí dinámicamente -->
+                    </div>
+                </div>
                 <div class="modal-actions">
                      <button type="button" class="btn btn-cancel" id="cancel-btn">Cancelar</button>
                      <button type="submit" class="btn btn-save" id="save-btn">Guardar</button>
@@ -653,6 +683,7 @@
 
             const descriptionInput = document.getElementById('description');
             const amountInput = document.getElementById('amount');
+            const modalColorPalette = document.getElementById('modal-color-palette'); // CAMBIO
 
             const exportBtn = document.getElementById('export-btn');
             const importBtn = document.getElementById('import-btn');
@@ -763,6 +794,21 @@
                     icon.classList.remove('active');
                 }
             };
+            
+            // CAMBIO: Nueva función para renderizar la paleta en el modal
+            const renderModalColorPalette = (selectedColor) => {
+                modalColorPalette.innerHTML = '';
+                paletteColors.forEach(color => {
+                    const swatch = document.createElement('div');
+                    swatch.className = 'modal-color-swatch';
+                    swatch.style.backgroundColor = color;
+                    swatch.dataset.color = color;
+                    if (color === selectedColor) {
+                        swatch.classList.add('selected');
+                    }
+                    modalColorPalette.appendChild(swatch);
+                });
+            };
 
             const toggleModal = (modalElement, show, type) => {
                 if (show) {
@@ -770,6 +816,7 @@
                         transactionType = type;
                         if (!editingTransactionId) {
                             modalTitle.textContent = type === 'income' ? 'Añadir Ingreso' : 'Añadir Gasto';
+                            renderModalColorPalette(paletteColors[paletteColors.length - 1]); // CAMBIO: Renderiza paleta para nueva transacción
                         }
                         saveBtn.className = `btn btn-save ${type === 'income' ? 'btn-income' : 'btn-expense'}`;
                     }
@@ -779,6 +826,7 @@
                     if(modalElement === modal) {
                         modalForm.reset();
                         editingTransactionId = null;
+                        modalColorPalette.innerHTML = ''; // CAMBIO: Limpia la paleta al cerrar
                     }
                 }
             };
@@ -787,6 +835,8 @@
                 e.preventDefault();
                 const description = descriptionInput.value.trim();
                 const amount = parseFloat(amountInput.value);
+                const selectedSwatch = modalColorPalette.querySelector('.selected'); // CAMBIO
+                const selectedColor = selectedSwatch ? selectedSwatch.dataset.color : paletteColors[paletteColors.length - 1]; // CAMBIO
 
                 if (description === '' || isNaN(amount) || amount <= 0) {
                     descriptionInput.style.borderColor = 'red';
@@ -804,9 +854,10 @@
                     if (transaction) {
                         transaction.description = description;
                         transaction.amount = amount;
+                        transaction.color = selectedColor; // CAMBIO
                     }
                 } else {
-                    const newTransaction = { id: Date.now(), description, amount, color: '#333333' };
+                    const newTransaction = { id: Date.now(), description, amount, color: selectedColor }; // CAMBIO
                     if (transactionType === 'income') incomes.push(newTransaction);
                     else expenses.push(newTransaction);
                 }
@@ -829,6 +880,7 @@
                 
                 modalTitle.textContent = 'Editar Transacción';
                 toggleModal(modal, true, type);
+                renderModalColorPalette(transaction.color); // CAMBIO: Muestra el color actual al editar
             };
             
             const handleListClick = (e) => {
@@ -1038,6 +1090,17 @@
                 renderUI();
             });
             
+            // CAMBIO: Event listener para la nueva paleta en el modal
+            modalColorPalette.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-color-swatch')) {
+                    const currentSelected = modalColorPalette.querySelector('.selected');
+                    if (currentSelected) {
+                        currentSelected.classList.remove('selected');
+                    }
+                    e.target.classList.add('selected');
+                }
+            });
+
             window.addEventListener('click', (e) => {
                 if (!colorPalette.contains(e.target) && !e.target.classList.contains('color-tag') && !filterPalette.contains(e.target) && !e.target.classList.contains('filter-icon')) {
                     hidePalettes();
