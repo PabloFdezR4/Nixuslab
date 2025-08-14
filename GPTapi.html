@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nixuslab — Chat</title>
+  <!-- Enlace al stylesheet oficial de Nixuslab -->
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* =====================================================
+       Capa de estilos mínima para el CHAT (usa tokens Nixus)
+       No modifica la estructura base del sitio ni su CSS.
+       ===================================================== */
+    :root{
+      /* alias locales a tokens de Nixus */
+      --nx-bg: var(--background-color);
+      --nx-surface: var(--card-color);
+      --nx-surface-2: #141414;           /* un poco más oscuro para diferenciar usuario */
+      --nx-text: var(--text-color);
+      --nx-muted: var(--text-muted);
+      --nx-border: var(--border-color);
+      --nx-accent: var(--primary-color);
+      --nx-accent-hover: var(--primary-color-darker);
+      --nx-shadow: var(--shadow-md);
+      --nx-shadow-lg: var(--shadow-lg);
+      --nx-radius: 10px;
+    }
+
+    /* Contenedor de la app de chat dentro de main */
+    .chat-shell{ 
+      width: 100%; 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      background: var(--nx-surface); 
+      border: 1px solid var(--nx-border); 
+      border-radius: 12px; 
+      box-shadow: var(--nx-shadow);
+      overflow: hidden; 
+      /* Altura dinámica: viewport - header fijo (60px) - paddings de main (varían por styles.css) */
+      height: calc(100vh - 60px - 6rem); /* 6rem ≈ padding-top/bottom de main */
+      display: grid; 
+      grid-template-columns: 280px 1fr; 
+      min-height: 480px;
+    }
+
+    /* Sidebar historial */
+    .chat-sidebar{ 
+      background: var(--header-footer-color); 
+      border-right: 1px solid var(--nx-border); 
+      display: flex; flex-direction: column; 
+      min-width: 0; 
+    }
+    .chat-s-top{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-bottom:1px solid var(--nx-border); }
+    .chat-toggle{ background: transparent; border:1px solid var(--nx-border); color: var(--nx-text); border-radius:8px; padding:6px 8px; cursor:pointer; }
+    .chat-brand{ font-family: var(--font-heading); font-weight:700; }
+    .chat-new{ margin-left:auto; background: var(--nx-accent); color: var(--button-text-color); border:0; border-radius:8px; padding:6px 10px; font-weight:700; cursor:pointer; }
+    .chat-new:disabled{ opacity:.55; cursor:not-allowed; }
+
+    .chat-s-title{ padding:10px 12px; font-size:.85rem; color: var(--nx-muted); border-bottom:1px solid var(--nx-border); }
+    .chat-history{ padding:8px; overflow:auto; display:flex; flex-direction:column; gap:6px; min-height:0; }
+
+    .chat-item{ position:relative; display:flex; align-items:center; gap:8px; padding:10px; color: var(--nx-muted); border-radius:10px; border:1px solid transparent; cursor:pointer; }
+    .chat-item:hover{ color:var(--nx-text); background: rgba(255,255,255,.05); border-color: var(--nx-border); }
+    .chat-item.active{ color:var(--nx-text); background: rgba(205,185,125,.14); border-color: rgba(205,185,125,.35); }
+    .chat-item .title{ flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding-right:64px; }
+    .chat-item .actions{ position:absolute; right:10px; top:50%; transform: translateY(-50%); display:flex; gap:8px; }
+    .icon-btn{ width:24px; height:24px; display:inline-grid; place-items:center; background: transparent; color: var(--nx-text); border:1px solid var(--nx-border); border-radius:8px; }
+    .icon-btn:hover{ background: rgba(255,255,255,.06); }
+
+    /* Colapsado: tira con ☰ */
+    .chat-shell.collapsed{ grid-template-columns: 56px 1fr; }
+    .chat-shell.collapsed .chat-brand, 
+    .chat-shell.collapsed .chat-new, 
+    .chat-shell.collapsed .chat-s-pane{ display:none; }
+    .chat-shell.collapsed .chat-s-top{ justify-content:center; }
+
+    /* Panel principal */
+    .chat-main{ display:grid; grid-template-rows: auto 1fr auto; min-height:0; }
+    .chat-topbar{ display:flex; align-items:center; gap:10px; padding:10px 16px; border-bottom:1px solid var(--nx-border); background: #0000001a; }
+    .chat-topbar select, .chat-topbar input{ background:#0f0f0f; color: var(--nx-text); border:1px solid var(--nx-border); border-radius:8px; padding:8px 10px; }
+    .chat-topbar label{ color: var(--nx-muted); }
+    .chat-topbar .sep{ flex:1; }
+
+    /* Hero (sin mensajes) */
+    .chat-hero{ display:none; place-items:center; overflow:auto; }
+    .chat-hero h1{ font-family: var(--font-heading); margin: 24px 0; font-size: clamp(22px, 4.5vw, 40px); text-align:center; color: var(--nx-text); }
+    .prompt-wrap{ display:flex; align-items:center; gap:8px; width:min(900px, 92%); background: #00000050; border:1px solid var(--nx-border); border-radius:999px; padding:10px 12px; box-shadow: var(--nx-shadow); }
+    .prompt{ flex:1; background: transparent; color: var(--nx-text); border:0; outline:0; font-size:16px; padding:10px; }
+    .prompt::placeholder{ color: var(--nx-muted); }
+
+    /* Chat */
+    .chat-log{ overflow:auto; padding: 16px 0 20px; min-height:0; }
+    .row{ display:grid; grid-template-columns: 1fr min(880px, 100%) 1fr; }
+    .msg{ grid-column:2; display:flex; gap:12px; padding:10px 16px; }
+    .avatar{ width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, rgba(205,185,125,.35), rgba(255,255,255,.15)); color:#000; }
+    .user .avatar{ background: rgba(255,255,255,.08); color: var(--nx-text); }
+    .bubble{ flex:1; padding:12px 14px; border-radius: var(--nx-radius); background: var(--nx-surface); border:1px solid var(--nx-border); box-shadow: 0 1px 0 rgba(255,255,255,.04); color: var(--nx-text); word-wrap: break-word; overflow-wrap:anywhere; }
+    .user .bubble{ background: var(--nx-surface-2); }
+    .bubble pre{ background: #0f0f0f; color: var(--nx-text); padding:12px; border-radius:10px; border:1px solid var(--nx-border); white-space:pre-wrap; max-width:100%; overflow:auto; }
+    .tools{ display:flex; gap:6px; justify-content:flex-end; opacity:.85; font-size:12px; margin-top:6px; color: var(--nx-muted); }
+    .msg.typing .bubble{ font-style: italic; color: var(--nx-muted); }
+
+    /* Composer */
+    .chat-composer{ display:none; border-top:1px solid var(--nx-border); background: #00000026; padding:10px 16px 14px; }
+    .compose{ display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:end; }
+    .textarea{ min-height:44px; max-height:160px; overflow:auto; border-radius:10px; border:1px solid var(--nx-border); background: var(--nx-surface); padding:10px 12px; color: var(--nx-text); }
+    .textarea[contenteditable="true"]{ outline:none; }
+    .send{ background: var(--nx-accent); color: var(--button-text-color); border:none; padding:10px 16px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow: var(--nx-shadow); }
+    .send:hover{ background: var(--nx-accent-hover); }
+
+    /* Visibilidad por estado */
+    .chat-main[data-view="hero"] .chat-hero{ display:grid; }
+    .chat-main[data-view="hero"] .chat-log, 
+    .chat-main[data-view="hero"] .chat-composer{ display:none; }
+    .chat-main[data-view="chat"] .chat-hero{ display:none; }
+    .chat-main[data-view="chat"] .chat-log, 
+    .chat-main[data-view="chat"] .chat-composer{ display:block; }
+
+    /* Responsivo */
+    @media (max-width: 900px){
+      .chat-shell{ grid-template-columns: 56px 1fr; }
+      .chat-brand, .chat-new, .chat-s-pane{ display:none; }
+      .chat-s-top{ justify-content:center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER Y NAV los proporciona Nixuslab via styles.css; aquí usamos su misma estructura -->
+  <header>
+    <div class="header-container">
+      <a class="logo" href="/">Nixus<span class="logo-accent">lab</span></a>
+      <button class="menu-toggle" aria-label="Abrir menú">☰</button>
+      <nav>
+        <ul id="main-nav">
+          <li><a href="/" class="active">Inicio</a></li>
+          <li><a href="/proyectos.html">Proyectos</a></li>
+          <li><a href="/contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- CONTENIDO: Chat integrado al estilo Nixuslab -->
+    <div class="chat-shell" id="shell">
+      <!-- Sidebar historial -->
+      <aside class="chat-sidebar">
+        <div class="chat-s-top">
+          <button class="chat-toggle" id="toggleSidebar" title="Plegar">☰</button>
+          <div class="chat-brand">Chat</div>
+          <button class="chat-new" id="newChat">Nuevo chat</button>
+        </div>
+        <div class="chat-s-pane">
+          <div class="chat-s-title">Historial de chats</div>
+          <div class="chat-history" id="convList"></div>
+        </div>
+      </aside>
+
+      <!-- Panel principal -->
+      <section class="chat-main" id="mainPanel" data-view="hero">
+        <div class="chat-topbar">
+          <label for="modelSel">Modelo</label>
+          <select id="modelSel">
+            <option value="gpt-5" selected>GPT-5</option>
+            <option value="gpt-5-mini">GPT-5 Mini</option>
+            <option value="gpt-5-nano">GPT-5 Nano</option>
+          </select>
+          <div class="sep"></div>
+          <label for="apiKey">API:</label>
+          <input id="apiKey" type="password" placeholder="sk-••••••" style="width:240px"/>
+        </div>
+
+        <!-- Hero -->
+        <div class="chat-hero" id="hero">
+          <div>
+            <h1>¿En qué estás trabajando?</h1>
+            <div class="prompt-wrap">
+              <input class="prompt" id="heroPrompt" placeholder="Pregunta lo que quieras" />
+              <button class="send" id="heroSend">Enviar ▸</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat -->
+        <div class="chat-log" id="chat">
+          <div class="row" id="messages"></div>
+        </div>
+
+        <!-- Composer -->
+        <div class="chat-composer" id="composer">
+          <div class="compose">
+            <div class="textarea" id="textarea" contenteditable="true" role="textbox" aria-multiline="true" spellcheck="true"></div>
+            <button class="send" id="sendBtn">Enviar ▸</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-info">
+        <p>© <span id="y"></span> Nixuslab</p>
+        <p class="muted">Todos los derechos reservados</p>
+      </div>
+      <div class="social-links">
+        <a href="#" aria-label="Twitter">𝕏</a>
+        <a href="#" aria-label="GitHub"></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Utilidades =====
+    const $ = (s,el=document)=>el.querySelector(s);
+    const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
+    const uid = ()=>Math.random().toString(36).slice(2,10);
+    const now = ()=>new Date().toISOString();
+
+    // ===== Estado =====
+    const LS='nixuslab-chat-v1';
+    const state = { conversations:[], current:null, api:{ key:'', model:'gpt-5' } };
+    function save(){ localStorage.setItem(LS, JSON.stringify(state)); }
+    function load(){ try{ const x=localStorage.getItem(LS); if(x) Object.assign(state, JSON.parse(x)); }catch{} }
+
+    // ===== Conversaciones =====
+    function newConv(title='Nueva conversación'){
+      const id=uid(); const conv={ id, title, createdAt: now(), messages: [] };
+      state.conversations.unshift(conv); state.current=id; save(); renderConvs(); updateView(); renderChat(); return conv;
+    }
+    function cur(){ return state.conversations.find(c=>c.id===state.current); }
+    function removeConv(id){ const i=state.conversations.findIndex(c=>c.id===id); if(i>=0) state.conversations.splice(i,1); if(state.current===id) state.current=state.conversations[0]?.id||null; save(); renderConvs(); updateView(); renderChat(); }
+
+    // ===== Render =====
+    function renderConvs(){ const list=$('#convList'); list.innerHTML=''; state.conversations.forEach(c=>{ const el=document.createElement('div'); el.className='chat-item'+(c.id===state.current?' active':''); el.dataset.id=c.id; el.innerHTML='<div class="title">'+escapeHtml(c.title||'Nueva conversación')+'</div><div class="actions"><button class="icon-btn" type="button" data-act="edit" title="Renombrar">✎</button><button class="icon-btn" type="button" data-act="del" title="Eliminar">🗑</button></div>'; el.addEventListener('click',()=>{ state.current=c.id; save(); renderConvs(); updateView(); renderChat();}); el.querySelector('.actions').addEventListener('click',(e)=>{ e.stopPropagation(); const btn=e.target.closest('.icon-btn'); if(!btn) return; if(btn.dataset.act==='edit'){ const t=prompt('Nuevo título:', c.title||''); if(t && t.trim()){ c.title=t.trim(); save(); renderConvs(); } } else if(btn.dataset.act==='del'){ if(confirm('¿Eliminar conversación?')) removeConv(c.id); } }); list.appendChild(el); }); }
+
+    function renderChat(){ const wrap=$('#messages'); wrap.innerHTML=''; const c=cur(); if(!c) return; c.messages.forEach(m=> wrap.appendChild(renderMsg(m))); scrollToBottom(); }
+    function renderMsg(m){ const row=document.createElement('div'); const isUser=m.role==='user'; row.className='msg'+(isUser?' user':''); row.style.gridColumn='2'; const avatar=isUser?'🧑':'🤖'; if(m.typing){ row.classList.add('typing'); row.innerHTML='<div class="avatar">'+avatar+'</div><div class="bubble"><div>Escribiendo…</div></div>'; } else { row.innerHTML='<div class="avatar">'+avatar+'</div><div class="bubble"><div>'+renderMarkdown(escapeHtml(m.content))+'</div><div class="tools"><span class="copy">Copiar</span><span class="del">Borrar</span></div></div>'; row.querySelector('.copy').onclick=()=>navigator.clipboard.writeText(m.content); row.querySelector('.del').onclick=()=>{ const c=cur(); c.messages=c.messages.filter(x=>x!==m); save(); renderChat(); }; } return row; }
+
+    function renderMarkdown(t){ if(t.includes('```')) t=t.replace(/```([\s\S]*?)```/g,(_,code)=>'<pre><code>'+escapeHtml(code)+'</code></pre>'); t=t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'); t=t.replace(/`([^`]+)`/g,'<code>$1</code>'); t=t.replace(/\n/g,'<br/>'); return t; }
+    function escapeHtml(s){ return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+    // ===== Envío =====
+    async function send(text){ if(!state.current) newConv(); const c=cur(); const msg={id:uid(),role:'user',content:text}; c.messages.push(msg); if(c.messages.length===1) c.title=text.slice(0,36)||c.title; save(); updateView(); renderChat(); const typing={id:uid(), role:'assistant', content:'Escribiendo…', typing:true}; c.messages.push(typing); save(); renderChat(); let out=null; try{ out=await getReply(text); }catch{} const idx=c.messages.indexOf(typing); if(idx>=0) c.messages.splice(idx,1,{id:uid(), role:'assistant', content: out || 'Respuesta local (sin API)'}); save(); renderChat(); }
+
+    async function getReply(text){ const key=state.api.key?.trim(); if(key){ try{ const r=await fetch('https://api.openai.com/v1/chat/completions',{ method:'POST', headers:{ 'Authorization':'Bearer '+key, 'Content-Type':'application/json' }, body: JSON.stringify({ model: state.api.model || 'gpt-5', messages:[{role:'user', content:text}], temperature:1 }) }); if(r.ok){ const j=await r.json(); return j.choices?.[0]?.message?.content || null; } }catch(e){} } return null; }
+
+    function scrollToBottom(){ const sc=$('#chat'); if(sc) sc.scrollTop=sc.scrollHeight; }
+
+    function updateView(){ const c=cur(); const panel=$('#mainPanel'); const btn=$('#newChat'); if(!c){ panel.setAttribute('data-view','hero'); btn.disabled=false; return; } const has=c.messages && c.messages.length>0; panel.setAttribute('data-view', has?'chat':'hero'); btn.disabled=!has; }
+
+    // ===== Eventos =====
+    function init(){ load(); document.getElementById('y').textContent=new Date().getFullYear(); renderConvs(); updateView(); renderChat(); $('#toggleSidebar').onclick=()=>{ $('#shell').classList.toggle('collapsed'); }; const newBtn=$('#newChat'); newBtn.onclick=()=>{ if(newBtn.disabled) return; newConv(); }; $('#modelSel').onchange=(e)=>{ state.api.model=e.target.value; save(); }; $('#apiKey').onchange=(e)=>{ state.api.key=e.target.value.trim(); save(); }; $('#heroSend').onclick=()=>{ const v=$('#heroPrompt').value.trim(); if(!v) return; $('#heroPrompt').value=''; send(v); }; $('#heroPrompt').addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); $('#heroSend').click(); } }); $('#sendBtn').onclick=()=>{ const t=$('#textarea').innerText.trim(); if(!t) return; $('#textarea').innerHTML=''; send(t); }; $('#textarea').addEventListener('keydown',(e)=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); $('#sendBtn').click(); } }); document.querySelector('.menu-toggle')?.addEventListener('click',()=>{ document.getElementById('main-nav').classList.toggle('active'); }); }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
