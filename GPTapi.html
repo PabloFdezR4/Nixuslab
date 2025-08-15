@@ -26,16 +26,25 @@
       --nx-radius: 10px;
     }
 
+    /* Expande el contenido de esta página a todo el ancho */
+    .header-container,
+    main,
+    .footer-container{
+      max-width: none;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     /* Contenedor de la app de chat dentro de main */
-    .chat-shell{ 
-      width: 100%; 
-      max-width: 1200px; 
-      margin: 0 auto; 
-      background: var(--nx-surface); 
-      border: 1px solid var(--nx-border); 
-      border-radius: 12px; 
+    .chat-shell{
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      background: var(--nx-surface);
+      border: 1px solid var(--nx-border);
+      border-radius: 12px;
       box-shadow: var(--nx-shadow);
-      overflow: hidden; 
+      overflow: hidden;
       /* Altura dinámica: viewport - header fijo (60px) - paddings de main (varían por styles.css) */
       height: calc(100vh - 60px - 6rem); /* 6rem ≈ padding-top/bottom de main */
       display: grid; 
