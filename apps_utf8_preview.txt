@@ -1,64 +1,84 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nixuslab - Minijuegos</title>
+    <title>Nixuslab - Apps</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Nixuslab - Minijuegos y Proyectos">
+    <meta name="description" content="Nixuslab - Aplicaciones y Proyectos">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome (para icono de menú y otros) -->
+    <!-- Font Awesome (para icono de menÃº y otros) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" xintegrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Estilos CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <!-- El header se cargará dinámicamente aquí -->
+    <!-- El header se cargarÃ¡ dinÃ¡micamente aquÃ­ -->
     <div id="header-placeholder"></div>
 
     <main>
         <div class="card card-informativa" style="max-width: 1300px; margin: 0 auto 2.2em auto; width: 100%; text-align: left;">
-            <h2 style="margin-bottom:0.5em;">Deja de perder el tiempo</h2>
-            <p style="font-size:1.15em;">Prueba alguno de nuestros mini juegos.</p>
+            <h2 style="margin-bottom:0.5em;">Herramientas para tu dÃ­a a dÃ­a</h2>
+            <p style="font-size:1.15em;">Descubre aplicaciones Ãºtiles y sencillas para hacerte la vida mÃ¡s fÃ¡cil.</p>
         </div>
         
         <div class="cards-container" style="max-width: 1300px; margin: 0 auto;">
             <div class="card">
-                <h3>Wordle</h3>
-                <p>Un divertido juego de adivinanza de palabras diario.</p>
-                <!-- Cambiado a etiqueta 'a' para comportarse como link, estilizado como botón -->
-                <a href="Wordle.html" class="card-button-link">¡Jugar!</a>
+                <h3>GestiÃ³n monetaria</h3>
+                <p>Manera fÃ¡cil de gestionar tus gastos e ingresos.</p>
+                <a href="Ingresos mensuales v5.html" class="card-button-link">Â¡Empezar!</a>
             </div>
             <div class="card">
-                <h3>Tetris</h3>
-                <p>Ya puedes jugar ahora al nuevo Tetris estilo Nixuslab.</p>
-                <a href="tetris.html" class="card-button-link">¡Jugar!</a>
+                <h3>Encriptador</h3>
+                <p>Encripta y desencripta textos privados.</p>
+                <a href="Encriptador.html" class="card-button-link">Â¡Empezar!</a>
             </div>
             <div class="card">
-                <h3>Próximamente</h3>
-                <p>Próximamente otro minijuego emocionante.</p>
-                <button disabled>¡Próximamente!</button>
+                <div style="position:relative;">
+                    <span style="position:absolute;top:-12px;right:-12px;background:var(--primary-color,#CDB97D);color:#181818;font-size:0.85rem;font-weight:700;padding:0.3em 0.8em;border-radius:8px;box-shadow:0 2px 8px #0003;z-index:2;">Nuevo</span>
+                    <h3 style="margin-top:0.5em;">Chat IA</h3>
+                </div>
+                <p>Conversa con inteligencia artificial para resolver dudas y obtener ayuda.</p>
+                <a href="GPTapi.html" class="card-button-link">Â¡Empezar!</a>
             </div>
-            <!-- Puedes añadir más cards aquí -->
+            <!-- Puedes aÃ±adir mÃ¡s cards aquÃ­ -->
+        </div>
+        <!-- Fila adicional de cards: PrÃ³ximamente -->
+        <div class="cards-container" style="max-width: 1300px; margin: 0 auto;">
+            <div class="card">
+                <h3>PrÃ³ximamente</h3>
+                <p>PrÃ³ximamente otra app interesante.</p>
+                <button disabled>Â¡PrÃ³ximamente!</button>
+            </div>
+            <div class="card">
+                <h3>PrÃ³ximamente</h3>
+                <p>PrÃ³ximamente otra app interesante.</p>
+                <button disabled>Â¡PrÃ³ximamente!</button>
+            </div>
+            <div class="card">
+                <h3>PrÃ³ximamente</h3>
+                <p>PrÃ³ximamente otra app interesante.</p>
+                <button disabled>Â¡PrÃ³ximamente!</button>
+            </div>
         </div>
     </main>
 
-    <!-- El footer se cargará dinámicamente aquí -->
+    <!-- El footer se cargarÃ¡ dinÃ¡micamente aquÃ­ -->
     <div id="footer-placeholder"></div>
 
     <!-- Scripts para cargar header y footer -->
     <script>
-        // Función para cargar el header
+        // FunciÃ³n para cargar el header
         async function loadHeader() {
             try {
                 const response = await fetch('header.html');
                 const html = await response.text();
                 document.getElementById('header-placeholder').innerHTML = html;
                 
-                // Inicializar el menú móvil después de cargar el header
+                // Inicializar el menÃº mÃ³vil despuÃ©s de cargar el header
                 const menuToggle = document.querySelector('.menu-toggle');
                 const nav = document.querySelector('nav ul');
                 
@@ -72,7 +92,7 @@
             }
         }
 
-        // Función para cargar el footer
+        // FunciÃ³n para cargar el footer
         async function loadFooter() {
             try {
                 const response = await fetch('footer.html');
@@ -83,7 +103,7 @@
             }
         }
 
-        // Cargar header y footer cuando el documento esté listo
+        // Cargar header y footer cuando el documento estÃ© listo
         document.addEventListener('DOMContentLoaded', () => {
             loadHeader();
             loadFooter();
