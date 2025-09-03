@@ -1,15 +1,15 @@
-/* === Variables Globales === */
+﻿/* === Variables Globales === */
 :root {
     --primary-color: #CDB97D;       /* Dorado */
     --primary-color-darker: #b9a56a; /* Dorado oscuro para hover */
-    --background-color: #0D0D0D;    /* Negro más profundo */
+    --background-color: #0D0D0D;    /* Negro mÃ¡s profundo */
     --header-footer-color: #1a1a1a; /* Gris oscuro para header/footer */
     --card-color: #222222;          /* Gris para las cards */
     --text-color: #f0f0f0;          /* Blanco ligeramente apagado */
-    --text-muted: #a0a0a0;         /* Texto secundario/grisáceo */
+    --text-muted: #a0a0a0;         /* Texto secundario/grisÃ¡ceo */
     --border-color: #333333;        /* Bordes sutiles */
-    --button-color: var(--primary-color); /* Botón usa color primario */
-    --button-text-color: #000000;   /* Texto negro para botón dorado */
+    --button-color: var(--primary-color); /* BotÃ³n usa color primario */
+    --button-text-color: #000000;   /* Texto negro para botÃ³n dorado */
     --button-hover-color: var(--primary-color-darker);
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
     --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -18,7 +18,7 @@
     --font-body: 'Open Sans', sans-serif;
     --transition-speed: 0.3s;
 
-    /* Variables específicas del Wordle */
+    /* Variables especÃ­ficas del Wordle */
     --wordle-correct: var(--primary-color);
     --wordle-present: #ffffff;
     --wordle-absent: #3a3a3c;
@@ -27,14 +27,14 @@
 }
 
 
-/* === ESTILOS PARA LA CUADRÍCULA Y TARJETAS DE PRODUCTO (ESTILO MINIMALISTA) === */
+/* === ESTILOS PARA LA CUADRÃCULA Y TARJETAS DE PRODUCTO (ESTILO MINIMALISTA) === */
 
-/* Contenedor de la cuadrícula de productos */
+/* Contenedor de la cuadrÃ­cula de productos */
 .product-grid-container {
     display: grid;
-    /* Columnas flexibles con un tamaño mínimo */
+    /* Columnas flexibles con un tamaÃ±o mÃ­nimo */
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2.5rem 1.5rem; /* Más espacio vertical, menos horizontal */
+    gap: 2.5rem 1.5rem; /* MÃ¡s espacio vertical, menos horizontal */
     width: 100%;
     padding: 1rem 0;
   }
@@ -47,9 +47,9 @@
     padding: 0;
     box-shadow: none;
     text-align: left; /* Alinea el texto a la izquierda por defecto */
-    display: flex; /* Mantenemos flex para controlar la dirección */
+    display: flex; /* Mantenemos flex para controlar la direcciÃ³n */
     flex-direction: column;
-    transition: opacity var(--transition-speed) ease; /* Transición suave para hover */
+    transition: opacity var(--transition-speed) ease; /* TransiciÃ³n suave para hover */
   }
   
   /* Enlace que envuelve la imagen */
@@ -63,21 +63,21 @@
   .product-card .product-image {
     display: block;
     width: 100%;
-    height: auto; /* Altura automática basada en aspect-ratio */
-    aspect-ratio: 2 / 3; /* Proporción 2:3 como solicitaste */
-    object-fit: cover; /* Cubre el área sin distorsionar */
-    border-radius: 0; /* Sin bordes redondeados para un look más limpio */
+    height: auto; /* Altura automÃ¡tica basada en aspect-ratio */
+    aspect-ratio: 2 / 3; /* ProporciÃ³n 2:3 como solicitaste */
+    object-fit: cover; /* Cubre el Ã¡rea sin distorsionar */
+    border-radius: 0; /* Sin bordes redondeados para un look mÃ¡s limpio */
     background-color: var(--card-color); /* Fondo oscuro mientras carga */
   }
   
-  /* Contenedor para la información de texto debajo de la imagen */
+  /* Contenedor para la informaciÃ³n de texto debajo de la imagen */
   .product-card .product-info {
     /* No necesita estilos especiales por ahora, agrupa los <p> */
   }
   
-  /* Párrafo genérico dentro de product-info (reset) */
+  /* PÃ¡rrafo genÃ©rico dentro de product-info (reset) */
   .product-card .product-info p {
-      margin-bottom: 0.25rem; /* Espacio pequeño entre líneas de texto */
+      margin-bottom: 0.25rem; /* Espacio pequeÃ±o entre lÃ­neas de texto */
       line-height: 1.4; /* Ajusta interlineado */
   }
   .product-card .product-info p:last-child {
@@ -87,17 +87,17 @@
   
   /* Marca del producto */
   .product-card .product-brand {
-    font-size: 0.9rem; /* Tamaño ajustado */
-    font-weight: 600; /* Un poco más de peso */
+    font-size: 0.9rem; /* TamaÃ±o ajustado */
+    font-weight: 600; /* Un poco mÃ¡s de peso */
     color: var(--text-color); /* Color principal del texto */
-    text-transform: uppercase; /* Mayúsculas como en la referencia */
+    text-transform: uppercase; /* MayÃºsculas como en la referencia */
   }
   
   /* Tipo/Nombre del producto */
   .product-card .product-type {
-    font-size: 0.85rem; /* Ligeramente más pequeño */
+    font-size: 0.85rem; /* Ligeramente mÃ¡s pequeÃ±o */
     color: var(--text-muted); /* Color secundario */
-    text-transform: uppercase; /* Mayúsculas */
+    text-transform: uppercase; /* MayÃºsculas */
   }
   
   /* Precio del producto */
@@ -105,20 +105,20 @@
     font-size: 0.9rem;
     font-weight: 400; /* Peso normal */
     color: var(--text-color); /* Color principal */
-    margin-top: 0.1rem; /* Pequeño ajuste si es necesario */
+    margin-top: 0.1rem; /* PequeÃ±o ajuste si es necesario */
   }
   
-  /* Efectos Hover (opcional, más sutil) */
+  /* Efectos Hover (opcional, mÃ¡s sutil) */
   .product-card:hover {
-    opacity: 0.85; /* Ligeramente transparente al pasar el ratón */
-    /* Quita otros efectos hover de .card si los había */
+    opacity: 0.85; /* Ligeramente transparente al pasar el ratÃ³n */
+    /* Quita otros efectos hover de .card si los habÃ­a */
     transform: none;
     box-shadow: none;
     border-color: transparent;
   }
   
   
-  /* === Media Queries para la cuadrícula de productos (Ajustadas) === */
+  /* === Media Queries para la cuadrÃ­cula de productos (Ajustadas) === */
   
   @media (max-width: 992px) { /* Ajustado breakpoint */
     /* 3 columnas en pantallas medianas/grandes */
@@ -134,7 +134,7 @@
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1.5rem 1rem;
     }
-     /* Ajusta tamaños de fuente si es necesario para tablets */
+     /* Ajusta tamaÃ±os de fuente si es necesario para tablets */
      .product-card .product-brand,
      .product-card .product-price {
          font-size: 0.85rem;
@@ -145,13 +145,13 @@
   }
   
   @media (max-width: 480px) {
-    /* 2 columnas también en móviles pequeños, pero podrían ser más estrechas */
+    /* 2 columnas tambiÃ©n en mÃ³viles pequeÃ±os, pero podrÃ­an ser mÃ¡s estrechas */
     .product-grid-container {
-      /* Mantenemos auto-fit, el navegador decidirá si cabe 1 o 2 */
+      /* Mantenemos auto-fit, el navegador decidirÃ¡ si cabe 1 o 2 */
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 1.5rem 0.75rem; /* Menos gap horizontal */
     }
-     /* Reduce fuentes un poco más en móvil */
+     /* Reduce fuentes un poco mÃ¡s en mÃ³vil */
      .product-card .product-brand,
      .product-card .product-price {
          font-size: 0.8rem;
@@ -192,7 +192,7 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1.5rem; /* Padding más consistente */
+    padding: 0 1.5rem; /* Padding mÃ¡s consistente */
 }
 
 main {
@@ -205,6 +205,18 @@ main {
     padding-bottom: 3rem;
 }
 
+/* Espaciado vertical entre filas de cards (3 columnas) */
+.cards-container {
+    /* Mantiene márgenes horizontales inline del HTML; añadimos gap vertical */
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Asegura separación extra en pantallas pequeñas si fuese necesario */
+@media (max-width: 768px) {
+  .cards-container { margin-top: 1.25rem; margin-bottom: 1.25rem; }
+}
+
 .logo-accent {
     color: var(--primary-color);
 }
@@ -214,7 +226,7 @@ header {
     width: 100%;
     background-color: var(--header-footer-color);
     padding: 1rem 0;
-    position: fixed; /* Cambiado a fixed para que esté siempre visible */
+    position: fixed; /* Cambiado a fixed para que estÃ© siempre visible */
     top: 0;
     left: 0; /* Asegurar que ocupa todo el ancho */
     z-index: 1000;
@@ -238,7 +250,7 @@ header {
     font-weight: 700;
     color: var(--text-color);
     text-decoration: none;
-    transition: color var(--transition-speed) ease; /* Añadida transición */
+    transition: color var(--transition-speed) ease; /* AÃ±adida transiciÃ³n */
 }
 .logo:hover .logo-accent{
      color: var(--text-color); /* Al pasar sobre el logo, el acento se vuelve blanco */
@@ -247,7 +259,7 @@ header {
     color: var(--primary-color); /* El resto del logo se vuelve dorado */
 }
 
-/* === Navegación === */
+/* === NavegaciÃ³n === */
 nav ul {
     list-style: none;
     display: flex;
@@ -286,7 +298,7 @@ nav ul li a.active::after {
     width: 100%; /* Muestra el subrayado en hover/active */
 }
 
-/* === Botón de Menú Móvil === */
+/* === BotÃ³n de MenÃº MÃ³vil === */
 .menu-toggle {
     display: none; /* Oculto por defecto */
     background: none;
@@ -296,38 +308,44 @@ nav ul li a.active::after {
     cursor: pointer;
     padding: 0.5rem;
     line-height: 1; /* Evita altura extra */
-    transition: color var(--transition-speed) ease; /* Transición color */
+    transition: color var(--transition-speed) ease; /* TransiciÃ³n color */
 }
 .menu-toggle:hover {
     color: var(--primary-color);
 }
 
-/* === Sección Principal y Tarjetas === */
+/* === SecciÃ³n Principal y Tarjetas === */
+/* === SecciA3n Principal y Tarjetas === */
 .cards-container {
     display: grid;
-    /* Columnas auto-ajustables, mínimo 280px, máximo 1fr */
+    /* Columnas auto-ajustables, mA-nimo 280px, mA�ximo 1fr */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem; /* Más espacio entre tarjetas */
+    column-gap: 2rem; /* Espacio horizontal entre tarjetas */
+    row-gap: 2.2em;   /* Espacio vertical consistente entre filas */
     width: 100%;
 }
 
+/* Margen vertical consistente entre contenedores consecutivos de cards */
+.cards-container + .cards-container {
+    margin-top: 2.2em;
+}
 .card {
     background-color: var(--card-color);
     border-radius: 8px;
-    padding: 2rem; /* Más padding interno */
+    padding: 2rem; /* MÃ¡s padding interno */
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Alinea el botón abajo */
+    justify-content: space-between; /* Alinea el botÃ³n abajo */
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-md);
     transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
 .card:hover {
-    transform: translateY(-6px); /* Efecto de elevación */
+    transform: translateY(-6px); /* Efecto de elevaciÃ³n */
     box-shadow: var(--shadow-lg);
-    border-color: var(--primary-color); /* Borde dorado al pasar el ratón */
+    border-color: var(--primary-color); /* Borde dorado al pasar el ratÃ³n */
 }
 
 .card h3 {
@@ -339,8 +357,8 @@ nav ul li a.active::after {
 
 .card p {
     margin-bottom: 1.5rem;
-    color: var(--text-muted); /* Texto más suave */
-    flex-grow: 1; /* Empuja el botón hacia abajo si el texto es corto */
+    color: var(--text-muted); /* Texto mÃ¡s suave */
+    flex-grow: 1; /* Empuja el botÃ³n hacia abajo si el texto es corto */
 }
 
 .card button, .card .card-button-link /* Aplicar estilos a botones y links con esa clase */ {
@@ -353,11 +371,11 @@ nav ul li a.active::after {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
-    align-self: center; /* Centra el botón si es más estrecho que la card */
-    min-width: 120px; /* Ancho mínimo para el botón */
+    align-self: center; /* Centra el botÃ³n si es mÃ¡s estrecho que la card */
+    min-width: 120px; /* Ancho mÃ­nimo para el botÃ³n */
     text-decoration: none; /* Para asegurar si se usa como link */
     display: inline-block; /* Para que padding funcione bien */
-    text-align: center; /* Centrar texto en el botón/link */
+    text-align: center; /* Centrar texto en el botÃ³n/link */
 }
 
 .card button:hover:not(:disabled),
@@ -447,11 +465,11 @@ footer {
 /* === Media Queries === */
 @media (max-width: 768px) {
     .menu-toggle {
-        display: block; /* Mostrar en móvil */
+        display: block; /* Mostrar en mÃ³vil */
     }
 
     nav ul {
-        display: none; /* Ocultar menú por defecto en móvil */
+        display: none; /* Ocultar menÃº por defecto en mÃ³vil */
         position: absolute;
         top: 60px; /* Altura del header */
         left: 0;
@@ -682,7 +700,7 @@ footer {
   z-index: 2;
 }
 
-/* Eliminar todos los delays de animación */
+/* Eliminar todos los delays de animaciÃ³n */
 .cell:nth-child(1),
 .cell:nth-child(2),
 .cell:nth-child(3),
@@ -881,7 +899,7 @@ footer {
   }
 }
 
-/* Asegurar que el header en wordle.html use la misma tipografía */
+/* Asegurar que el header en wordle.html use la misma tipografÃ­a */
 .logo {
     font-family: var(--font-heading) !important;
 }
@@ -997,20 +1015,20 @@ footer {
     }
 }
 
-/* === ESTILOS ESPECÍFICOS PARA EL CONTENIDO DE 'CONTACTO.HTML' === */
-/* Estos estilos definen la estructura general del área de contenido
-   para páginas como 'Contacto', usando secciones. */
+/* === ESTILOS ESPECÃFICOS PARA EL CONTENIDO DE 'CONTACTO.HTML' === */
+/* Estos estilos definen la estructura general del Ã¡rea de contenido
+   para pÃ¡ginas como 'Contacto', usando secciones. */
 
 /* Ajuste del padding superior del body si el header es fijo */
-/* (Asegúrate de que esto esté en tu CSS base o ajústalo según sea necesario) */
+/* (AsegÃºrate de que esto estÃ© en tu CSS base o ajÃºstalo segÃºn sea necesario) */
 body {
-    /* Necesario si el header cargado dinámicamente tiene position: fixed; */
+    /* Necesario si el header cargado dinÃ¡micamente tiene position: fixed; */
     /* Ajusta el valor (60px) si la altura de tu header es diferente */
     padding-top: 60px;
   }
   
-  /* Estilos para el contenedor principal de la página "Contacto" */
-  /* Puedes usar un ID o clase específica en el <main> si quieres aislar más estos estilos */
+  /* Estilos para el contenedor principal de la pÃ¡gina "Contacto" */
+  /* Puedes usar un ID o clase especÃ­fica en el <main> si quieres aislar mÃ¡s estos estilos */
   /* Ejemplo: <main id="contact-main"> */
   main {
       /* Hereda max-width y margin de la regla general */
@@ -1020,7 +1038,7 @@ body {
       text-align: center; /* Centra el H1 por defecto */
   }
   
-  /* Título principal de la página */
+  /* TÃ­tulo principal de la pÃ¡gina */
   main h1 {
       font-size: 2.5rem;
       color: var(--primary-color);
@@ -1039,7 +1057,7 @@ body {
       margin-right: auto; /* Centra el contenedor .content */
   }
   
-  /* Estilo base para cualquier sección dentro de .content */
+  /* Estilo base para cualquier secciÃ³n dentro de .content */
   .section {
       background-color: var(--card-color);
       padding: 2rem;
@@ -1051,11 +1069,11 @@ body {
   }
   
   .section:hover {
-      transform: translateY(-4px); /* Efecto elevación suave */
-      box-shadow: var(--shadow-lg); /* Sombra más pronunciada */
+      transform: translateY(-4px); /* Efecto elevaciÃ³n suave */
+      box-shadow: var(--shadow-lg); /* Sombra mÃ¡s pronunciada */
   }
   
-  /* Títulos dentro de cada sección */
+  /* TÃ­tulos dentro de cada secciÃ³n */
   .section h2 {
       color: var(--primary-color);
       margin-bottom: 1rem;
@@ -1063,17 +1081,17 @@ body {
       font-size: 1.8rem;
   }
   
-  /* Párrafos dentro de cada sección */
+  /* PÃ¡rrafos dentro de cada secciÃ³n */
   .section p {
       color: var(--text-muted);
       line-height: 1.7; /* Mejora legibilidad */
-      margin-bottom: 1rem; /* Espacio por defecto debajo de los párrafos */
+      margin-bottom: 1rem; /* Espacio por defecto debajo de los pÃ¡rrafos */
   }
   .section p:last-child {
-      margin-bottom: 0; /* Elimina margen inferior del último párrafo en la sección */
+      margin-bottom: 0; /* Elimina margen inferior del Ãºltimo pÃ¡rrafo en la secciÃ³n */
   }
   
-  /* Estilos para enlaces dentro de párrafos de sección */
+  /* Estilos para enlaces dentro de pÃ¡rrafos de secciÃ³n */
   .section p a {
       color: var(--text-muted);
       text-decoration: underline;
@@ -1084,8 +1102,8 @@ body {
       color: var(--primary-color);
   }
   
-  /* === Media Queries Específicas para la estructura de contenido === */
-  /* (Ajustan padding y tamaños de fuente generales dentro de main) */
+  /* === Media Queries EspecÃ­ficas para la estructura de contenido === */
+  /* (Ajustan padding y tamaÃ±os de fuente generales dentro de main) */
   
   @media (max-width: 768px) {
     /* Ajustes para pantallas medianas */
@@ -1097,32 +1115,32 @@ body {
     }
   
     main h1 {
-        font-size: 2rem; /* Reduce tamaño del título principal */
+        font-size: 2rem; /* Reduce tamaÃ±o del tÃ­tulo principal */
     }
   
     .section h2 {
-        font-size: 1.5rem; /* Reduce tamaño de títulos de sección */
+        font-size: 1.5rem; /* Reduce tamaÃ±o de tÃ­tulos de secciÃ³n */
     }
   }
   
   @media (max-width: 480px) {
-    /* Ajustes para pantallas pequeñas */
+    /* Ajustes para pantallas pequeÃ±as */
      main h1 {
-        font-size: 1.8rem; /* Reduce más el título principal */
+        font-size: 1.8rem; /* Reduce mÃ¡s el tÃ­tulo principal */
      }
      .section {
          padding: 1.5rem; /* Reduce padding interno de las secciones */
      }
      .section h2 {
-         font-size: 1.3rem; /* Reduce más los títulos de sección */
+         font-size: 1.3rem; /* Reduce mÃ¡s los tÃ­tulos de secciÃ³n */
      }
   }
   
-  /* === FIN ESTILOS ESPECÍFICOS PARA 'CONTACTO.HTML' === */
+  /* === FIN ESTILOS ESPECÃFICOS PARA 'CONTACTO.HTML' === */
   
-  /* NOTA: Si tu página de contacto incluye un formulario, necesitarás añadir
-     estilos específicos para los campos (input, textarea, label), botones, etc.
-     Esos estilos no están incluidos aquí. */
+  /* NOTA: Si tu pÃ¡gina de contacto incluye un formulario, necesitarÃ¡s aÃ±adir
+     estilos especÃ­ficos para los campos (input, textarea, label), botones, etc.
+     Esos estilos no estÃ¡n incluidos aquÃ­. */
   
 .wordle-help-bottom {
     position: fixed !important;
@@ -1224,5 +1242,16 @@ body {
         height: 1em;
         font-size: 0.95em;
     }
+}
+  
+/* === Cards Informativas (sin efectos hover) === */
+.card.card-informativa {
+    transition: none; /* Sin transiciones */
+}
+
+.card.card-informativa:hover {
+    transform: none; /* Sin movimiento */
+    box-shadow: var(--shadow-md); /* Mantener sombra original */
+    border-color: var(--border-color); /* Mantener borde original */
 }
   
